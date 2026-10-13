@@ -1133,7 +1133,7 @@
       "p11",
       "p12"
     ],
-    "note": "세부 일정은 하위 마일스톤. 세미나 날짜 확정 시 하위 날짜 일괄 이동\n세부 일정 기준: WBS(sources/고객세미나 WBS.png) (2026-10-13 반영). 당일 12:00 셋업 · 15:00 등록·운영 · 19:00 마감",
+    "note": "세부 일정은 하위 마일스톤. 세미나 날짜 확정 시 하위 날짜 일괄 이동\n세부 일정 기준: WBS(sources/고객세미나 WBS.png) (2026-10-13 반영). 당일 12:00 셋업 · 15:00 등록·운영 · 19:00 마감\n장소: 엘타워 (2026-10-13 확정)",
     "order": 10
   },
   {
@@ -1177,7 +1177,7 @@
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": "",
+    "note": "장소: 엘타워 확정 (2026-10-13). 계약 완료 시 체크",
     "order": 20
   },
   {
@@ -1582,11 +1582,12 @@
     "owner": "Marketing",
     "start": null,
     "due": "2026-10-16",
-    "status": "대기",
-    "note": "WBS(sources/고객세미나 WBS.png)도 11/24(화) 기준으로 작성됨 → 확정이면 완료 처리",
+    "status": "완료",
+    "note": "2026-10-13 확정: 11/24(화), 장소 엘타워 (Megan)",
     "parent": "EV-1",
     "event": "seminar",
-    "order": 40
+    "order": 40,
+    "doneAt": "2026-10-13"
   },
   {
     "id": "D-06",
@@ -1627,14 +1628,14 @@
   {
     "id": "D-09",
     "kind": "확인",
-    "title": "세미나 장소·연사, 참가 문의 접수 폼 URL",
+    "title": "세미나 연사, 참가 문의 접수 폼 URL",
     "area": "행사",
     "priority": "P1",
     "owner": "Marketing",
     "start": null,
     "due": "2026-10-30",
     "status": "대기",
-    "note": "WBS(sources/고객세미나 WBS.png) 제목은 「엘타워 11/24(화) 행사 기준」, 장소 줄은 파르나스·JW 메리어트 가예약(10/13 마감) → 장소가 어디인지 [확인 필요]",
+    "note": "장소는 2026-10-13 엘타워로 확정 (Megan). 남은 것: 연사, 참가 문의 폼 URL",
     "parent": "EV-1",
     "event": "seminar",
     "order": 120
@@ -1826,17 +1827,18 @@
   {
     "id": "EV-1-15",
     "kind": "마일스톤",
-    "title": "장소 가예약 마감 (파르나스·JW 메리어트)",
+    "title": "장소 확정 (엘타워)",
     "area": "행사",
     "priority": "P0",
     "owner": "Marketing",
     "start": null,
     "due": "2026-10-13",
-    "status": "대기",
+    "status": "완료",
     "parent": "EV-1",
     "event": "seminar",
-    "note": "WBS(sources/고객세미나 WBS.png). 제목의 「엘타워」와 다름 → D-09에서 확인",
-    "order": 10
+    "note": "2026-10-13 엘타워로 확정 (Megan). WBS의 파르나스·JW 메리어트 가예약 건은 정리 필요하면 확인",
+    "order": 10,
+    "doneAt": "2026-10-13"
   },
   {
     "id": "EV-1-16",
