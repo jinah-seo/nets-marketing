@@ -16,11 +16,17 @@
     "status": "제작중",
     "draft": "drafts/p01.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -44,11 +50,17 @@
     "status": "제작중",
     "draft": "drafts/p02.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -72,11 +84,17 @@
     "status": "기획",
     "draft": "drafts/p03.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -100,11 +118,17 @@
     "status": "기획",
     "draft": "drafts/p04.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -128,11 +152,17 @@
     "status": "기획",
     "draft": "drafts/p05.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -157,11 +187,17 @@
     "status": "기획",
     "draft": "drafts/p06.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -185,11 +221,17 @@
     "status": "기획",
     "draft": "drafts/p07.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -213,11 +255,17 @@
     "status": "기획",
     "draft": "drafts/p08.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -241,11 +289,17 @@
     "status": "기획",
     "draft": "drafts/p09.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -269,11 +323,17 @@
     "status": "기획",
     "draft": "drafts/p10.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -298,11 +358,17 @@
     "status": "기획",
     "draft": "drafts/p11.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -326,11 +392,17 @@
     "status": "기획",
     "draft": "drafts/p12.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -354,11 +426,17 @@
     "status": "기획",
     "draft": "drafts/p13.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -382,11 +460,17 @@
     "status": "기획",
     "draft": "drafts/p14.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -410,11 +494,17 @@
     "status": "기획",
     "draft": "drafts/p15.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -438,11 +528,17 @@
     "status": "기획",
     "draft": "drafts/p16.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -466,11 +562,17 @@
     "status": "기획",
     "draft": "drafts/p17.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -495,11 +597,17 @@
     "status": "기획",
     "draft": "drafts/p18.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -523,11 +631,17 @@
     "status": "기획",
     "draft": "drafts/p19.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -551,11 +665,17 @@
     "status": "기획",
     "draft": "drafts/p20.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -579,11 +699,17 @@
     "status": "기획",
     "draft": "drafts/p21.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -607,11 +733,17 @@
     "status": "기획",
     "draft": "drafts/p22.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null
@@ -635,11 +767,17 @@
     "status": "기획",
     "draft": "drafts/p23.md",
     "li": {
+      "on": true,
+      "done": false,
+      "url": "",
       "impr": null,
       "eng": null,
       "clicks": null
     },
     "fb": {
+      "on": true,
+      "done": false,
+      "url": "",
       "reach": null,
       "eng": null,
       "clicks": null

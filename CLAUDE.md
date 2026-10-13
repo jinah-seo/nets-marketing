@@ -88,7 +88,8 @@ sources/             회사소개서·제품소개서 등 원천 자료 (직접 
 
 ### posts.json 항목 형태
 
-`id, no, date, time, phase, pillar, topic, format, cta, liHook, fbHook, source, approval, status, draft, li{impr,eng,clicks}, fb{reach,eng,clicks}, note` (+ 동의 필요 시 `fallback`).
+`id, no, date, time, phase, pillar, topic, format, cta, liHook, fbHook, source, approval, status, draft, li{on,done,url,impr,eng,clicks}, fb{on,done,url,reach,eng,clicks}, note` (+ 동의 필요 시 `fallback`).
+- 채널별(LinkedIn `li` · Facebook `fb`): `on` 이 채널에 올리는지(기본 true), `done` 게시 완료, `url` 게시 링크. 쓰는 채널이 모두 `done`이면 `status`는 `게시완료`, 하나라도 아니면 `게시완료`가 아니다 — 둘을 함께 맞춘다.
 
 ### budget.json 형태
 

@@ -12,7 +12,7 @@
     expanded: new Set(), collapsed: new Set(), keep: new Set(), pillar: '전체', pstatus: '전체',
     calMonth: null, calProd: true, calPosts: true, calShowTasks: true, calHidden: false, calOpenDays: new Set(), peek: null, fresh: null,
     editing: null, freshPost: null, // editing: 표 칸에서 바로 이름을 입력 중인 항목 { type: 'task'|'post', id }
-    rp: { period: 'thisWeek', group: 'area', area: '전체', from: null, to: null }, rpOpen: new Set(), byear: null
+    rp: { period: 'thisWeek', group: 'area', area: '전체', from: null, to: null }, rpOpen: new Set(), byear: null, pchannel: '전체 채널'
   };
   let dragTask = null; // 업무 표에서 끌고 있는 업무 ID
   let online = false;
@@ -56,6 +56,33 @@
   // 제작·승인 요청 마감: 월·화 게시물은 직전 금요일, 수~금 게시물은 그 주 월요일 (승인 대기 24시간 확보)
   const prodDeadline = p => { const d = P(p.date).getDay(); return (d === 1 || d === 2) ? addDays(weekStart(p.date), -3) : weekStart(p.date); };
   const prodDone = p => ['승인대기', '예약완료', '게시완료'].includes(p.status);
+  // SNS 채널: 게시물마다 채널별로 게시 여부(on)·게시 완료(done)·링크(url)·성과를 따로 둔다 (posts.json의 li·fb)
+  const CHANNELS = [{ k: 'li', label: 'LinkedIn', short: 'LI', color: 'var(--li)', src: 'linkedin' }, { k: 'fb', label: 'Facebook', short: 'FB', color: 'var(--fb)', src: 'facebook' }];
+  const chOn = (p, k) => (p[k] || {}).on !== false;
+  const chDone = (p, k) => !!(p[k] || {}).done;
+  const chOf = label => CHANNELS.find(c => c.label === label);
+  // 쓰는 채널이 모두 게시 완료면 상태도 게시완료, 하나라도 풀리면 예약완료로
+  function syncPostStatus(p) {
+    const ons = CHANNELS.filter(c => chOn(p, c.k));
+    if (ons.length && ons.every(c => chDone(p, c.k))) p.status = '게시완료';
+    else if (p.status === '게시완료') p.status = '예약완료';
+  }
+  // 채널 칩: 누르면 그 채널 게시 완료 ↔ 예정. 이 채널에 안 올리는 게시물은 흐린 칩(상세에서 켬)
+  function chChips(p, idp) {
+    return el('span', { cls: 'chs' }, CHANNELS.map(C => {
+      const on = chOn(p, C.k), done = chDone(p, C.k);
+      return el('button', { type: 'button', id: idp + '-ch-' + C.k + '-' + p.id, cls: 'ch ch-' + C.k + (on ? '' : ' off') + (done ? ' done' : ''), disabled: !online || !on,
+        title: C.label + (on ? (done ? ' · 게시 완료 (누르면 취소)' : ' · 게시 예정 (누르면 게시 완료)') : ' · 이 채널에는 올리지 않음 (상세에서 켤 수 있음)'),
+        'aria-pressed': on ? String(done) : null, text: (done ? '✓ ' : '') + C.short, onclick: e => { e.stopPropagation(); setChannel(p, C.k, 'done', !done); } });
+    }));
+  }
+  function setChannel(p, k, field, v) { p[k] = p[k] || {}; p[k][field] = v; syncPostStatus(p); commit('posts', true); }
+  // 상태를 게시완료로 바꾸면 쓰는 채널을 모두 게시 완료로
+  function setPostStatus(p, v) {
+    p.status = v;
+    if (v === '게시완료') CHANNELS.forEach(c => { if (chOn(p, c.k)) { p[c.k] = p[c.k] || {}; p[c.k].done = true; } });
+    commit('posts', true);
+  }
   const consentDays = () => (S.config && S.config.rules && num(S.config.rules.consentLeadDays)) || 14;
   const eventLabel = id => (cfg('events').find(e => e.id === id) || {}).label || id;
   const taskById = id => S.tasks.find(t => t.id === id);
@@ -814,7 +841,7 @@
         dateIn(t.start, v => { t.start = v; if (v && t.due && t.due < v) t.due = v; commit('tasks', true); }, { typed: true, short: true, id: 'tt-s0-' + t.id, label: '시작', ph: '시작', cls: 'cell-in' }),
         el('span', { cls: 'range-sep', text: '~' }),
         dateIn(t.due, v => { t.due = v; if (v && t.start && t.start > v) t.start = v; commit('tasks', true); }, { typed: true, short: true, id: 'tt-d-' + t.id, label: '종료(마감)', ph: '종료', cls: 'cell-in' + (late ? ' late-in' : '') })])]),
-      el('td', { cls: 'c-prog' }, [progressEl(t, o.allKids)])
+      el('td', { cls: 'c-prog' }, [el('div', { cls: 'prog-wrap' }, [progressEl(t, o.allKids), o.kids ? blockSortControl(t) : null])])
     ]);
     if (o.drag) {
       const h = name.firstChild;
@@ -960,6 +987,28 @@
     delete ui.sorts[area]; saveSorts();
     commit('tasks', true);
   }
+  // 대항목(상위 업무)별 하위 정렬: 영역 정렬보다 우선. 그 상위 업무의 하위만 따로 정렬
+  const BSORTK = 'nets.blockSorts';
+  ui.blockSorts = (() => { try { return JSON.parse(localStorage.getItem(BSORTK) || '{}') || {}; } catch (e) { return {}; } })();
+  const saveBlockSorts = () => { try { localStorage.setItem(BSORTK, JSON.stringify(ui.blockSorts)); } catch (e) { } };
+  function fixBlockOrder(t) {
+    const so = ui.blockSorts[t.id]; if (!so || !so.key || !online) return;
+    if (!confirm(`「${t.title || t.id}」의 하위 항목을 지금 보이는 정렬 순서로 고정할까요?`)) return;
+    childrenOf(t.id).sort(taskCmp(so.key, so.dir)).forEach((c, j) => { c.order = (j + 1) * 10; });
+    delete ui.blockSorts[t.id]; saveBlockSorts();
+    commit('tasks', true);
+  }
+  function blockSortControl(t) {
+    const so = ui.blockSorts[t.id] || {}, id = 'bsort-' + t.id;
+    const set = (k, d) => { if (k) ui.blockSorts[t.id] = { key: k, dir: d || 'asc' }; else delete ui.blockSorts[t.id]; saveBlockSorts(); ui.expanded.add(t.id); refresh(); };
+    const sel = plainSelect(SORTS.map(([v, l]) => ({ value: v, label: v ? l : '영역 정렬 따름' })), so.key || '', v => set(v, so.dir), { id, cls: '', label: (t.title || t.id) + ' 하위 정렬' });
+    sel.disabled = false;
+    return el('span', { cls: 'b-sort' + (so.key ? ' on' : ''), onclick: stop, onkeydown: stop }, [
+      el('label', { cls: 'fpill' + (so.key ? ' on' : ''), for: id }, ['하위 정렬', sel]),
+      so.key ? el('button', { type: 'button', cls: 'ra', text: so.dir === 'desc' ? '↓' : '↑', title: so.dir === 'desc' ? '내림차순 (누르면 오름차순)' : '오름차순 (누르면 내림차순)', onclick: () => set(so.key, so.dir === 'desc' ? 'asc' : 'desc') }) : null,
+      so.key ? el('button', { type: 'button', cls: 'ra', text: '고정', title: '이 순서를 직접 정한 순서로 저장', disabled: !online, onclick: () => fixBlockOrder(t) }) : null
+    ]);
+  }
   function sortControl(area) {
     const so = ui.sorts[area] || {};
     const set = (k, d) => { if (k) ui.sorts[area] = { key: k, dir: d || 'asc' }; else delete ui.sorts[area]; saveSorts(); refresh(); };
@@ -1029,8 +1078,9 @@
         if (!open) return;
         // 하위도 끌어서 순서 바꾸기 (필터로 일부만 보일 때는 순서가 헷갈리므로 끄고 ↑↓만)
         const whole = kids.length === all.length;
-        const shown = cmp ? [...kids].sort(cmp) : kids;
-        shown.forEach((c, i) => tb.appendChild(taskRow(c, { child: true, last: i === shown.length - 1, blk, drag: whole && !cmp, first: !!cmp || all[0] === c, lastAll: !!cmp || all[all.length - 1] === c })));
+        const bso = ui.blockSorts[t.id], kcmp = bso && bso.key ? taskCmp(bso.key, bso.dir) : cmp; // 대항목 정렬 > 영역 정렬
+        const shown = kcmp ? [...kids].sort(kcmp) : kids;
+        shown.forEach((c, i) => tb.appendChild(taskRow(c, { child: true, last: i === shown.length - 1, blk, drag: whole && !kcmp, first: !!kcmp || all[0] === c, lastAll: !!kcmp || all[all.length - 1] === c })));
         // 덩어리 끝: 이 상위 업무에 하위 추가 (다음 상위 업무와 띄우는 역할도)
         const addKid = () => createTask({ kind: '마일스톤', parent: t.id });
         tb.appendChild(el('tr', { cls: 'r-add r-blk-end', style: '--blk:var(--' + blk + ')' }, [el('td', { colspan: 7, role: 'button', tabindex: 0, onclick: addKid, onkeydown: e => { if (e.key === 'Enter') addKid(); } }, [
@@ -1285,10 +1335,11 @@
         if (x.type === 'post') {
           const p = x.p, done = isPostDone(p), late = p.date < TODAY && !done && !isPostDrop(p);
           const c = el('div', { cls: 'ci ci-post' + (done ? ' done' : '') + (isPostDrop(p) ? ' drop' : '') + (late ? ' late' : ''), draggable: online ? 'true' : null, tabindex: 0, role: 'button',
-            title: p.id + ' · ' + p.pillar + ' · ' + p.status + (p.approval ? ' · 공개 동의 필요' : '') + '\n' + (p.topic || '제목 없음'),
+            title: p.id + ' · ' + p.pillar + ' · ' + p.status + ' · ' + CHANNELS.filter(C => chOn(p, C.k)).map(C => C.label + (chDone(p, C.k) ? ' ✓' : '')).join('·') + (p.approval ? ' · 공개 동의 필요' : '') + '\n' + (p.topic || '제목 없음'),
             onclick: e => { e.stopPropagation(); openPeek('post', p.id); }, onkeydown: e => { if (e.key === 'Enter') openPeek('post', p.id); } }, [
             el('div', { cls: 'ci-t' }, [el('span', { cls: 'dot', style: 'background:' + pillarColor(p.pillar) }), el('span', { text: (done ? '✓ ' : '') + (p.topic || '제목 없음') })]),
-            tagEl(p.status, 'postStatus')
+            el('div', { cls: 'ci-meta' }, [tagEl(p.status, 'postStatus'),
+              ...CHANNELS.filter(C => chOn(p, C.k)).map(C => el('span', { cls: 'ch-mini ch-' + C.k + (chDone(p, C.k) ? ' done' : ''), title: C.label + (chDone(p, C.k) ? ' 게시 완료' : ' 게시 예정'), text: C.short }))])
           ]);
           c.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', 'post:' + p.id); e.dataTransfer.effectAllowed = 'move'; c.classList.add('dragging'); });
           c.addEventListener('dragend', () => c.classList.remove('dragging'));
@@ -1336,15 +1387,20 @@
   }
   function postsTable() {
     const segBtn = (group, val) => el('button', { type: 'button', 'aria-pressed': String(ui[group] === val), text: val, onclick: () => { ui[group] = val; refresh(); } });
-    const filters = el('div', { cls: 'filters' }, [el('div', { cls: 'seg' }, ['전체', ...cfg('pillars')].map(v => segBtn('pillar', v))), el('div', { cls: 'seg' }, ['전체', '미게시', '게시완료'].map(v => segBtn('pstatus', v)))]);
+    const filters = el('div', { cls: 'filters' }, [el('div', { cls: 'seg' }, ['전체', ...cfg('pillars')].map(v => segBtn('pillar', v))), el('div', { cls: 'seg' }, ['전체', '미게시', '게시완료'].map(v => segBtn('pstatus', v))),
+      el('div', { cls: 'seg' }, ['전체 채널', ...CHANNELS.map(c => c.label)].map(v => segBtn('pchannel', v)))]);
     let list = [...S.posts].sort((a, b) => a.date.localeCompare(b.date) || (num(a.no) || 0) - (num(b.no) || 0));
+    // 채널 필터: 그 채널에 올리는 게시물만. 미게시·게시완료도 그 채널 기준
+    const PC = chOf(ui.pchannel);
+    if (PC) list = list.filter(p => chOn(p, PC.k));
     if (ui.pillar !== '전체') list = list.filter(p => p.pillar === ui.pillar);
-    if (ui.pstatus === '미게시') list = list.filter(p => !isPostDone(p) && !isPostDrop(p));
-    if (ui.pstatus === '게시완료') list = list.filter(isPostDone);
+    const pDone = p => PC ? chDone(p, PC.k) : isPostDone(p);
+    if (ui.pstatus === '미게시') list = list.filter(p => !pDone(p) && !isPostDrop(p));
+    if (ui.pstatus === '게시완료') list = list.filter(pDone);
     // 주제를 입력 중인 새 게시물은 맨 아래에 (입력을 마치면 게시일 순서 자리로)
     const ed = list.find(p => isEditing('post', p.id)); if (ed) list = list.filter(p => p !== ed).concat(ed);
     const tb = el('tbody');
-    if (!list.length) tb.appendChild(el('tr', {}, [el('td', { colspan: 9, cls: 'empty', text: '조건에 맞는 게시물이 없습니다.' })]));
+    if (!list.length) tb.appendChild(el('tr', {}, [el('td', { colspan: 10, cls: 'empty', text: '조건에 맞는 게시물이 없습니다.' })]));
     list.forEach(p => {
       const late = p.date < TODAY && !isPostDone(p) && !isPostDrop(p);
       const sel = ui.peek && ui.peek.type === 'post' && ui.peek.id === p.id;
@@ -1352,14 +1408,15 @@
         el('td', { cls: 'num note', text: String(p.no) }),
         el('td', { cls: late ? 'late' : '' }, [dateIn(p.date, v => { if (v) movePost(p, v); }, { typed: true, id: 'pt-d-' + p.id, cls: 'cell-in', label: p.id + ' 게시일' })]),
         el('td', {}, [tagSelect(cfg('pillars'), p.pillar, 'pillar', v => { p.pillar = v; commit('posts', true); }, { id: 'pt-pl-' + p.id, label: '필러' })]),
+        el('td', {}, [chChips(p, 'pt')]),
         el('td', { cls: 'c-name' }, [el('div', { cls: 'name-wrap' }, [isEditing('post', p.id) ? inlineTitle('post', p, 'topic', '주제 입력 후 Enter') : nameSpan('post', p, 'topic'), p.approval ? el('span', { cls: 'tag t-yellow', text: '동의 필요' }) : null, el('span', { cls: 'open-btn', text: '열기' })])]),
-        el('td', { cls: 'note', text: p.format || '' }), el('td', { cls: 'note', text: p.cta || '' }),
-        el('td', {}, [tagSelect(cfg('postStatuses'), p.status, 'postStatus', v => { p.status = v; commit('posts', true); }, { id: 'pt-s-' + p.id, label: '상태' })]),
+        el('td', { cls: 'note', text: p.format || '', title: p.format || null }), el('td', { cls: 'note', text: p.cta || '', title: p.cta || null }),
+        el('td', {}, [tagSelect(cfg('postStatuses'), p.status, 'postStatus', v => setPostStatus(p, v), { id: 'pt-s-' + p.id, label: '상태' })]),
         el('td', { cls: 'num', text: pct(rate(p.li && p.li.eng, p.li && p.li.impr)) }), el('td', { cls: 'num', text: pct(rate(p.fb && p.fb.eng, p.fb && p.fb.reach)) })
       ]));
     });
-    tb.appendChild(el('tr', { cls: 'r-add' }, [el('td', { colspan: 9, role: 'button', tabindex: 0, onclick: () => createPost(TODAY), onkeydown: e => { if (e.key === 'Enter') createPost(TODAY); }, text: '＋ 새 게시물' })]));
-    const table = el('table', { cls: 'db posts' }, [el('thead', {}, [el('tr', {}, ['#', '게시일', '필러', '주제', '포맷', 'CTA', '상태', 'LI 참여율', 'FB 참여율'].map(h => el('th', { text: h })))]), tb]);
+    tb.appendChild(el('tr', { cls: 'r-add' }, [el('td', { colspan: 10, role: 'button', tabindex: 0, onclick: () => createPost(TODAY), onkeydown: e => { if (e.key === 'Enter') createPost(TODAY); }, text: '＋ 새 게시물' })]));
+    const table = el('table', { cls: 'db posts' }, [el('thead', {}, [el('tr', {}, ['#', '게시일', '필러', '채널', '주제', '포맷', 'CTA', '상태', 'LI 참여율', 'FB 참여율'].map(h => el('th', { text: h })))]), tb]);
     return el('section', { cls: 'sec' }, [secHead('게시물 목록', el('span', { cls: 'note', text: S.posts.length + '건 · 참여율 = (반응+댓글+공유) ÷ 노출(Facebook은 도달)' })), filters, el('div', { cls: 'hscroll' }, [table])]);
   }
   function peekPost(p, body, crumb) {
@@ -1375,7 +1432,8 @@
     const pairs = [
       prop('게시일', dateIn(p.date, v => { if (v) movePost(p, v); }, { typed: true, id: 'pk-date', label: '게시일' }), el('span', { cls: 'hint' + (offDay ? ' warn' : ''), text: DAYS[dow] + '요일' + (offDay ? ' · 화·목이 아님' : '') }),
         el('input', { type: 'time', id: 'pk-time', cls: 'pinput', style: 'width:auto', value: p.time || '', 'aria-label': '게시 시간', disabled: !online, onchange: e => set('time', e.target.value || null) })),
-      prop('상태', tagSelect(cfg('postStatuses'), p.status, 'postStatus', v => set('status', v, true), { id: 'pk-status', label: '상태' })),
+      prop('상태', tagSelect(cfg('postStatuses'), p.status, 'postStatus', v => setPostStatus(p, v), { id: 'pk-status', label: '상태' })),
+      prop('채널', chChips(p, 'pk')),
       prop('필러', tagSelect(cfg('pillars'), p.pillar, 'pillar', v => set('pillar', v, true), { id: 'pk-pillar', label: '필러' })),
       prop('단계', plainSelect(['1', '2', '3', '4'].map(v => ({ value: v, label: v + '단계' })), String(p.phase || 1), v => set('phase', Number(v)), { id: 'pk-phase', label: '단계' })),
       prop('포맷', textIn(p.format, v => set('format', v), { id: 'pk-format', ph: '예: 카드뉴스 4장', label: '포맷' })),
@@ -1390,14 +1448,22 @@
     pairs.filter(Boolean).forEach(pair => pair.forEach(x => props.appendChild(x)));
     body.appendChild(props);
     const utm = src => `utm_source=${src}&utm_medium=${(S.config.utm && S.config.utm.medium) || 'social'}&utm_campaign=${(S.config.utm && S.config.utm.campaign) || '2026q4'}&utm_content=${p.id}`;
-    const channel = (name, color, obj, hookKey, fields) => el('div', { cls: 'psec' }, [
-      el('h3', {}, [el('span', { cls: 'dot', style: 'background:' + color }), name, el('span', { cls: 'note' }, ['참여율 ', el('b', { text: pct(rate(obj.eng, obj[fields[0][0]])) })])]),
-      textIn(p[hookKey], v => set(hookKey, v), { id: 'pk-' + hookKey, multi: true, raw: true, ph: '첫 문장', label: name + ' 첫 문장' }),
-      el('div', { cls: 'mrow' }, fields.map(([k, l]) => el('label', { for: 'pk-' + name + '-' + k }, [l, numIn(obj[k], v => { obj[k] = v; commit('posts', true); }, { id: 'pk-' + name + '-' + k, min: 0, label: name + ' ' + l })]))),
-      el('code', { text: utm(name.toLowerCase()) })
-    ]);
-    body.appendChild(channel('LinkedIn', 'var(--li)', p.li, 'liHook', [['impr', '노출'], ['eng', '반응+댓글+공유'], ['clicks', '링크 클릭']]));
-    body.appendChild(channel('Facebook', 'var(--fb)', p.fb, 'fbHook', [['reach', '도달'], ['eng', '반응+댓글+공유'], ['clicks', '링크 클릭']]));
+    // 채널별: 이 채널에 올리는지 · 게시 완료 · 게시 링크 · 첫 문장 · 성과 · UTM
+    const channel = (C, hookKey, fields) => {
+      const obj = p[C.k], on = chOn(p, C.k), name = C.label;
+      const onBox = checkIn(on, v => setChannel(p, C.k, 'on', v), { id: 'pk-' + C.k + '-on', label: name + '에 게시' });
+      const doneBox = checkIn(chDone(p, C.k), v => setChannel(p, C.k, 'done', v), { id: 'pk-' + C.k + '-done', label: name + ' 게시 완료' }); doneBox.disabled = !online || !on;
+      return el('div', { cls: 'psec ch-sec' + (on ? '' : ' off') }, [
+        el('h3', {}, [el('span', { cls: 'dot', style: 'background:' + C.color }), name, on ? el('span', { cls: 'note' }, ['참여율 ', el('b', { text: pct(rate(obj.eng, obj[fields[0][0]])) })]) : el('span', { cls: 'note', text: '이 채널에는 올리지 않음' })]),
+        el('div', { cls: 'ch-flags' }, [el('label', { cls: 'cal-toggle', for: 'pk-' + C.k + '-on' }, [onBox, '이 채널에 게시']), el('label', { cls: 'cal-toggle', for: 'pk-' + C.k + '-done' }, [doneBox, '게시 완료'])]),
+        on ? textIn(obj.url, v => setChannel(p, C.k, 'url', v), { id: 'pk-' + C.k + '-url', ph: '게시물 링크 (게시 후)', label: name + ' 게시 링크' }) : null,
+        on ? textIn(p[hookKey], v => set(hookKey, v), { id: 'pk-' + hookKey, multi: true, raw: true, ph: '첫 문장', label: name + ' 첫 문장' }) : null,
+        on ? el('div', { cls: 'mrow' }, fields.map(([k, l]) => el('label', { for: 'pk-' + name + '-' + k }, [l, numIn(obj[k], v => { obj[k] = v; commit('posts', true); }, { id: 'pk-' + name + '-' + k, min: 0, label: name + ' ' + l })]))) : null,
+        on ? el('code', { text: utm(C.src) }) : null
+      ]);
+    };
+    body.appendChild(channel(CHANNELS[0], 'liHook', [['impr', '노출'], ['eng', '반응+댓글+공유'], ['clicks', '링크 클릭']]));
+    body.appendChild(channel(CHANNELS[1], 'fbHook', [['reach', '도달'], ['eng', '반응+댓글+공유'], ['clicks', '링크 클릭']]));
     const refs = S.tasks.filter(t => (t.posts || []).includes(p.id));
     if (refs.length) body.appendChild(el('div', { cls: 'psec' }, [el('h3', { text: '연결된 업무' }), el('div', { cls: 'rel' }, refs.map(t => el('span', { cls: 'rel-chip' }, [el('button', { type: 'button', cls: 'go', text: t.id + ' ' + t.title, onclick: () => openPeek('task', t.id) })])))]));
     body.appendChild(el('div', { cls: 'psec' }, [el('h3', { text: '메모' }), textIn(p.note, v => set('note', v), { id: 'pk-note', multi: true, rows: 3, raw: true, ph: '대체 소재, 승인 현황, 반응 등', label: '메모' })]));
@@ -1997,17 +2063,19 @@
     },
     {
       id: 'posts', label: 'SNS 게시물', icon: '📣', desc: '게시 계획·상태·성과. 참여율 = (반응+댓글+공유) ÷ 노출(Facebook은 도달)',
-      filters: () => [['pillar', '필러', ['전체', ...cfg('pillars')]], ['status', '상태', ['전체', '미게시', ...cfg('postStatuses')]], ['from', '게시일 시작', 'date'], ['to', '게시일 끝', 'date']],
+      filters: () => [['channel', '채널', ['전체', ...CHANNELS.map(c => c.label)]], ['pillar', '필러', ['전체', ...cfg('pillars')]], ['status', '상태', ['전체', '미게시', ...cfg('postStatuses')]], ['from', '게시일 시작', 'date'], ['to', '게시일 끝', 'date']],
       cols: [['no', '#', 'n', 1, 5], ['id', 'ID', 't', 1, 6], ['date', '게시일', 'd', 1], ['dow', '요일', 't', 1, 5], ['time', '시간', 't', 0, 7], ['phase', '단계', 'n', 0, 6], ['pillar', '필러', 't', 1, 9],
+        ['channels', '채널', 't', 1, 16], ['liDone', 'LI 게시', 't', 0, 7], ['fbDone', 'FB 게시', 't', 0, 7], ['liUrl', 'LI 링크', 't', 0, 30], ['fbUrl', 'FB 링크', 't', 0, 30],
         ['topic', '주제', 'w', 1, 50], ['format', '포맷', 't', 1, 14], ['cta', 'CTA', 't', 1, 16], ['status', '상태', 't', 1, 9], ['prod', '제작 마감', 'd', 1], ['approval', '공개 동의 필요', 't', 0, 8],
         ['liImpr', 'LI 노출', 'n', 0], ['liEng', 'LI 반응', 'n', 0], ['liClicks', 'LI 클릭', 'n', 0], ['liRate', 'LI 참여율', 'p', 1],
         ['fbReach', 'FB 도달', 'n', 0], ['fbEng', 'FB 반응', 'n', 0], ['fbClicks', 'FB 클릭', 'n', 0], ['fbRate', 'FB 참여율', 'p', 1],
         ['liHook', 'LinkedIn 첫 문장', 'w', 0, 40], ['fbHook', 'Facebook 첫 문장', 'w', 0, 40], ['source', '원천 자료', 'w', 0, 30], ['draft', '초안 파일', 't', 0], ['note', '메모', 'w', 1, 30]],
-      rows: f => S.posts.filter(p => (f.pillar === '전체' || p.pillar === f.pillar)
+      rows: f => S.posts.filter(p => (!f.channel || f.channel === '전체' || chOn(p, chOf(f.channel).k)) && (f.pillar === '전체' || p.pillar === f.pillar)
         && (f.status === '전체' ? true : f.status === '미게시' ? !isPostDone(p) && !isPostDrop(p) : p.status === f.status)
         && (!f.from || p.date >= f.from) && (!f.to || p.date <= f.to))
         .sort((a, b) => a.date.localeCompare(b.date) || (num(a.no) || 0) - (num(b.no) || 0))
-        .map(p => { const li = p.li || {}, fb = p.fb || {}; return { no: p.no, id: p.id, date: p.date, dow: DAYS[P(p.date).getDay()], time: p.time, phase: p.phase, pillar: p.pillar, topic: p.topic, format: p.format, cta: p.cta, status: p.status,
+        .map(p => { const li = p.li || {}, fb = p.fb || {}; const cs = k => chOn(p, k) ? (chDone(p, k) ? '게시 ✓' : '예정') : '안 함'; return { no: p.no, id: p.id, date: p.date, dow: DAYS[P(p.date).getDay()], time: p.time, phase: p.phase, pillar: p.pillar, topic: p.topic, format: p.format, cta: p.cta, status: p.status,
+          channels: CHANNELS.filter(c => chOn(p, c.k)).map(c => c.label + (chDone(p, c.k) ? ' ✓' : '')).join(' · '), liDone: cs('li'), fbDone: cs('fb'), liUrl: li.url || '', fbUrl: fb.url || '',
           prod: prodDeadline(p), approval: ox(p.approval), liImpr: li.impr, liEng: li.eng, liClicks: li.clicks, liRate: rate(li.eng, li.impr), fbReach: fb.reach, fbEng: fb.eng, fbClicks: fb.clicks, fbRate: rate(fb.eng, fb.reach),
           liHook: p.liHook, fbHook: p.fbHook, source: p.source, draft: p.draft, note: p.note }; })
     },
