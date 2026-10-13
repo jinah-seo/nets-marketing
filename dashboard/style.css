@@ -377,6 +377,19 @@ tr.r-child .idt{opacity:.8}
 .db.posts{min-width:1100px}
 .db.posts td.note{white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis}
 .db.posts td.c-name{min-width:320px}
+/* 열 너비 조절 (머리글 오른쪽 끝을 끌기). 너비는 JS가 colgroup으로 정한다 */
+.db.rz{table-layout:fixed}
+.db.rz th{position:relative;overflow:hidden;text-overflow:ellipsis}
+.db.rz td{overflow:hidden;text-overflow:ellipsis}
+.db.rz td[colspan]{overflow:visible}
+.db.tasks.rz td:not(.c-name):not([colspan]){width:auto}
+.db.tasks.rz td.c-name{min-width:0;max-width:none}
+.db.posts.rz td.note{max-width:none}
+.db.posts.rz td.c-name{min-width:0}
+.col-rz{position:absolute;top:0;right:0;width:8px;height:100%;cursor:col-resize;z-index:2;border-right:2px solid transparent}
+.col-rz:hover,.col-rz.on{border-right-color:var(--accent)}
+body.col-resizing{cursor:col-resize;user-select:none}
+body.col-resizing *{cursor:col-resize!important}
 /* 대항목 하위 정렬 (진행 칸) */
 .prog-wrap{display:flex;align-items:center;gap:8px}
 .b-sort{display:inline-flex;align-items:center;gap:3px;opacity:0;transition:opacity .12s}

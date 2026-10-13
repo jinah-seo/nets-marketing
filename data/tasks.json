@@ -1824,18 +1824,6 @@
     "order": 40
   },
   {
-    "id": "T-05",
-    "kind": "업무",
-    "title": "",
-    "area": "행사",
-    "priority": "P1",
-    "owner": "Marketing",
-    "start": null,
-    "due": "2026-10-20",
-    "status": "대기",
-    "note": ""
-  },
-  {
     "id": "EV-1-15",
     "kind": "마일스톤",
     "title": "장소 가예약 마감 (파르나스·JW 메리어트)",

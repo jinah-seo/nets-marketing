@@ -949,6 +949,44 @@
     row.addEventListener('dragleave', () => row.classList.remove('drop-into'));
     row.addEventListener('drop', e => { if (!dragTask || !isRoot(taskById(dragTask) || {})) return; e.preventDefault(); moveTask(dragTask, area, null); });
   }
+  // 표 열 너비 조절: 머리글 오른쪽 끝을 끌기, 두 번 누르면 기본 너비. 표마다 브라우저에 기억
+  // cols: [{ id, w: 기본 px } | { id, flex: true, min }] — flex 열은 따로 정하기 전까지 남는 폭을 다 쓴다
+  const COLWK = 'nets.colWidths';
+  const colW = (() => { try { return JSON.parse(localStorage.getItem(COLWK) || '{}') || {}; } catch (e) { return {}; } })();
+  const saveColW = () => { try { localStorage.setItem(COLWK, JSON.stringify(colW)); } catch (e) { } };
+  function resizable(table, key, cols) {
+    const W = colW[key] = colW[key] || {};
+    const cg = el('colgroup', {}, cols.map(c => el('col')));
+    table.insertBefore(cg, table.firstChild);
+    table.classList.add('rz');
+    const apply = () => {
+      let sum = 0, flexFree = false;
+      cols.forEach((c, i) => {
+        const w = W[c.id] != null ? W[c.id] : c.w;
+        if (w == null) { cg.children[i].style.width = ''; flexFree = true; sum += c.min || 240; }
+        else { cg.children[i].style.width = w + 'px'; sum += w; }
+      });
+      // 모든 열 너비가 정해지면 표 폭 = 합계(넘치면 가로 스크롤), 아니면 화면 폭을 채움
+      table.style.width = flexFree ? '100%' : sum + 'px';
+      table.style.minWidth = sum + 'px';
+    };
+    apply();
+    const ths = table.querySelectorAll('thead th');
+    cols.forEach((c, i) => {
+      const th = ths[i]; if (!th) return;
+      const h = el('span', { cls: 'col-rz', title: '끌어서 너비 조절 · 두 번 누르면 기본 너비', 'aria-hidden': 'true' });
+      h.addEventListener('dblclick', e => { e.stopPropagation(); delete W[c.id]; saveColW(); apply(); });
+      h.addEventListener('mousedown', e => {
+        e.preventDefault(); e.stopPropagation();
+        const x0 = e.clientX, w0 = th.getBoundingClientRect().width, min = c.min || 48;
+        h.classList.add('on'); document.body.classList.add('col-resizing');
+        const move = ev => { W[c.id] = Math.max(min, Math.round(w0 + ev.clientX - x0)); apply(); };
+        const up = () => { document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); h.classList.remove('on'); document.body.classList.remove('col-resizing'); saveColW(); };
+        document.addEventListener('mousemove', move); document.addEventListener('mouseup', up);
+      });
+      th.appendChild(h);
+    });
+  }
   // 상위 업무 덩어리 색 (영역 안에서 차례로). 태그 팔레트의 진한 색
   const BLOCK_COLORS = ['blue', 'orange', 'purple', 'green', 'pink', 'brown'];
   // 영역(카테고리)별 정렬: 상위 업무는 하위를 데리고 통째로, 하위는 각자 상위 안에서 같은 기준으로. 화면에서만 바뀌고 「이 순서로 고정」하면 order로 저장
@@ -1093,6 +1131,7 @@
     if (!any) tb.appendChild(el('tr', {}, [el('td', { colspan: 7, cls: 'empty', text: '조건에 맞는 업무가 없습니다.' })]));
     if (!filtering) tb.appendChild(el('tr', { cls: 'r-add g-add' }, [el('td', { colspan: 7, role: 'button', tabindex: 0, onclick: addArea, onkeydown: e => { if (e.key === 'Enter') addArea(); }, text: '＋ 새 영역 (대분류)' })]));
     table.appendChild(tb); wrap.appendChild(table);
+    resizable(table, 'tasks', [{ id: 'name', flex: true, min: 200 }, { id: 'status', w: 84 }, { id: 'pri', w: 64 }, { id: 'kind', w: 92 }, { id: 'owner', w: 130 }, { id: 'range', w: 232 }, { id: 'prog', w: 250 }]);
     return wrap;
   }
   function taskBoard() {
@@ -1417,6 +1456,7 @@
     });
     tb.appendChild(el('tr', { cls: 'r-add' }, [el('td', { colspan: 10, role: 'button', tabindex: 0, onclick: () => createPost(TODAY), onkeydown: e => { if (e.key === 'Enter') createPost(TODAY); }, text: '＋ 새 게시물' })]));
     const table = el('table', { cls: 'db posts' }, [el('thead', {}, [el('tr', {}, ['#', '게시일', '필러', '채널', '주제', '포맷', 'CTA', '상태', 'LI 참여율', 'FB 참여율'].map(h => el('th', { text: h })))]), tb]);
+    resizable(table, 'posts', [{ id: 'no', w: 44, min: 32 }, { id: 'date', w: 132 }, { id: 'pillar', w: 96 }, { id: 'ch', w: 100 }, { id: 'topic', flex: true, min: 200 }, { id: 'format', w: 140 }, { id: 'cta', w: 140 }, { id: 'status', w: 104 }, { id: 'li', w: 86 }, { id: 'fb', w: 86 }]);
     return el('section', { cls: 'sec' }, [secHead('게시물 목록', el('span', { cls: 'note', text: S.posts.length + '건 · 참여율 = (반응+댓글+공유) ÷ 노출(Facebook은 도달)' })), filters, el('div', { cls: 'hscroll' }, [table])]);
   }
   function peekPost(p, body, crumb) {
