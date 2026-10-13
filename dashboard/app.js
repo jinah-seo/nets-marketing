@@ -139,7 +139,7 @@
     const dt = new Date(y, mo - 1, d);
     return dt.getFullYear() === y && dt.getMonth() === mo - 1 && dt.getDate() === d ? ymd(dt) : null;
   }
-  const dateShow = v => v ? (v.slice(0, 4) !== TODAY.slice(0, 4) ? v.slice(2, 4) + '. ' : '') + md(v) : '';
+  const dateShow = (v, short) => v ? (v.slice(0, 4) !== TODAY.slice(0, 4) ? v.slice(2, 4) + '. ' : '') + (short ? md(v).replace(' (', '(') : md(v)) : '';
   const dateEdit = v => v ? (v.slice(0, 4) !== TODAY.slice(0, 4) ? v : (+v.slice(5, 7)) + '/' + (+v.slice(8, 10))) : '';
   function dateIn(value, onSet, o) {
     o = o || {};
@@ -151,9 +151,10 @@
   }
   // 표·상세의 날짜 칸: 눌러서 바로 타이핑(Enter·칸 밖 = 저장, Esc = 취소), 📅로 달력에서 고르기
   function typedDate(value, onSet, o) {
-    const i = el('input', { type: 'text', id: o.id, cls: (o.cls || 'pinput') + ' date-typed', 'aria-label': o.label, placeholder: '날짜', autocomplete: 'off',
-      title: '입력 예: 11/24 · 1124 · 2026-11-24 · 오늘 · 내일 · +3 (3일 뒤) · +1주' });
-    i.value = dateShow(value); i.disabled = !online;
+    const show = v => dateShow(v, o.short);
+    const i = el('input', { type: 'text', id: o.id, cls: (o.cls || 'pinput') + ' date-typed' + (o.short ? ' short' : ''), 'aria-label': o.label, placeholder: o.ph || '날짜', autocomplete: 'off',
+      title: (o.label ? o.label + ' · ' : '') + '입력 예: 11/24 · 1124 · 2026-11-24 · 오늘 · 내일 · +3 (3일 뒤) · +1주' });
+    i.value = show(value); i.disabled = !online;
     const pick = el('input', { type: 'date', cls: 'date-pick', tabindex: '-1', 'aria-hidden': 'true' }); pick.value = value || '';
     const btn = el('button', { type: 'button', cls: 'date-btn', tabindex: '-1', 'aria-label': (o.label || '날짜') + ' 달력에서 고르기', title: '달력에서 고르기', text: '📅', disabled: !online,
       onclick: e => { e.stopPropagation(); try { pick.showPicker(); } catch (x) { pick.focus(); } } });
@@ -171,8 +172,8 @@
     i.addEventListener('blur', () => {
       if (!i.isConnected) return;
       const v = cancel ? (value || '') : parseDateText(i.value, value);
-      if (v === null) { i.classList.add('bad'); i.value = dateShow(value); setSave('날짜를 읽지 못했습니다: 예) 11/24, 1124, 내일, +3'); return; }
-      i.value = dateShow(v || null);
+      if (v === null) { i.classList.add('bad'); i.value = show(value); setSave('날짜를 읽지 못했습니다: 예) 11/24, 1124, 내일, +3'); return; }
+      i.value = show(v || null);
       if ((v || null) !== (value || null)) onSet(v || null);
     });
     return el('span', { cls: 'date-wrap' }, [i, btn, pick]);
@@ -335,6 +336,7 @@
   function renderPage() {
     const pg = PAGES.find(p => p.id === ui.page) || PAGES[0];
     const root = $('page'); root.textContent = '';
+    root.classList.toggle('wide', pg.id === 'tasks'); // 업무 표는 제목을 한 줄로 길게 보이도록 화면 폭을 다 쓴다
     const areaTab = pg.id === 'tasks' && ui.area !== '전체';
     $('crumb').textContent = pg.icon + '  ' + pg.label + (areaTab ? '  /  ' + ui.area : '');
     // 주소·마지막 탭 기억 (영역 필터를 바꿔도 주소가 따라간다)
@@ -705,7 +707,7 @@
   }
   const isEditing = (type, id) => !!ui.editing && ui.editing.type === type && ui.editing.id === id;
   // 이름 글자: 두 번 누르면 그 자리에서 이름 바꾸기
-  const nameSpan = (type, item, field) => el('span', { cls: 'name' + (item[field] ? '' : ' untitled'), text: item[field] || '제목 없음', title: '두 번 눌러 이름 바꾸기',
+  const nameSpan = (type, item, field) => el('span', { cls: 'name' + (item[field] ? '' : ' untitled'), text: item[field] || '제목 없음', title: (item[field] ? item[field] + '\n' : '') + '두 번 눌러 이름 바꾸기',
     ondblclick: e => { e.stopPropagation(); if (online) startInline(type, item.id); } });
   function finishInline(type, item, field, v) {
     const isTask = type === 'task', file = isTask ? 'tasks' : 'posts';
@@ -807,7 +809,11 @@
       el('td', {}, [tagSelect(cfg('priorities'), t.priority, 'priority', v => { t.priority = v; commit('tasks', true); }, { id: 'tt-p-' + t.id, label: '우선' })]),
       el('td', {}, [tagEl(t.kind, 'kind')]),
       el('td', {}, [tagSelect(cfg('owners'), t.owner, 'owner', v => { t.owner = v; commit('tasks', true); }, { id: 'tt-o-' + t.id, label: '담당' })]),
-      el('td', { cls: late ? 'late' : '' }, [dateIn(t.due, v => { t.due = v; commit('tasks', true); }, { typed: true, id: 'tt-d-' + t.id, label: '마감', cls: 'cell-in' })]),
+      el('td', { cls: 'c-range' }, [el('div', { cls: 'range' }, [
+        // 시작이 종료보다 늦어지면 다른 쪽도 같은 날로 맞춘다
+        dateIn(t.start, v => { t.start = v; if (v && t.due && t.due < v) t.due = v; commit('tasks', true); }, { typed: true, short: true, id: 'tt-s0-' + t.id, label: '시작', ph: '시작', cls: 'cell-in' }),
+        el('span', { cls: 'range-sep', text: '~' }),
+        dateIn(t.due, v => { t.due = v; if (v && t.start && t.start > v) t.start = v; commit('tasks', true); }, { typed: true, short: true, id: 'tt-d-' + t.id, label: '종료(마감)', ph: '종료', cls: 'cell-in' + (late ? ' late-in' : '') })])]),
       el('td', { cls: 'c-prog' }, [progressEl(t, o.allKids)])
     ]);
     if (o.drag) {
@@ -928,8 +934,8 @@
       return (self || kids.length) ? { t, all, kids } : null;
     }).filter(Boolean);
     const areas = cfg('areas').concat([...new Set(rows.map(r => r.t.area))].filter(a => !cfg('areas').includes(a)));
-    const table = el('table', { cls: 'db' });
-    table.appendChild(el('thead', {}, [el('tr', {}, ['이름', '상태', '우선', '종류', '담당', '마감', '진행'].map(h => el('th', { text: h })))]));
+    const table = el('table', { cls: 'db tasks' });
+    table.appendChild(el('thead', {}, [el('tr', {}, ['이름', '상태', '우선', '종류', '담당', '기간 (시작 ~ 종료)', '진행'].map(h => el('th', { text: h })))]));
     const tb = el('tbody');
     let any = false;
     // 필터와 상관없이 모든 영역을 보여 준다: 빈 영역에도 업무를 끌어다 놓을 수 있게
@@ -964,7 +970,9 @@
       tb.appendChild(gh);
       if (closed) return;
       let nb = 0;
-      list.forEach(({ t, all, kids }) => {
+      list.forEach(({ t, all, kids }, li) => {
+        // 큰 항목(상위 업무) 사이 여백
+        if (li) tb.appendChild(el('tr', { cls: 'r-spacer', 'aria-hidden': 'true' }, [el('td', { colspan: 7 })]));
         const open = ui.expanded.has(t.id) || ui.kind === '마일스톤' || !!ui.q;
         const blk = all.length ? BLOCK_COLORS[nb++ % BLOCK_COLORS.length] : null;
         tb.appendChild(taskRow(t, { kids: all.length, kidsDone: all.filter(isTaskDone).length, allKids: all, open, drag: true, treeOpen: open && kids.length > 0, blk }));
@@ -1907,7 +1915,7 @@
       filters: () => [['area', '영역', ['전체', ...cfg('areas')]], ['kind', '종류', ['전체', ...KINDS]], ['status', '상태', ['전체', '미완료', ...cfg('taskStatuses')]],
         ['owner', '담당', ['전체', ...cfg('owners')]], ['from', '마감 시작', 'date'], ['to', '마감 끝', 'date'], ['kids', '하위 항목 포함', 'bool', true]],
       cols: [['id', 'ID', 't', 1, 11], ['kind', '종류', 't', 1, 8], ['title', '제목', 'w', 1, 46], ['area', '영역', 't', 1, 11], ['priority', '우선', 't', 1, 6], ['owner', '담당', 't', 1, 13],
-        ['start', '시작', 'd', 0], ['due', '마감', 'd', 1], ['status', '상태', 't', 1, 8], ['doneAt', '완료일', 'd', 1], ['late', '늦음', 't', 1, 6], ['progress', '진행', 't', 1, 12],
+        ['start', '시작', 'd', 1], ['due', '종료(마감)', 'd', 1], ['status', '상태', 't', 1, 8], ['doneAt', '완료일', 'd', 1], ['late', '늦음', 't', 1, 6], ['progress', '진행', 't', 1, 12],
         ['parent', '상위 업무', 't', 0, 28], ['event', '행사', 't', 0], ['deliverable', '산출물', 'w', 0], ['doneWhen', '완료 기준', 'w', 0], ['deps', '선행 업무', 't', 0], ['posts', '연결 게시물', 't', 0],
         ['steps', '체크리스트', 'w', 0, 44], ['note', '메모', 'w', 1, 36]],
       rows: f => {

@@ -110,6 +110,7 @@ code{font-family:var(--font-mono);font-size:12px;background:var(--hover);color:v
 .menu-btn{display:none}
 .banner{margin:0 auto 8px;width:min(100% - 32px,1100px);border-radius:6px;background:var(--yellow-bg);color:var(--ink);padding:10px 14px;font-size:13.5px}
 .page{width:100%;max-width:1180px;margin:0 auto;padding:28px 56px 96px;display:flex;flex-direction:column;gap:22px}
+.page.wide{max-width:1680px;padding-left:40px;padding-right:40px}
 
 @media (max-width:900px){
   .app{grid-template-columns:minmax(0,1fr)}
@@ -271,7 +272,24 @@ tr.r-child .idt{opacity:.8}
 .db tr.r-child.blk>td{background:color-mix(in srgb,var(--blk) 3%,var(--bg))}
 .db tr.r-parent.blk:hover>td,.db tr.r-child.blk:hover>td{background:color-mix(in srgb,var(--blk) 14%,var(--bg))}
 .db tr.blk.sel>td{background:var(--accent-soft)}
-.db tr.r-blk-end>td{height:28px;padding-left:78px;font-size:12.5px;background:color-mix(in srgb,var(--blk) 3%,var(--bg));border-bottom:12px solid var(--bg)}
+.db tr.r-blk-end>td{height:28px;padding-left:78px;font-size:12.5px;background:color-mix(in srgb,var(--blk) 3%,var(--bg))}
+/* 업무 표: 제목은 한 줄로 넓게(넘치면 …, 마우스를 올리면 전체), 나머지 칸은 내용만큼 */
+.db.tasks{min-width:1080px}
+.db.tasks td:not(.c-name):not([colspan]){width:1%;white-space:nowrap}
+.db.tasks td.c-name{min-width:420px;max-width:0}
+.db.tasks td.c-name .name-wrap{min-width:0}
+.db.tasks td.c-name .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:0 1 auto}
+.db.tasks td.c-name .idt,.db.tasks td.c-name .cnt{flex:none}
+/* 큰 항목 사이 여백 */
+.db tr.r-spacer>td{height:14px;padding:0;border:0;background:var(--bg)}
+.db tr.r-spacer+tr>td{border-top:1px solid var(--line-strong)}
+/* 기간 칸: 시작 ~ 종료 */
+.range{display:flex;align-items:center;gap:2px}
+.range .date-wrap{width:auto}
+.range-sep{color:var(--faint);flex:none}
+.date-typed.short{min-width:0;width:84px}
+.date-typed.late-in{color:var(--bad);font-weight:600}
+.date-typed.short::placeholder{color:var(--faint);opacity:.55}
 .db tr.r-blk-end .blk-of{color:var(--faint);opacity:0;transition:opacity .12s}
 .db tr.r-blk-end:hover .blk-of,.db tr.r-blk-end:focus-within .blk-of{opacity:1}
 .cell-in{border:0;background:transparent;padding:3px 4px;border-radius:3px;width:100%;min-width:0;font-size:13.5px}
