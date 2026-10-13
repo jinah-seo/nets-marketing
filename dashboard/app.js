@@ -924,6 +924,53 @@
   }
   // 상위 업무 덩어리 색 (영역 안에서 차례로). 태그 팔레트의 진한 색
   const BLOCK_COLORS = ['blue', 'orange', 'purple', 'green', 'pink', 'brown'];
+  // 영역(카테고리)별 정렬: 상위 업무는 하위를 데리고 통째로, 하위는 각자 상위 안에서 같은 기준으로. 화면에서만 바뀌고 「이 순서로 고정」하면 order로 저장
+  const SORTS = [['', '직접 정한 순서'], ['start', '시작일'], ['due', '종료일'], ['status', '상태'], ['priority', '우선순위'], ['owner', '담당'], ['kind', '종류'], ['title', '이름'], ['progress', '진행률']];
+  const SORTK = 'nets.taskSorts';
+  ui.sorts = (() => { try { return JSON.parse(localStorage.getItem(SORTK) || '{}') || {}; } catch (e) { return {}; } })();
+  const saveSorts = () => { try { localStorage.setItem(SORTK, JSON.stringify(ui.sorts)); } catch (e) { } };
+  function taskProgress(t) {
+    const k = childrenOf(t.id).filter(c => !isTaskOff(c));
+    if (k.length) return k.filter(isTaskDone).length / k.length;
+    const s = t.steps || []; if (s.length) return s.filter(x => x.done).length / s.length;
+    return isTaskDone(t) ? 1 : 0;
+  }
+  // 비어 있는 값은 오름·내림차순 모두 맨 뒤
+  function taskCmp(key, dir) {
+    const idx = list => v => { const i = list.indexOf(v); return i < 0 ? null : i; };
+    const val = {
+      start: t => t.start || null, due: t => t.due || null, title: t => t.title || null, progress: taskProgress,
+      status: t => idx(cfg('taskStatuses'))(t.status), priority: t => idx(cfg('priorities'))(t.priority), owner: t => idx(cfg('owners'))(t.owner), kind: t => idx(KINDS)(t.kind)
+    }[key];
+    const m = dir === 'desc' ? -1 : 1;
+    return (a, b) => {
+      const x = val(a), y = val(b);
+      if (x == null || y == null) return (x == null) - (y == null);
+      return m * (typeof x === 'string' ? x.localeCompare(y, 'ko') : x - y);
+    };
+  }
+  function fixSortedOrder(area) {
+    const so = ui.sorts[area]; if (!so || !so.key || !online) return;
+    if (!confirm(`「${area}」 영역을 지금 보이는 정렬(${(SORTS.find(s => s[0] === so.key) || [])[1]} ${so.dir === 'desc' ? '내림차순' : '오름차순'}) 순서로 고정할까요?\n상위 업무와 하위 항목의 「직접 정한 순서」가 이 순서로 바뀝니다.`)) return;
+    const cmp = taskCmp(so.key, so.dir);
+    S.tasks.filter(t => isRoot(t) && t.area === area).sort((a, b) => cmp(a, b) || rootSort(a, b)).forEach((r, i) => {
+      r.order = (i + 1) * 10;
+      childrenOf(r.id).sort(cmp).forEach((c, j) => { c.order = (j + 1) * 10; });
+    });
+    delete ui.sorts[area]; saveSorts();
+    commit('tasks', true);
+  }
+  function sortControl(area) {
+    const so = ui.sorts[area] || {};
+    const set = (k, d) => { if (k) ui.sorts[area] = { key: k, dir: d || 'asc' }; else delete ui.sorts[area]; saveSorts(); refresh(); };
+    const sel = plainSelect(SORTS.map(([v, l]) => ({ value: v, label: l })), so.key || '', v => set(v, so.dir), { id: 'sort-' + area, cls: '', label: area + ' 정렬 기준' });
+    sel.disabled = false;
+    return el('span', { cls: 'g-sort' + (so.key ? ' on' : ''), onclick: stop }, [
+      el('label', { cls: 'fpill' + (so.key ? ' on' : ''), for: 'sort-' + area }, ['정렬', sel]),
+      so.key ? el('button', { type: 'button', cls: 'ra', text: so.dir === 'desc' ? '↓ 내림차순' : '↑ 오름차순', title: '정렬 방향 바꾸기', onclick: () => set(so.key, so.dir === 'desc' ? 'asc' : 'desc') }) : null,
+      so.key ? el('button', { type: 'button', cls: 'ra', text: '이 순서로 고정', title: '지금 정렬을 직접 정한 순서(order)로 저장', disabled: !online, onclick: () => fixSortedOrder(area) }) : null
+    ]);
+  }
   function taskTable() {
     const wrap = el('div', { cls: 'hscroll' });
     const roots = S.tasks.filter(isRoot);
@@ -942,7 +989,8 @@
     const filtering = ui.area !== '전체' || ui.kind !== '전체' || ui.owner !== '전체' || !!ui.q;
     areas.forEach(area => {
       if (ui.area !== '전체' && area !== ui.area) return;
-      const list = rows.filter(r => r.t.area === area).sort((a, b) => rootSort(a.t, b.t));
+      const so = ui.sorts[area], cmp = so && so.key ? taskCmp(so.key, so.dir) : null;
+      const list = rows.filter(r => r.t.area === area).sort((a, b) => (cmp && cmp(a.t, b.t)) || rootSort(a.t, b.t));
       if (!list.length && filtering) return;
       any = true;
       const closed = ui.collapsed.has(area);
@@ -960,6 +1008,7 @@
       const ga = (text, title, run, cls) => el('button', { type: 'button', cls: 'ra' + (cls ? ' ' + cls : ''), text, title, 'aria-label': area + ' ' + title, disabled: !online && !title.includes('하위 모두'), onclick: e => { e.stopPropagation(); run(e.currentTarget); } });
       const gh = el('tr', { cls: 'r-group' }, [el('td', { colspan: 7 }, [el('div', { cls: 'group-head', role: 'button', tabindex: 0, 'aria-expanded': String(!closed), onclick: toggle, onkeydown: e => { if (e.key === 'Enter' && e.target === e.currentTarget) toggle(); } },
         [el('span', { cls: 'tog', text: closed ? '▸' : '▾' }), label, el('span', { cls: 'cnt', text: String(list.length) }),
+          sortControl(area),
           el('span', { cls: 'row-acts g-row-acts' }, [
             parents.length ? ga(allOpen ? '모두 접기' : '모두 펼치기', allOpen ? '하위 모두 접기' : '하위 모두 펼치기', () => { parents.forEach(id => allOpen ? ui.expanded.delete(id) : ui.expanded.add(id)); refresh(); }) : null,
             ga('＋ 업무 추가', '이 영역에 업무 추가', () => createTask({ kind: '업무', area })),
@@ -975,11 +1024,13 @@
         if (li) tb.appendChild(el('tr', { cls: 'r-spacer', 'aria-hidden': 'true' }, [el('td', { colspan: 7 })]));
         const open = ui.expanded.has(t.id) || ui.kind === '마일스톤' || !!ui.q;
         const blk = all.length ? BLOCK_COLORS[nb++ % BLOCK_COLORS.length] : null;
-        tb.appendChild(taskRow(t, { kids: all.length, kidsDone: all.filter(isTaskDone).length, allKids: all, open, drag: true, treeOpen: open && kids.length > 0, blk }));
+        // 정렬 중에는 끌기·↑↓를 끈다 (보이는 순서와 저장된 순서가 달라서)
+        tb.appendChild(taskRow(t, { kids: all.length, kidsDone: all.filter(isTaskDone).length, allKids: all, open, drag: !cmp, treeOpen: open && kids.length > 0, blk }));
         if (!open) return;
         // 하위도 끌어서 순서 바꾸기 (필터로 일부만 보일 때는 순서가 헷갈리므로 끄고 ↑↓만)
         const whole = kids.length === all.length;
-        kids.forEach((c, i) => tb.appendChild(taskRow(c, { child: true, last: i === kids.length - 1, blk, drag: whole, first: all[0] === c, lastAll: all[all.length - 1] === c })));
+        const shown = cmp ? [...kids].sort(cmp) : kids;
+        shown.forEach((c, i) => tb.appendChild(taskRow(c, { child: true, last: i === shown.length - 1, blk, drag: whole && !cmp, first: !!cmp || all[0] === c, lastAll: !!cmp || all[all.length - 1] === c })));
         // 덩어리 끝: 이 상위 업무에 하위 추가 (다음 상위 업무와 띄우는 역할도)
         const addKid = () => createTask({ kind: '마일스톤', parent: t.id });
         tb.appendChild(el('tr', { cls: 'r-add r-blk-end', style: '--blk:var(--' + blk + ')' }, [el('td', { colspan: 7, role: 'button', tabindex: 0, onclick: addKid, onkeydown: e => { if (e.key === 'Enter') addKid(); } }, [
@@ -1106,11 +1157,13 @@
           checkIn(cd, v => setTaskStatus(c, v ? '완료' : (cfg('taskStatuses')[0] || '대기')), { id: 'pk-kid-' + c.id, label: c.title + ' 완료' }),
           el('span', { cls: 'd', text: md(c.due) }), el('span', { cls: 't', text: c.title || '제목 없음' }), el('span', { cls: 'note', text: c.owner || '' })]));
       });
-      if (kids.length || t.kind === '업무') body.appendChild(el('div', { cls: 'psec' }, [el('h3', {}, ['하위 마일스톤', el('span', { cls: 'note', text: kids.filter(isTaskDone).length + '/' + kids.length })]), list,
-        el('button', { type: 'button', cls: 'addline', text: '＋ 마일스톤 추가', disabled: !online, onclick: () => createTask({ kind: '마일스톤', parent: t.id }) })]));
+      if (kids.length || t.kind === '업무') body.appendChild(el('div', { cls: 'psec' }, [el('h3', {}, ['하위 항목', el('span', { cls: 'note', text: kids.filter(isTaskDone).length + '/' + kids.length })]), list,
+        el('button', { type: 'button', cls: 'addline', text: '＋ 하위 추가', disabled: !online, onclick: () => createTask({ kind: '마일스톤', parent: t.id }) })]));
     }
 
+    // 상위 업무의 세부 할 일은 하위 항목으로 (표에 줄로 보인다). 체크리스트는 하위 항목 안의 작은 단계용 (예전 데이터가 남아 있으면 그대로 보여 줌)
     const steps = t.steps || [];
+    if (!t.parent && !steps.length) return footTask(t, body);
     const ul = el('ul', { cls: 'steps' });
     steps.forEach((s, i) => {
       ul.appendChild(el('li', { cls: s.done ? 'done' : '' }, [
@@ -1121,6 +1174,9 @@
     });
     body.appendChild(el('div', { cls: 'psec' }, [el('h3', {}, ['체크리스트', steps.length ? el('span', { cls: 'note', text: steps.filter(s => s.done).length + '/' + steps.length }) : null]), ul,
       el('button', { type: 'button', cls: 'addline', text: '＋ 단계 추가', disabled: !online, onclick: () => { t.steps = steps; steps.push({ text: '', done: false }); commit('tasks', true, 'pk-stt-' + (steps.length - 1)); } })]));
+    footTask(t, body);
+  }
+  function footTask(t, body) {
     body.appendChild(el('div', { cls: 'psec' }, [el('h3', { text: '메모' }), textIn(t.note, v => { t.note = v; commit('tasks'); }, { id: 'pk-note', multi: true, rows: 3, raw: true, ph: '진행 상황, 막힌 점, 결정 사항', label: '메모' })]));
     body.appendChild(el('div', { cls: 'peek-foot' }, [el('span', { cls: 'note', text: t.id + (t.doneAt ? ' · 완료 ' + t.doneAt : '') }),
       el('button', { type: 'button', cls: 'btn danger', text: '삭제', disabled: !online, onclick: () => deleteTask(t) })]));

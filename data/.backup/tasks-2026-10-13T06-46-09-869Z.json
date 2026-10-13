@@ -269,7 +269,7 @@
     "priority": "P2",
     "owner": "Marketing",
     "start": "2026-11-09",
-    "due": "2026-11-27",
+    "due": "2027-01-31",
     "status": "대기",
     "deliverable": "Media List, 보도자료 1건",
     "steps": [
@@ -534,7 +534,7 @@
       "p11",
       "p12"
     ],
-    "note": "세부 일정은 하위 마일스톤. 세미나 날짜 확정 시 하위 날짜 일괄 이동",
+    "note": "세부 일정은 하위 마일스톤. 세미나 날짜 확정 시 하위 날짜 일괄 이동\n세부 일정 기준: WBS(sources/고객세미나 WBS.png) (2026-10-13 반영). 당일 12:00 셋업 · 15:00 등록·운영 · 19:00 마감",
     "order": 10
   },
   {
@@ -569,58 +569,62 @@
   {
     "id": "EV-1-01",
     "kind": "마일스톤",
-    "title": "목표·대상·규모·장소·예산 확정, 행사 오너·Sales 리드 지정",
+    "title": "목표·대상·규모·예산 확정, 호텔 확정·계약, 행사 오너·Sales 리드 지정",
     "area": "행사",
     "priority": "P0",
     "owner": "Marketing",
-    "start": null,
+    "start": "2026-10-12",
     "due": "2026-10-16",
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": ""
+    "note": "",
+    "order": 20
   },
   {
     "id": "EV-1-02",
     "kind": "마일스톤",
-    "title": "초청 리스트 정제 (기존 고객 + ISEC 2025, 동의 범위 확인)",
+    "title": "초청 명단 확정 (기존 고객 + ISEC 2025, 동의 범위 확인)",
     "area": "행사",
     "priority": "P0",
-    "owner": "Marketing",
-    "start": null,
-    "due": "2026-10-16",
+    "owner": "Sales",
+    "start": "2026-10-19",
+    "due": "2026-10-23",
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": ""
+    "note": "WBS(sources/고객세미나 WBS.png): 모객은 영업 담당. 마감 10/16 → 10/23. 이후 참석 확인은 EV-1-22(11/13 등록 마감)까지",
+    "order": 50
   },
   {
     "id": "EV-1-03",
     "kind": "마일스톤",
-    "title": "프로그램·연사 확정 (외부 연사, 고객사 연사)",
+    "title": "아젠다·발표자 확정 (Nets·소프트프릭·삼성생명)",
     "area": "행사",
     "priority": "P0",
-    "owner": "Marketing",
-    "start": null,
-    "due": "2026-10-23",
+    "owner": "연구소",
+    "start": "2026-10-12",
+    "due": "2026-10-16",
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": ""
+    "note": "공동 담당: 연구소·영업·기술영업 (WBS(sources/고객세미나 WBS.png)). 마감 10/23 → 10/16으로 당김",
+    "order": 30
   },
   {
     "id": "EV-1-04",
     "kind": "마일스톤",
-    "title": "배너·안내물 제작 발주, 기프트 발주",
+    "title": "기프트 조사·발주",
     "area": "행사",
     "priority": "P0",
-    "owner": "Sales Support",
-    "start": null,
-    "due": "2026-10-23",
+    "owner": "Marketing",
+    "start": "2026-10-26",
+    "due": "2026-10-30",
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": ""
+    "note": "WBS(sources/고객세미나 WBS.png): 마감 10/23 → 10/30, 담당 Sales Support → 마케팅. 배너·안내물 발주는 EV-1-18로 분리",
+    "order": 90
   },
   {
     "id": "EV-1-05",
@@ -634,7 +638,8 @@
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": ""
+    "note": "",
+    "order": 70
   },
   {
     "id": "EV-1-06",
@@ -648,7 +653,8 @@
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": ""
+    "note": "",
+    "order": 110
   },
   {
     "id": "EV-1-07",
@@ -662,12 +668,13 @@
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": ""
+    "note": "",
+    "order": 160
   },
   {
     "id": "EV-1-08",
     "kind": "마일스톤",
-    "title": "발표자료·인쇄물 최종 확정 (전시 제작물과 동시)",
+    "title": "인쇄물 최종 확정 (전시 제작물과 동시 마감)",
     "area": "행사",
     "priority": "P0",
     "owner": "Marketing",
@@ -676,7 +683,8 @@
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": ""
+    "note": "발표 자료 최종 마감은 EV-1-23(11/17, WBS(sources/고객세미나 WBS.png))",
+    "order": 180
   },
   {
     "id": "EV-1-09",
@@ -690,7 +698,8 @@
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": ""
+    "note": "",
+    "order": 200
   },
   {
     "id": "EV-1-10",
@@ -704,12 +713,13 @@
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": ""
+    "note": "",
+    "order": 230
   },
   {
     "id": "EV-1-11",
     "kind": "마일스톤",
-    "title": "D-1 리마인드, 현장 셋업·리허설, 촬영 담당 브리핑",
+    "title": "D-1 물품 등 전체 점검, 리마인드 발송, 촬영 담당 브리핑",
     "area": "행사",
     "priority": "P0",
     "owner": "Marketing",
@@ -718,12 +728,13 @@
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": ""
+    "note": "WBS(sources/고객세미나 WBS.png): 현장 셋업은 당일 12:00 (EV-1-12)",
+    "order": 240
   },
   {
     "id": "EV-1-12",
     "kind": "마일스톤",
-    "title": "행사 운영, 데모·1:1 상담, 설문 수집, 현장 사진",
+    "title": "행사 운영 (12:00 셋업 · 15:00 등록 · 19:00 마감), 데모·1:1 상담, 설문 수집, 현장 사진",
     "area": "행사",
     "priority": "P0",
     "owner": "Marketing",
@@ -732,7 +743,8 @@
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": ""
+    "note": "",
+    "order": 250
   },
   {
     "id": "EV-1-13",
@@ -746,7 +758,8 @@
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": ""
+    "note": "",
+    "order": 260
   },
   {
     "id": "EV-1-14",
@@ -760,7 +773,8 @@
     "status": "대기",
     "parent": "EV-1",
     "event": "seminar",
-    "note": ""
+    "note": "",
+    "order": 270
   },
   {
     "id": "EV-2-01",
@@ -774,7 +788,8 @@
     "status": "대기",
     "parent": "EV-2",
     "event": "softwave",
-    "note": ""
+    "note": "",
+    "order": 10
   },
   {
     "id": "EV-2-02",
@@ -788,7 +803,8 @@
     "status": "대기",
     "parent": "EV-2",
     "event": "softwave",
-    "note": ""
+    "note": "",
+    "order": 20
   },
   {
     "id": "EV-2-03",
@@ -802,7 +818,8 @@
     "status": "대기",
     "parent": "EV-2",
     "event": "softwave",
-    "note": ""
+    "note": "",
+    "order": 30
   },
   {
     "id": "EV-2-04",
@@ -816,7 +833,8 @@
     "status": "대기",
     "parent": "EV-2",
     "event": "softwave",
-    "note": ""
+    "note": "",
+    "order": 40
   },
   {
     "id": "EV-2-05",
@@ -830,7 +848,8 @@
     "status": "대기",
     "parent": "EV-2",
     "event": "softwave",
-    "note": ""
+    "note": "",
+    "order": 50
   },
   {
     "id": "EV-2-06",
@@ -844,7 +863,8 @@
     "status": "대기",
     "parent": "EV-2",
     "event": "softwave",
-    "note": ""
+    "note": "",
+    "order": 60
   },
   {
     "id": "EV-2-07",
@@ -858,7 +878,8 @@
     "status": "대기",
     "parent": "EV-2",
     "event": "softwave",
-    "note": ""
+    "note": "",
+    "order": 70
   },
   {
     "id": "EV-2-08",
@@ -872,7 +893,8 @@
     "status": "대기",
     "parent": "EV-2",
     "event": "softwave",
-    "note": ""
+    "note": "",
+    "order": 80
   },
   {
     "id": "EV-2-09",
@@ -886,7 +908,8 @@
     "status": "대기",
     "parent": "EV-2",
     "event": "softwave",
-    "note": ""
+    "note": "",
+    "order": 90
   },
   {
     "id": "EV-2-10",
@@ -900,7 +923,8 @@
     "status": "대기",
     "parent": "EV-2",
     "event": "softwave",
-    "note": ""
+    "note": "",
+    "order": 100
   },
   {
     "id": "D-01",
@@ -960,8 +984,10 @@
     "start": null,
     "due": "2026-10-16",
     "status": "대기",
-    "note": "",
-    "order": 20
+    "note": "WBS(sources/고객세미나 WBS.png)도 11/24(화) 기준으로 작성됨 → 확정이면 완료 처리",
+    "parent": "EV-1",
+    "event": "seminar",
+    "order": 40
   },
   {
     "id": "D-06",
@@ -1009,8 +1035,10 @@
     "start": null,
     "due": "2026-10-30",
     "status": "대기",
-    "note": "",
-    "order": 30
+    "note": "WBS(sources/고객세미나 WBS.png) 제목은 「엘타워 11/24(화) 행사 기준」, 장소 줄은 파르나스·JW 메리어트 가예약(10/13 마감) → 장소가 어디인지 [확인 필요]",
+    "parent": "EV-1",
+    "event": "seminar",
+    "order": 120
   },
   {
     "id": "D-10",
@@ -1088,18 +1116,6 @@
     "doneAt": "2026-10-13"
   },
   {
-    "id": "T-02",
-    "kind": "업무",
-    "title": "",
-    "area": "행사",
-    "priority": "P1",
-    "owner": "Marketing",
-    "start": null,
-    "due": "2026-10-20",
-    "status": "대기",
-    "note": ""
-  },
-  {
     "id": "T-03",
     "kind": "업무",
     "title": "홈페이지 긴급 유지보수",
@@ -1120,9 +1136,11 @@
     "owner": "Marketing",
     "start": null,
     "due": "2026-10-13",
-    "status": "대기",
+    "status": "완료",
     "parent": "T-03",
-    "note": ""
+    "note": "",
+    "order": 10,
+    "doneAt": "2026-10-13"
   },
   {
     "id": "T-03-02",
@@ -1135,7 +1153,8 @@
     "due": "2026-10-13",
     "status": "대기",
     "parent": "T-03",
-    "note": ""
+    "note": "",
+    "order": 20
   },
   {
     "id": "T-03-03",
@@ -1148,6 +1167,252 @@
     "due": "2026-10-13",
     "status": "대기",
     "parent": "T-03",
+    "note": "",
+    "order": 30
+  },
+  {
+    "id": "T-04",
+    "kind": "업무",
+    "title": "홈페이지 리뉴얼 준비",
+    "area": "홈페이지",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-12-31",
+    "status": "대기",
     "note": ""
+  },
+  {
+    "id": "T-04-01",
+    "kind": "마일스톤",
+    "title": "현재 홈페이지 분석",
+    "area": "홈페이지",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-12-31",
+    "status": "대기",
+    "parent": "T-04",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "T-04-02",
+    "kind": "마일스톤",
+    "title": "홈페이지 구축 전략",
+    "area": "홈페이지",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-12-31",
+    "status": "대기",
+    "parent": "T-04",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "T-04-03",
+    "kind": "마일스톤",
+    "title": "신규 홈페이지 기획",
+    "area": "홈페이지",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-12-31",
+    "status": "대기",
+    "parent": "T-04",
+    "note": "",
+    "order": 30
+  },
+  {
+    "id": "T-04-04",
+    "kind": "마일스톤",
+    "title": "신규 홈페이지 개발",
+    "area": "홈페이지",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-12-31",
+    "status": "대기",
+    "parent": "T-04",
+    "note": "",
+    "order": 40
+  },
+  {
+    "id": "T-05",
+    "kind": "업무",
+    "title": "",
+    "area": "행사",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-20",
+    "status": "대기",
+    "note": ""
+  },
+  {
+    "id": "EV-1-15",
+    "kind": "마일스톤",
+    "title": "장소 가예약 마감 (파르나스·JW 메리어트)",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-13",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": "WBS(sources/고객세미나 WBS.png). 제목의 「엘타워」와 다름 → D-09에서 확인",
+    "order": 10
+  },
+  {
+    "id": "EV-1-16",
+    "kind": "마일스톤",
+    "title": "초청장(웹) 기획·디자인·제작",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": "2026-10-19",
+    "due": "2026-10-23",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": "",
+    "order": 60
+  },
+  {
+    "id": "EV-1-17",
+    "kind": "마일스톤",
+    "title": "발표 자료 초안 (아젠다별)",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "연구소",
+    "start": "2026-10-19",
+    "due": "2026-10-30",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": "공동 담당: 연구소·영업·기술영업",
+    "order": 80
+  },
+  {
+    "id": "EV-1-18",
+    "kind": "마일스톤",
+    "title": "제작물 기획·외주 발주 (브로셔·현수막·X배너·등록폼)",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": "2026-10-26",
+    "due": "2026-10-30",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": "WBS(sources/고객세미나 WBS.png)에는 이 줄의 10/30이 「기프트 발주」로 적혀 있어 외주 발주로 해석함 [확인 필요]",
+    "order": 100
+  },
+  {
+    "id": "EV-1-19",
+    "kind": "마일스톤",
+    "title": "SNS 채널 개설",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-02",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": "[확인 필요] SNS 운영 계획은 10/20부터 LinkedIn·Facebook 회사 페이지에 게시. WBS(sources/고객세미나 WBS.png)의 11/2 「채널 개설」이 무엇을 뜻하는지(세미나 전용 채널? 페이지 신규 개설?) 확인",
+    "order": 130
+  },
+  {
+    "id": "EV-1-20",
+    "kind": "마일스톤",
+    "title": "제작물 시안 확정",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-06",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": "",
+    "order": 140
+  },
+  {
+    "id": "EV-1-21",
+    "kind": "마일스톤",
+    "title": "기프트 수령",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-09",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": "",
+    "order": 150
+  },
+  {
+    "id": "EV-1-22",
+    "kind": "마일스톤",
+    "title": "등록 마감 · 참석 확인 완료",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Sales",
+    "start": "2026-10-26",
+    "due": "2026-11-13",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": "",
+    "order": 170
+  },
+  {
+    "id": "EV-1-23",
+    "kind": "마일스톤",
+    "title": "발표 자료 최종 마감",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "연구소",
+    "start": null,
+    "due": "2026-11-17",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": "공동 담당: 연구소·영업·기술영업",
+    "order": 190
+  },
+  {
+    "id": "EV-1-24",
+    "kind": "마일스톤",
+    "title": "제작물 수령",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-19",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": "",
+    "order": 210
+  },
+  {
+    "id": "EV-1-25",
+    "kind": "마일스톤",
+    "title": "현장 운영 최종 리허설",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": "2026-11-16",
+    "due": "2026-11-20",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": "소프트웨이브 준비와 동시 진행 (WBS(sources/고객세미나 WBS.png))",
+    "order": 220
   }
 ]

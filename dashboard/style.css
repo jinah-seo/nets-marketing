@@ -289,6 +289,12 @@ tr.r-child .idt{opacity:.8}
 .range-sep{color:var(--faint);flex:none}
 .date-typed.short{min-width:0;width:84px}
 .date-typed.late-in{color:var(--bad);font-weight:600}
+/* 영역 머리의 정렬: 정렬 중이면 늘 보이고, 아니면 마우스를 올렸을 때 */
+.g-sort{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-weight:400;opacity:0;transition:opacity .12s}
+.g-sort.on,tr.r-group:hover .g-sort,tr.r-group:focus-within .g-sort{opacity:1}
+@media (hover:none){.g-sort{opacity:1}}
+.g-sort .fpill{font-size:12px}
+.group-head .g-row-acts{margin-left:6px}
 .date-typed.short::placeholder{color:var(--faint);opacity:.55}
 .db tr.r-blk-end .blk-of{color:var(--faint);opacity:0;transition:opacity .12s}
 .db tr.r-blk-end:hover .blk-of,.db tr.r-blk-end:focus-within .blk-of{opacity:1}

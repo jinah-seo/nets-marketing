@@ -11,25 +11,63 @@
     "status": "대기",
     "deliverable": "R&R 1p",
     "doneWhen": "대표·영업본부장 합의",
-    "steps": [
-      {
-        "text": "업무 분장표 (Marketing·Sales·Sales Support·External)",
-        "done": false
-      },
-      {
-        "text": "요청 규칙: 채널 1개, 최소 5영업일 전 요청",
-        "done": false
-      },
-      {
-        "text": "영업·영업지원 주간 15분 체크인",
-        "done": false
-      },
-      {
-        "text": "대표·영업본부장 합의",
-        "done": false
-      }
-    ],
     "note": ""
+  },
+  {
+    "id": "OP-1-01",
+    "kind": "마일스톤",
+    "title": "업무 분장표 (Marketing·Sales·Sales Support·External)",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "OP-1",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "OP-1-02",
+    "kind": "마일스톤",
+    "title": "요청 규칙: 채널 1개, 최소 5영업일 전 요청",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "OP-1",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "OP-1-03",
+    "kind": "마일스톤",
+    "title": "영업·영업지원 주간 15분 체크인",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "OP-1",
+    "note": "",
+    "order": 30
+  },
+  {
+    "id": "OP-1-04",
+    "kind": "마일스톤",
+    "title": "대표·영업본부장 합의",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "OP-1",
+    "note": "",
+    "order": 40
   },
   {
     "id": "OP-2",
@@ -46,21 +84,49 @@
     "deps": [
       "BG-1"
     ],
-    "steps": [
-      {
-        "text": "디자인·인쇄 업체 2~3곳 견적",
-        "done": false
-      },
-      {
-        "text": "1곳 계약 (템플릿·초대장·부스·원페이저)",
-        "done": false
-      },
-      {
-        "text": "홈페이지 수정 담당 확인",
-        "done": false
-      }
-    ],
     "note": ""
+  },
+  {
+    "id": "OP-2-01",
+    "kind": "마일스톤",
+    "title": "디자인·인쇄 업체 2~3곳 견적",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "OP-2",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "OP-2-02",
+    "kind": "마일스톤",
+    "title": "1곳 계약 (템플릿·초대장·부스·원페이저)",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "OP-2",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "OP-2-03",
+    "kind": "마일스톤",
+    "title": "홈페이지 수정 담당 확인",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "OP-2",
+    "note": "",
+    "order": 30
   },
   {
     "id": "BG-1",
@@ -74,29 +140,77 @@
     "status": "대기",
     "deliverable": "Q4 예산안, 지출 관리 시트",
     "doneWhen": "10/16 대표 승인",
-    "steps": [
-      {
-        "text": "세미나: 장소·식음·인쇄·기념품",
-        "done": false
-      },
-      {
-        "text": "전시: 부스 임차·제작·인쇄·판촉물·홍보",
-        "done": false
-      },
-      {
-        "text": "홈페이지 수정 비용",
-        "done": false
-      },
-      {
-        "text": "예비비 10%",
-        "done": false
-      },
-      {
-        "text": "지출 관리 시트",
-        "done": false
-      }
-    ],
     "note": ""
+  },
+  {
+    "id": "BG-1-01",
+    "kind": "마일스톤",
+    "title": "세미나: 장소·식음·인쇄·기념품",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "BG-1",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "BG-1-02",
+    "kind": "마일스톤",
+    "title": "전시: 부스 임차·제작·인쇄·판촉물·홍보",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "BG-1",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "BG-1-03",
+    "kind": "마일스톤",
+    "title": "홈페이지 수정 비용",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "BG-1",
+    "note": "",
+    "order": 30
+  },
+  {
+    "id": "BG-1-04",
+    "kind": "마일스톤",
+    "title": "예비비 10%",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "BG-1",
+    "note": "",
+    "order": 40
+  },
+  {
+    "id": "BG-1-05",
+    "kind": "마일스톤",
+    "title": "지출 관리 시트",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "BG-1",
+    "note": "",
+    "order": 50
   },
   {
     "id": "ST-1",
@@ -110,29 +224,77 @@
     "status": "대기",
     "deliverable": "A4 1장 Messaging House",
     "doneWhen": "대표 승인 후 초대장·부스 문구 반영",
-    "steps": [
-      {
-        "text": "영업·기술영업 3~5명 15분 인터뷰 (구매·실주 이유)",
-        "done": false
-      },
-      {
-        "text": "대외 수치 정합성 (28년·250+·480+, 인원 155 vs 180+, '국내 IAM 1위' 근거)",
-        "done": false
-      },
-      {
-        "text": "한 문장 포지셔닝 + 메시지 3개 + 증거",
-        "done": false
-      },
-      {
-        "text": "회사 소개 3줄 문안",
-        "done": false
-      },
-      {
-        "text": "대표 승인",
-        "done": false
-      }
-    ],
     "note": ""
+  },
+  {
+    "id": "ST-1-01",
+    "kind": "마일스톤",
+    "title": "영업·기술영업 3~5명 15분 인터뷰 (구매·실주 이유)",
+    "area": "메시지·브랜드",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "ST-1",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "ST-1-02",
+    "kind": "마일스톤",
+    "title": "대외 수치 정합성 (28년·250+·480+, 인원 155 vs 180+, '국내 IAM 1위' 근거)",
+    "area": "메시지·브랜드",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "ST-1",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "ST-1-03",
+    "kind": "마일스톤",
+    "title": "한 문장 포지셔닝 + 메시지 3개 + 증거",
+    "area": "메시지·브랜드",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "ST-1",
+    "note": "",
+    "order": 30
+  },
+  {
+    "id": "ST-1-04",
+    "kind": "마일스톤",
+    "title": "회사 소개 3줄 문안",
+    "area": "메시지·브랜드",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "ST-1",
+    "note": "",
+    "order": 40
+  },
+  {
+    "id": "ST-1-05",
+    "kind": "마일스톤",
+    "title": "대표 승인",
+    "area": "메시지·브랜드",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "ST-1",
+    "note": "",
+    "order": 50
   },
   {
     "id": "BR-1",
@@ -148,25 +310,63 @@
     "deps": [
       "OP-2"
     ],
-    "steps": [
-      {
-        "text": "로고 5종 원본·색상·여백 정리",
-        "done": false
-      },
-      {
-        "text": "메인 컬러 2~3개, 서체 지정",
-        "done": false
-      },
-      {
-        "text": "PPT 마스터 템플릿 1종",
-        "done": false
-      },
-      {
-        "text": "사용 금지 예시 1p",
-        "done": false
-      }
-    ],
     "note": ""
+  },
+  {
+    "id": "BR-1-01",
+    "kind": "마일스톤",
+    "title": "로고 5종 원본·색상·여백 정리",
+    "area": "메시지·브랜드",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "BR-1",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "BR-1-02",
+    "kind": "마일스톤",
+    "title": "메인 컬러 2~3개, 서체 지정",
+    "area": "메시지·브랜드",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "BR-1",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "BR-1-03",
+    "kind": "마일스톤",
+    "title": "PPT 마스터 템플릿 1종",
+    "area": "메시지·브랜드",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "BR-1",
+    "note": "",
+    "order": 30
+  },
+  {
+    "id": "BR-1-04",
+    "kind": "마일스톤",
+    "title": "사용 금지 예시 1p",
+    "area": "메시지·브랜드",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "BR-1",
+    "note": "",
+    "order": 40
   },
   {
     "id": "CU-1",
@@ -179,25 +379,63 @@
     "due": "2026-10-30",
     "status": "대기",
     "deliverable": "ICP·페르소나 1~2p",
-    "steps": [
-      {
-        "text": "구축리스트로 산업·규모·제품 분포 집계",
-        "done": false
-      },
-      {
-        "text": "우선 세그먼트 3개 가설",
-        "done": false
-      },
-      {
-        "text": "페르소나: 실무자 / 의사결정자",
-        "done": false
-      },
-      {
-        "text": "영업 검토",
-        "done": false
-      }
-    ],
     "note": ""
+  },
+  {
+    "id": "CU-1-01",
+    "kind": "마일스톤",
+    "title": "구축리스트로 산업·규모·제품 분포 집계",
+    "area": "메시지·브랜드",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "CU-1",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "CU-1-02",
+    "kind": "마일스톤",
+    "title": "우선 세그먼트 3개 가설",
+    "area": "메시지·브랜드",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "CU-1",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "CU-1-03",
+    "kind": "마일스톤",
+    "title": "페르소나: 실무자 / 의사결정자",
+    "area": "메시지·브랜드",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "CU-1",
+    "note": "",
+    "order": 30
+  },
+  {
+    "id": "CU-1-04",
+    "kind": "마일스톤",
+    "title": "영업 검토",
+    "area": "메시지·브랜드",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "CU-1",
+    "note": "",
+    "order": 40
   },
   {
     "id": "CT-1",
@@ -210,21 +448,49 @@
     "due": "2026-10-16",
     "status": "대기",
     "deliverable": "docs/content-pool.md",
-    "steps": [
-      {
-        "text": "프로젝트 자료 약 20종을 유형·대상·최신성·공개 가능 여부로 목록화",
-        "done": false
-      },
-      {
-        "text": "세미나·전시·SNS 활용처 매핑",
-        "done": false
-      },
-      {
-        "text": "공유 폴더 구조 정리",
-        "done": false
-      }
-    ],
     "note": ""
+  },
+  {
+    "id": "CT-1-01",
+    "kind": "마일스톤",
+    "title": "프로젝트 자료 약 20종을 유형·대상·최신성·공개 가능 여부로 목록화",
+    "area": "SNS",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "CT-1",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "CT-1-02",
+    "kind": "마일스톤",
+    "title": "세미나·전시·SNS 활용처 매핑",
+    "area": "SNS",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "CT-1",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "CT-1-03",
+    "kind": "마일스톤",
+    "title": "공유 폴더 구조 정리",
+    "area": "SNS",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "CT-1",
+    "note": "",
+    "order": 30
   },
   {
     "id": "CT-2",
@@ -237,29 +503,77 @@
     "due": "2026-12-31",
     "status": "대기",
     "deliverable": "정비된 채널 2개, 게시물 23건",
-    "steps": [
-      {
-        "text": "페이지 개설·관리자 권한",
-        "done": false
-      },
-      {
-        "text": "프로필·커버·소개 문구 ST-1 기준 통일",
-        "done": false
-      },
-      {
-        "text": "Canva 템플릿 4종",
-        "done": false
-      },
-      {
-        "text": "10/26~30 11~12월분 일괄 제작",
-        "done": false
-      },
-      {
-        "text": "주 2회 게시 (data/posts.json)",
-        "done": false
-      }
-    ],
     "note": "게시물 단위 진행은 SNS 캘린더에서 관리"
+  },
+  {
+    "id": "CT-2-01",
+    "kind": "마일스톤",
+    "title": "페이지 개설·관리자 권한",
+    "area": "SNS",
+    "priority": "P2",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "CT-2",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "CT-2-02",
+    "kind": "마일스톤",
+    "title": "프로필·커버·소개 문구 ST-1 기준 통일",
+    "area": "SNS",
+    "priority": "P2",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "CT-2",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "CT-2-03",
+    "kind": "마일스톤",
+    "title": "Canva 템플릿 4종",
+    "area": "SNS",
+    "priority": "P2",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "CT-2",
+    "note": "",
+    "order": 30
+  },
+  {
+    "id": "CT-2-04",
+    "kind": "마일스톤",
+    "title": "10/26~30 11~12월분 일괄 제작",
+    "area": "SNS",
+    "priority": "P2",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "CT-2",
+    "note": "",
+    "order": 40
+  },
+  {
+    "id": "CT-2-05",
+    "kind": "마일스톤",
+    "title": "주 2회 게시 (data/posts.json)",
+    "area": "SNS",
+    "priority": "P2",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "CT-2",
+    "note": "",
+    "order": 50
   },
   {
     "id": "PR-1",
@@ -272,21 +586,49 @@
     "due": "2027-01-31",
     "status": "대기",
     "deliverable": "Media List, 보도자료 1건",
-    "steps": [
-      {
-        "text": "보안·IT 전문지 15~20곳 기자 리스트",
-        "done": false
-      },
-      {
-        "text": "소프트웨이브 참가 보도자료 초안 → 대표 검토",
-        "done": false
-      },
-      {
-        "text": "배포 후 게재 현황 기록",
-        "done": false
-      }
-    ],
     "note": "Media List만 필수"
+  },
+  {
+    "id": "PR-1-01",
+    "kind": "마일스톤",
+    "title": "보안·IT 전문지 15~20곳 기자 리스트",
+    "area": "PR",
+    "priority": "P2",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "PR-1",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "PR-1-02",
+    "kind": "마일스톤",
+    "title": "소프트웨이브 참가 보도자료 초안 → 대표 검토",
+    "area": "PR",
+    "priority": "P2",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "PR-1",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "PR-1-03",
+    "kind": "마일스톤",
+    "title": "배포 후 게재 현황 기록",
+    "area": "PR",
+    "priority": "P2",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "PR-1",
+    "note": "",
+    "order": 30
   },
   {
     "id": "SE-1",
@@ -303,21 +645,49 @@
       "ST-1",
       "BR-1"
     ],
-    "steps": [
-      {
-        "text": "회사소개서 정합성 수정 (인원 수, M365·O365·NSM 명칭, 오탈자 'Signle')",
-        "done": false
-      },
-      {
-        "text": "전시 원페이저 1~2종 (IAM·SSO, 대표 사례)",
-        "done": false
-      },
-      {
-        "text": "공개 가능 사례 1~2건 (동의 확인)",
-        "done": false
-      }
-    ],
     "note": ""
+  },
+  {
+    "id": "SE-1-01",
+    "kind": "마일스톤",
+    "title": "회사소개서 정합성 수정 (인원 수, M365·O365·NSM 명칭, 오탈자 'Signle')",
+    "area": "영업지원",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "SE-1",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "SE-1-02",
+    "kind": "마일스톤",
+    "title": "전시 원페이저 1~2종 (IAM·SSO, 대표 사례)",
+    "area": "영업지원",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "SE-1",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "SE-1-03",
+    "kind": "마일스톤",
+    "title": "공개 가능 사례 1~2건 (동의 확인)",
+    "area": "영업지원",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "SE-1",
+    "note": "",
+    "order": 30
   },
   {
     "id": "LD-1",
@@ -331,33 +701,91 @@
     "status": "대기",
     "deliverable": "리드 규칙 1p, 리드 시트",
     "doneWhen": "10/27 초대장 발송 전 적용",
-    "steps": [
-      {
-        "text": "리드 정의와 단계 (리드 → 영업 인계 → 기회)",
-        "done": false
-      },
-      {
-        "text": "필수 필드 정의",
-        "done": false
-      },
-      {
-        "text": "저장소: SFDC 사용 가능 여부 확인, 안 되면 공유 시트",
-        "done": false
-      },
-      {
-        "text": "인계 규칙 (D+3 배정, D+14 업데이트)",
-        "done": false
-      },
-      {
-        "text": "신청폼·QR폼 개인정보 동의 문구",
-        "done": false
-      },
-      {
-        "text": "폼에 '알게 된 경로' 문항 (SNS 성과 측정)",
-        "done": false
-      }
-    ],
     "note": ""
+  },
+  {
+    "id": "LD-1-01",
+    "kind": "마일스톤",
+    "title": "리드 정의와 단계 (리드 → 영업 인계 → 기회)",
+    "area": "리드·KPI",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "LD-1",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "LD-1-02",
+    "kind": "마일스톤",
+    "title": "필수 필드 정의",
+    "area": "리드·KPI",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "LD-1",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "LD-1-03",
+    "kind": "마일스톤",
+    "title": "저장소: SFDC 사용 가능 여부 확인, 안 되면 공유 시트",
+    "area": "리드·KPI",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "LD-1",
+    "note": "",
+    "order": 30
+  },
+  {
+    "id": "LD-1-04",
+    "kind": "마일스톤",
+    "title": "인계 규칙 (D+3 배정, D+14 업데이트)",
+    "area": "리드·KPI",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "LD-1",
+    "note": "",
+    "order": 40
+  },
+  {
+    "id": "LD-1-05",
+    "kind": "마일스톤",
+    "title": "신청폼·QR폼 개인정보 동의 문구",
+    "area": "리드·KPI",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "LD-1",
+    "note": "",
+    "order": 50
+  },
+  {
+    "id": "LD-1-06",
+    "kind": "마일스톤",
+    "title": "폼에 '알게 된 경로' 문항 (SNS 성과 측정)",
+    "area": "리드·KPI",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "LD-1",
+    "note": "",
+    "order": 60
   },
   {
     "id": "KP-1",
@@ -368,36 +796,93 @@
     "owner": "Marketing",
     "start": "2026-10-19",
     "due": "2026-12-31",
-    "status": "완료",
+    "status": "대기",
     "deliverable": "KPI 정의표, 월간 보고 3건",
-    "steps": [
-      {
-        "text": "행사 KPI 정의, 목표치 대표 합의",
-        "done": false
-      },
-      {
-        "text": "GA4 설치 여부 확인",
-        "done": false
-      },
-      {
-        "text": "1p 월간 보고 양식",
-        "done": false
-      },
-      {
-        "text": "10월 말 보고",
-        "done": false
-      },
-      {
-        "text": "11월 말 보고",
-        "done": false
-      },
-      {
-        "text": "12월 말 보고",
-        "done": false
-      }
-    ],
+    "note": ""
+  },
+  {
+    "id": "KP-1-01",
+    "kind": "마일스톤",
+    "title": "행사 KPI 정의, 목표치 대표 합의",
+    "area": "리드·KPI",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "KP-1",
     "note": "",
-    "doneAt": "2026-10-13"
+    "order": 10
+  },
+  {
+    "id": "KP-1-02",
+    "kind": "마일스톤",
+    "title": "GA4 설치 여부 확인",
+    "area": "리드·KPI",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "KP-1",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "KP-1-03",
+    "kind": "마일스톤",
+    "title": "1p 월간 보고 양식",
+    "area": "리드·KPI",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "KP-1",
+    "note": "",
+    "order": 30
+  },
+  {
+    "id": "KP-1-04",
+    "kind": "마일스톤",
+    "title": "10월 말 보고",
+    "area": "리드·KPI",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "KP-1",
+    "note": "",
+    "order": 40
+  },
+  {
+    "id": "KP-1-05",
+    "kind": "마일스톤",
+    "title": "11월 말 보고",
+    "area": "리드·KPI",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "KP-1",
+    "note": "",
+    "order": 50
+  },
+  {
+    "id": "KP-1-06",
+    "kind": "마일스톤",
+    "title": "12월 말 보고",
+    "area": "리드·KPI",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "KP-1",
+    "note": "",
+    "order": 60
   },
   {
     "id": "EV-3",
@@ -416,25 +901,63 @@
       "EV-2",
       "KP-1"
     ],
-    "steps": [
-      {
-        "text": "참석·방문·리드·인계 수, 비용 집계",
-        "done": false
-      },
-      {
-        "text": "리드당 비용",
-        "done": false
-      },
-      {
-        "text": "설문·현장 피드백",
-        "done": false
-      },
-      {
-        "text": "잘된 점·개선점·2027 반복 여부",
-        "done": false
-      }
-    ],
     "note": ""
+  },
+  {
+    "id": "EV-3-01",
+    "kind": "마일스톤",
+    "title": "참석·방문·리드·인계 수, 비용 집계",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "EV-3",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "EV-3-02",
+    "kind": "마일스톤",
+    "title": "리드당 비용",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "EV-3",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "EV-3-03",
+    "kind": "마일스톤",
+    "title": "설문·현장 피드백",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "EV-3",
+    "note": "",
+    "order": 30
+  },
+  {
+    "id": "EV-3-04",
+    "kind": "마일스톤",
+    "title": "잘된 점·개선점·2027 반복 여부",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "EV-3",
+    "note": "",
+    "order": 40
   },
   {
     "id": "BG-2",
@@ -449,21 +972,49 @@
     "deps": [
       "EV-3"
     ],
-    "steps": [
-      {
-        "text": "활동별 예산 (행사·홈페이지·콘텐츠·PR·외주·툴)",
-        "done": false
-      },
-      {
-        "text": "Q4 실집행 단가 반영",
-        "done": false
-      },
-      {
-        "text": "우선순위별 축소안",
-        "done": false
-      }
-    ],
     "note": ""
+  },
+  {
+    "id": "BG-2-01",
+    "kind": "마일스톤",
+    "title": "활동별 예산 (행사·홈페이지·콘텐츠·PR·외주·툴)",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "BG-2",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "BG-2-02",
+    "kind": "마일스톤",
+    "title": "Q4 실집행 단가 반영",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "BG-2",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "BG-2-03",
+    "kind": "마일스톤",
+    "title": "우선순위별 축소안",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "BG-2",
+    "note": "",
+    "order": 30
   },
   {
     "id": "ST-2",
@@ -482,29 +1033,77 @@
       "BG-2",
       "CU-1"
     ],
-    "steps": [
-      {
-        "text": "Q4 행사 성과 반영",
-        "done": false
-      },
-      {
-        "text": "2027 목표·KPI",
-        "done": false
-      },
-      {
-        "text": "분기 로드맵 (이월 업무 12건 배치)",
-        "done": false
-      },
-      {
-        "text": "외주 분야별 조사 반영",
-        "done": false
-      },
-      {
-        "text": "대표 보고",
-        "done": false
-      }
-    ],
     "note": ""
+  },
+  {
+    "id": "ST-2-01",
+    "kind": "마일스톤",
+    "title": "Q4 행사 성과 반영",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "ST-2",
+    "note": "",
+    "order": 10
+  },
+  {
+    "id": "ST-2-02",
+    "kind": "마일스톤",
+    "title": "2027 목표·KPI",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "ST-2",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "ST-2-03",
+    "kind": "마일스톤",
+    "title": "분기 로드맵 (이월 업무 12건 배치)",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "ST-2",
+    "note": "",
+    "order": 30
+  },
+  {
+    "id": "ST-2-04",
+    "kind": "마일스톤",
+    "title": "외주 분야별 조사 반영",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "ST-2",
+    "note": "",
+    "order": 40
+  },
+  {
+    "id": "ST-2-05",
+    "kind": "마일스톤",
+    "title": "대표 보고",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "parent": "ST-2",
+    "note": "",
+    "order": 50
   },
   {
     "id": "EV-1",
@@ -1101,19 +1700,6 @@
     "due": "2026-11-30",
     "status": "대기",
     "note": ""
-  },
-  {
-    "id": "T-01",
-    "kind": "업무",
-    "title": "",
-    "area": "리드·KPI",
-    "priority": "P1",
-    "owner": "Marketing",
-    "start": null,
-    "due": "2026-10-20",
-    "status": "완료",
-    "note": "",
-    "doneAt": "2026-10-13"
   },
   {
     "id": "T-03",
