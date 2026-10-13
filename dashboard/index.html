@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NETS 마케팅 대시보드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app" id="app">
+  <aside class="side" id="side" aria-label="페이지">
+    <div class="ws">
+      <div class="ws-icon" aria-hidden="true">N</div>
+      <div class="ws-name"><b>NETS 마케팅</b><small>2026 Q4 · Megan</small></div>
+    </div>
+    <nav id="nav" class="nav"></nav>
+    <div class="side-label">행사</div>
+    <div id="side-events" class="side-events"></div>
+    <div class="side-foot">
+      <span id="savestate" class="savestate">불러오는 중…</span>
+      <button class="btn ghost sm" id="reload" type="button">새로고침</button>
+    </div>
+  </aside>
+  <div class="side-scrim" id="side-scrim"></div>
+
+  <main class="main">
+    <div class="topbar">
+      <button class="btn ghost icon menu-btn" id="menu" type="button" aria-label="메뉴 열기">☰</button>
+      <div class="crumb" id="crumb"></div>
+      <div class="top-acts" id="top-acts"></div>
+    </div>
+    <div id="banner" class="banner" hidden></div>
+    <div class="page" id="page"></div>
+  </main>
+
+  <aside class="peek" id="peek" hidden aria-label="상세"></aside>
+</div>
+<div class="tip" id="tip" hidden></div>
+<script src="xlsx.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

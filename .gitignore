@@ -1,0 +1,9 @@
+data/.backup/
+node_modules/
+.DS_Store
+Thumbs.db
+.claude/settings.local.json
+# 개인정보가 들어가는 파일은 커밋하지 않습니다
+data/leads.json
+sources/*
+!sources/README.md

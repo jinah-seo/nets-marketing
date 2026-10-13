@@ -1,0 +1,649 @@
+[
+  {
+    "id": "p01",
+    "no": 1,
+    "date": "2026-10-20",
+    "time": "09:00",
+    "phase": 1,
+    "pillar": "회사",
+    "topic": "채널 오픈: 누가 어떤 권한으로 무엇을 하는지 통제하는 회사, 넷츠 (28년·고객 250+·프로젝트 480+)",
+    "format": "카드뉴스 4장",
+    "cta": "홈페이지 방문",
+    "liHook": "28년 동안 한 가지를 해왔습니다. 기업의 계정·권한·인증입니다.",
+    "fbHook": "넷츠가 Facebook 페이지를 엽니다. 28년째 기업의 계정과 권한을 지켜온 회사입니다.",
+    "source": "2026년_넷츠_회사소개서_V1.0",
+    "approval": false,
+    "status": "제작중",
+    "draft": "drafts/p01.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p02",
+    "no": 2,
+    "date": "2026-10-22",
+    "time": "09:00",
+    "phase": 1,
+    "pillar": "인사이트",
+    "topic": "누수 노트 #1 감사 전 점검: 권한 적정성 검토를 아직 엑셀·메일로 하고 있다면",
+    "format": "카드뉴스 3장",
+    "cta": "사전진단 문의",
+    "liHook": "권한 적정성 검토, 아직 엑셀과 메일로 취합하고 계신가요? 감사에서 증빙이 흔들리는 지점입니다.",
+    "fbHook": "연말 감사를 앞두고 권한 검토 엑셀을 붙잡고 계신 분, 계신가요?",
+    "source": "2026년_넷츠_IAM&SSO_제품소개서_V1.3 (계정 및 인증 관련 현안)",
+    "approval": false,
+    "status": "제작중",
+    "draft": "drafts/p02.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p03",
+    "no": 3,
+    "date": "2026-10-27",
+    "time": "09:00",
+    "phase": 1,
+    "pillar": "인사이트",
+    "topic": "누수 노트 #2 퇴사·부서이동 후 남는 유령 계정, 우리 회사엔 몇 개일까",
+    "format": "카드뉴스 5장",
+    "cta": "사전진단 문의",
+    "liHook": "감사에서 반복 지적되는 항목 중 하나는 퇴직·전보 후 남은 계정입니다.",
+    "fbHook": "퇴사한 동료의 계정, 우리 회사 시스템에 아직 살아 있지는 않나요?",
+    "source": "2026년_넷츠_IAM&SSO_제품소개서_V1.3, IBK를 위한 넷츠 소개서_v1.0 (IAM 이슈사항)",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p03.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p04",
+    "no": 4,
+    "date": "2026-10-29",
+    "time": "09:00",
+    "phase": 1,
+    "pillar": "제품",
+    "topic": "한 번 로그인으로 끝: NETS*Single Sign On이 바꾸는 직원의 하루",
+    "format": "이미지 1장+텍스트",
+    "cta": "제품 소개 페이지",
+    "liHook": "업무시스템마다 다른 ID와 비밀번호는 보안과 생산성을 함께 떨어뜨립니다.",
+    "fbHook": "출근해서 로그인만 몇 번 하시나요? 한 번이면 됩니다.",
+    "source": "2026년_넷츠_IAM&SSO_제품소개서_V1.3",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p04.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p05",
+    "no": 5,
+    "date": "2026-11-03",
+    "time": "09:00",
+    "phase": 1,
+    "pillar": "사례",
+    "topic": "SK하이닉스: 계정관리에서 권한관리로, 임직원 약 6만 명·700여 개 업무까지 단계별 확대",
+    "format": "이미지 1장+텍스트",
+    "cta": "사례 자료 요청",
+    "liHook": "2015년 계정관리로 시작해 2025년 700여 개 업무까지. 10년에 걸친 단계별 확산입니다.",
+    "fbHook": "임직원 6만 명의 계정과 권한, 어떻게 관리할까요?",
+    "source": "SK하이닉스_통합계정권한관리(IAM)_구축 사례",
+    "approval": true,
+    "status": "기획",
+    "draft": "drafts/p05.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": "",
+    "fallback": "공개 동의가 게시 14일 전까지 없으면 같은 날 인사이트 게시물로 대체"
+  },
+  {
+    "id": "p06",
+    "no": 6,
+    "date": "2026-11-05",
+    "time": "09:00",
+    "phase": 2,
+    "pillar": "이벤트",
+    "topic": "[세미나 사전①] 11/24 고객 세미나 Save the date",
+    "format": "배너 1장",
+    "cta": "세미나 참가 문의",
+    "liHook": "11월 24일, 넷츠 고객 세미나에 초대합니다.",
+    "fbHook": "11월 24일 넷츠 고객 세미나, 미리 일정 비워 두세요.",
+    "source": "세미나 기획서 (NETS 고객 세미나 2026)",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p06.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p07",
+    "no": 7,
+    "date": "2026-11-10",
+    "time": "09:00",
+    "phase": 2,
+    "pillar": "제품",
+    "topic": "인사 발령 한 번에 계정 생성·변경·회수: NETS*Identity Manager 계정 라이프사이클",
+    "format": "카드뉴스 4장",
+    "cta": "세미나 참가 문의",
+    "liHook": "입사·이동·휴직·퇴사. 인사 발령이 곧 계정 정책이 되어야 합니다.",
+    "fbHook": "인사 발령이 나면 계정도 자동으로 바뀐다면 어떨까요?",
+    "source": "2026년_넷츠_IAM&SSO_제품소개서_V1.3",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p07.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p08",
+    "no": 8,
+    "date": "2026-11-12",
+    "time": "09:00",
+    "phase": 2,
+    "pillar": "인사이트",
+    "topic": "누수 노트 #3 제로트러스트의 출발점은 ID: IAM·SSO가 맡는 역할",
+    "format": "카드뉴스 5장",
+    "cta": "세미나 참가 문의",
+    "liHook": "제로트러스트 구조에서 IAM과 SSO는 접근 판단에 쓰이는 기준 정보를 공급합니다.",
+    "fbHook": "제로트러스트, 어디서부터 시작해야 할까요? 답은 '계정'입니다.",
+    "source": "넷츠 제로트러스트 사례_V1.0",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p08.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p09",
+    "no": 9,
+    "date": "2026-11-17",
+    "time": "09:00",
+    "phase": 2,
+    "pillar": "이벤트",
+    "topic": "[세미나 사전②] D-7 아젠다·연사 공개 + 소프트웨이브 참가 예고",
+    "format": "이미지 1장",
+    "cta": "세미나 참가 문의",
+    "liHook": "고객 세미나 D-7, 세션과 연사를 공개합니다.",
+    "fbHook": "세미나가 일주일 남았습니다. 이런 이야기를 나눕니다.",
+    "source": "세미나 기획서 (아젠다·연사)",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p09.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p10",
+    "no": 10,
+    "date": "2026-11-19",
+    "time": "09:00",
+    "phase": 2,
+    "pillar": "사례",
+    "topic": "KB국민은행: SaaS 환경 제로트러스트 실증 (2025 KISA 시범사업)",
+    "format": "카드뉴스 4장",
+    "cta": "사례 자료 요청",
+    "liHook": "SaaS 인증을 내부 인증체계로 통합하고, 신뢰도 평가로 접근을 통제했습니다.",
+    "fbHook": "은행은 M365 같은 SaaS를 어떻게 안전하게 쓸까요?",
+    "source": "KB국민은행 구축 사례 자료_V1.0, 넷츠 제로트러스트 사례_V1.0",
+    "approval": true,
+    "status": "기획",
+    "draft": "drafts/p10.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": "",
+    "fallback": "공개 동의가 게시 14일 전까지 없으면 같은 날 인사이트 게시물로 대체"
+  },
+  {
+    "id": "p11",
+    "no": 11,
+    "date": "2026-11-24",
+    "time": "09:00",
+    "phase": 2,
+    "pillar": "이벤트",
+    "topic": "[세미나 당일] 현장 사진 (바쁘면 11/25 오전)",
+    "format": "사진 3~5장",
+    "cta": "홈페이지 방문",
+    "liHook": "오늘 넷츠 고객 세미나에 함께해 주신 분들께 감사드립니다.",
+    "fbHook": "세미나 현장입니다. 자리를 채워 주셔서 감사합니다.",
+    "source": "세미나 현장 사진",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p11.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p12",
+    "no": 12,
+    "date": "2026-11-26",
+    "time": "09:00",
+    "phase": 2,
+    "pillar": "이벤트",
+    "topic": "[세미나 사후] 발표 핵심 3가지 + 참석 감사",
+    "format": "사진 3장+카드 1장",
+    "cta": "발표자료 요청",
+    "liHook": "세미나에서 나온 핵심 메시지 세 가지를 정리했습니다.",
+    "fbHook": "못 오신 분들을 위해 세미나 핵심만 정리했습니다.",
+    "source": "세미나 발표자료 원본",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p12.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p13",
+    "no": 13,
+    "date": "2026-11-27",
+    "time": "09:00",
+    "phase": 3,
+    "pillar": "이벤트",
+    "topic": "[소프트웨이브 사전] 12/2~4 부스 위치·데모·상담 예약",
+    "format": "배너 1장",
+    "cta": "부스 상담 예약",
+    "liHook": "넷츠가 소프트웨이브 2026에 참가합니다. 부스 상담을 미리 예약하세요.",
+    "fbHook": "다음 주 소프트웨이브에서 만나요. 부스 위치를 알려 드립니다.",
+    "source": "전시 부스 자료, NETS_PASS·SaaS Manager·EntraLinker 소개서",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p13.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p14",
+    "no": 14,
+    "date": "2026-12-01",
+    "time": "09:00",
+    "phase": 3,
+    "pillar": "제품",
+    "topic": "누가 무슨 권한이 필요한지 AI가 추천: NETS*Identity Manager v13.0 (부스 데모 예고)",
+    "format": "카드뉴스 4장",
+    "cta": "부스 데모",
+    "liHook": "권한 신청에서 가장 어려운 부분은 '무엇을 신청해야 하는지'입니다.",
+    "fbHook": "필요한 권한, AI가 먼저 알려 준다면?",
+    "source": "2025Y_NETS_IAM&SSO_New_Features_V1.4, 2026 IAM&SSO 제품소개서",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p14.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p15",
+    "no": 15,
+    "date": "2026-12-02",
+    "time": "09:00",
+    "phase": 3,
+    "pillar": "이벤트",
+    "topic": "[전시 현장] 소프트웨이브 1일차 부스 (바쁘면 12/3 오전)",
+    "format": "사진 3장",
+    "cta": "부스 방문",
+    "liHook": "소프트웨이브 첫날, 넷츠 부스입니다.",
+    "fbHook": "부스 준비 끝. 소프트웨이브 첫날 현장입니다.",
+    "source": "전시 현장 사진",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p15.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p16",
+    "no": 16,
+    "date": "2026-12-08",
+    "time": "09:00",
+    "phase": 3,
+    "pillar": "이벤트",
+    "topic": "[소프트웨이브 사후] 방문 감사 + 많이 받은 질문 3가지 + 데모 자료",
+    "format": "사진 2장+카드 1장",
+    "cta": "데모·사전진단 신청",
+    "liHook": "3일간 부스에서 가장 많이 받은 질문 세 가지와 답을 정리했습니다.",
+    "fbHook": "부스에 들러 주신 모든 분께 감사드립니다.",
+    "source": "전시 현장 질문 기록",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p16.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p17",
+    "no": 17,
+    "date": "2026-12-10",
+    "time": "09:00",
+    "phase": 4,
+    "pillar": "사례",
+    "topic": "외산 IAM에서 넷츠로: Win-back 사례 (현대자동차·현대해상·SGI서울보증 등)",
+    "format": "카드뉴스 4장",
+    "cta": "사례 자료 요청",
+    "liHook": "IBM, Oracle, CA 솔루션을 넷츠로 교체한 고객이 20곳이 넘습니다.",
+    "fbHook": "외산 IAM을 교체한 기업들, 무엇이 달라졌을까요?",
+    "source": "넷츠_전체 구축리스트(Win-Back 포함), [넷츠] 현대글로비스 IAM 제안서",
+    "approval": true,
+    "status": "기획",
+    "draft": "drafts/p17.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": "",
+    "fallback": "공개 동의가 게시 14일 전까지 없으면 같은 날 인사이트 게시물로 대체"
+  },
+  {
+    "id": "p18",
+    "no": 18,
+    "date": "2026-12-15",
+    "time": "09:00",
+    "phase": 4,
+    "pillar": "인사이트",
+    "topic": "누수 노트 #4 감사에서 꼭 나오는 질문, 직무분리(SoD)와 권한 적정성 검토",
+    "format": "카드뉴스 4장",
+    "cta": "사전진단 문의",
+    "liHook": "동시에 가져서는 안 되는 권한, 지금 몇 명이 보유하고 있는지 바로 답할 수 있나요?",
+    "fbHook": "한 사람이 결재도 하고 지급도 한다면? 직무분리 이야기입니다.",
+    "source": "2026년_넷츠_IAM&SSO_제품소개서_V1.3",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p18.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p19",
+    "no": 19,
+    "date": "2026-12-17",
+    "time": "09:00",
+    "phase": 4,
+    "pillar": "제품",
+    "topic": "유출된 비밀번호, 로그인 전에 걸러내기: 다크웹 노출 암호 탐지",
+    "format": "이미지 1장+텍스트",
+    "cta": "제품 소개 페이지",
+    "liHook": "다크웹에 노출된 비밀번호는 로그인 단계에서 걸러내야 합니다.",
+    "fbHook": "내 비밀번호가 다크웹에 돌아다닌다면?",
+    "source": "2026년_넷츠_IAM&SSO_제품소개서_V1.3 (다크웹 노출 암호 탐지)",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p19.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p20",
+    "no": 20,
+    "date": "2026-12-22",
+    "time": "09:00",
+    "phase": 4,
+    "pillar": "회사",
+    "topic": "2026 넷츠 결산: 세미나·전시·주요 사례 한눈에",
+    "format": "카드뉴스 5장",
+    "cta": "홈페이지 방문",
+    "liHook": "2026년 넷츠의 한 해를 숫자로 정리했습니다.",
+    "fbHook": "올해 넷츠는 이렇게 보냈습니다.",
+    "source": "2026년_넷츠_회사소개서_V1.0, 세미나·전시 결과",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p20.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p21",
+    "no": 21,
+    "date": "2026-12-24",
+    "time": "09:00",
+    "phase": 4,
+    "pillar": "인사이트",
+    "topic": "누수 노트 #5 2027 계정·권한 보안 키워드 3가지 (제로트러스트·SaaS·AI 에이전트 계정)",
+    "format": "카드뉴스 4장",
+    "cta": "홈페이지 방문",
+    "liHook": "2027년 계정·권한 보안에서 주목할 세 가지를 꼽았습니다.",
+    "fbHook": "내년 보안 담당자들이 가장 많이 고민할 세 가지.",
+    "source": "IBK를 위한 넷츠 소개서, 넷츠 제로트러스트 사례",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p21.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p22",
+    "no": 22,
+    "date": "2026-12-29",
+    "time": "09:00",
+    "phase": 4,
+    "pillar": "인사이트",
+    "topic": "올해 반응 좋았던 게시물 Top 3 다시 보기 (재활용)",
+    "format": "기존 이미지",
+    "cta": "해당 게시물",
+    "liHook": "올해 가장 많이 읽힌 게시물 세 개를 다시 모았습니다.",
+    "fbHook": "올해 반응이 가장 좋았던 게시물 세 개입니다.",
+    "source": "data/posts.json 성과 기록",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p22.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  },
+  {
+    "id": "p23",
+    "no": 23,
+    "date": "2026-12-31",
+    "time": "09:00",
+    "phase": 4,
+    "pillar": "회사",
+    "topic": "연말 인사 + 2027 예고",
+    "format": "이미지 1장",
+    "cta": "페이지 팔로우",
+    "liHook": "한 해 동안 함께해 주셔서 감사합니다. 2027년에도 계정·권한 이야기를 이어가겠습니다.",
+    "fbHook": "올 한 해 감사했습니다. 새해 복 많이 받으세요.",
+    "source": "-",
+    "approval": false,
+    "status": "기획",
+    "draft": "drafts/p23.md",
+    "li": {
+      "impr": null,
+      "eng": null,
+      "clicks": null
+    },
+    "fb": {
+      "reach": null,
+      "eng": null,
+      "clicks": null
+    },
+    "note": ""
+  }
+]
