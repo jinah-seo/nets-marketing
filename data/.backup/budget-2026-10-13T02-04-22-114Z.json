@@ -1,0 +1,179 @@
+{
+  "updated": "2026-10-13",
+  "currency": "KRW",
+  "years": [
+    {
+      "year": 2026,
+      "label": "2026 Q4 행사 예산",
+      "task": "BG-1",
+      "approved": null,
+      "approvedAt": null,
+      "reserveRate": 0.1,
+      "groups": [
+        {
+          "id": "seminar",
+          "label": "고객 세미나"
+        },
+        {
+          "id": "softwave",
+          "label": "소프트웨이브 2026"
+        },
+        {
+          "id": "group-4",
+          "label": "테스트 구분"
+        },
+        {
+          "id": "homepage",
+          "label": "홈페이지 수정"
+        }
+      ],
+      "items": [
+        {
+          "id": "B-01",
+          "group": "seminar",
+          "title": "장소 대관",
+          "plan": null,
+          "actual": null,
+          "vendor": "",
+          "paidAt": null,
+          "note": ""
+        },
+        {
+          "id": "B-02",
+          "group": "seminar",
+          "title": "식음",
+          "plan": null,
+          "actual": null,
+          "vendor": "",
+          "paidAt": null,
+          "note": ""
+        },
+        {
+          "id": "B-03",
+          "group": "seminar",
+          "title": "인쇄 (배너·안내물·브로셔·1-pager)",
+          "plan": null,
+          "actual": null,
+          "vendor": "",
+          "paidAt": null,
+          "note": ""
+        },
+        {
+          "id": "B-04",
+          "group": "seminar",
+          "title": "기념품",
+          "plan": null,
+          "actual": null,
+          "vendor": "",
+          "paidAt": null,
+          "note": ""
+        },
+        {
+          "id": "B-05",
+          "group": "softwave",
+          "title": "부스 임차",
+          "plan": null,
+          "actual": null,
+          "vendor": "",
+          "paidAt": null,
+          "note": ""
+        },
+        {
+          "id": "B-06",
+          "group": "softwave",
+          "title": "부스 디자인·제작",
+          "plan": null,
+          "actual": null,
+          "vendor": "",
+          "paidAt": null,
+          "note": ""
+        },
+        {
+          "id": "B-07",
+          "group": "softwave",
+          "title": "인쇄 (원페이저 등)",
+          "plan": null,
+          "actual": null,
+          "vendor": "",
+          "paidAt": null,
+          "note": ""
+        },
+        {
+          "id": "B-08",
+          "group": "softwave",
+          "title": "판촉물",
+          "plan": null,
+          "actual": null,
+          "vendor": "",
+          "paidAt": null,
+          "note": ""
+        },
+        {
+          "id": "B-09",
+          "group": "softwave",
+          "title": "홍보",
+          "plan": null,
+          "actual": null,
+          "vendor": "",
+          "paidAt": null,
+          "note": ""
+        },
+        {
+          "id": "B-10",
+          "group": "homepage",
+          "title": "홈페이지 긴급 보수 (HP-1)",
+          "plan": null,
+          "actual": null,
+          "vendor": "",
+          "paidAt": null,
+          "note": ""
+        },
+        {
+          "id": "B-11",
+          "group": "homepage",
+          "title": "",
+          "plan": null,
+          "actual": null,
+          "vendor": "",
+          "paidAt": null,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "year": 2027,
+      "label": "2027 마케팅 예산안",
+      "task": "BG-2",
+      "approved": null,
+      "approvedAt": null,
+      "reserveRate": 0.1,
+      "groups": [
+        {
+          "id": "event",
+          "label": "행사"
+        },
+        {
+          "id": "homepage",
+          "label": "홈페이지"
+        },
+        {
+          "id": "content",
+          "label": "콘텐츠"
+        },
+        {
+          "id": "pr",
+          "label": "PR"
+        },
+        {
+          "id": "outsourcing",
+          "label": "외주"
+        },
+        {
+          "id": "tools",
+          "label": "툴"
+        }
+      ],
+      "items": []
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "updated": "2026-10-12",
+  "quarter": "2026 Q4",
+  "range": {
+    "start": "2026-10-12",
+    "end": "2026-12-31"
+  },
+  "events": [
+    {
+      "id": "seminar",
+      "label": "고객 세미나",
+      "start": "2026-11-24",
+      "end": "2026-11-24",
+      "note": "자체 주최 초청형. 날짜는 11/24(화) 기준. Q4 업무계획(11/26)·세미나 기획서(11/19 가정)와 다르므로 확정 시 여기만 고치면 됨"
+    },
+    {
+      "id": "softwave",
+      "label": "소프트웨이브 2026",
+      "start": "2026-12-02",
+      "end": "2026-12-04",
+      "note": "대한민국 소프트웨어대전. 12/1 설치"
+    }
+  ],
+  "pillars": [
+    "이벤트",
+    "인사이트",
+    "제품",
+    "사례",
+    "회사"
+  ],
+  "postStatuses": [
+    "기획",
+    "제작중",
+    "승인대기",
+    "예약완료",
+    "게시완료",
+    "대체·보류"
+  ],
+  "taskStatuses": [
+    "대기",
+    "진행",
+    "완료",
+    "보류"
+  ],
+  "priorities": [
+    "P0",
+    "P1",
+    "P2"
+  ],
+  "areas": [
+    "행사",
+    "SNS",
+    "메시지·브랜드",
+    "영업지원",
+    "리드·KPI",
+    "홈페이지",
+    "PR",
+    "운영·예산",
+    "2027 계획"
+  ],
+  "owners": [
+    "Marketing",
+    "Sales",
+    "Sales Support",
+    "External",
+    "기술지원",
+    "대표"
+  ],
+  "utm": {
+    "campaign": "2026q4",
+    "sources": [
+      "linkedin",
+      "facebook"
+    ],
+    "medium": "social"
+  },
+  "rules": {
+    "postTime": "09:00",
+    "postDays": "화·목",
+    "productionDeadline": "화요일 게시물은 직전 금요일, 목·수·금 게시물은 그 주 월요일까지 제작·승인 요청 (승인 대기 24시간)",
+    "approvalWaitHours": 24,
+    "consentLeadDays": 14
+  }
+}

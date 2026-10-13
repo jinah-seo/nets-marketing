@@ -1,0 +1,1165 @@
+[
+  {
+    "id": "OP-1",
+    "kind": "업무",
+    "title": "R&R·협업 규칙 확정",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": "2026-10-08",
+    "due": "2026-10-16",
+    "status": "대기",
+    "deliverable": "R&R 1p",
+    "doneWhen": "대표·영업본부장 합의",
+    "steps": [
+      {
+        "text": "업무 분장표 (Marketing·Sales·Sales Support·External)",
+        "done": false
+      },
+      {
+        "text": "요청 규칙: 채널 1개, 최소 5영업일 전 요청",
+        "done": false
+      },
+      {
+        "text": "영업·영업지원 주간 15분 체크인",
+        "done": false
+      },
+      {
+        "text": "대표·영업본부장 합의",
+        "done": false
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "OP-2",
+    "kind": "업무",
+    "title": "행사 제작 외주 확보",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": "2026-10-08",
+    "due": "2026-10-23",
+    "status": "대기",
+    "deliverable": "외주 계약 1건",
+    "doneWhen": "10/23까지 계약, 첫 작업 착수",
+    "deps": [
+      "BG-1"
+    ],
+    "steps": [
+      {
+        "text": "디자인·인쇄 업체 2~3곳 견적",
+        "done": false
+      },
+      {
+        "text": "1곳 계약 (템플릿·초대장·부스·원페이저)",
+        "done": false
+      },
+      {
+        "text": "홈페이지 수정 담당 확인",
+        "done": false
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "BG-1",
+    "kind": "업무",
+    "title": "Q4 행사 예산 확정",
+    "area": "운영·예산",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": "2026-10-08",
+    "due": "2026-10-16",
+    "status": "대기",
+    "deliverable": "Q4 예산안, 지출 관리 시트",
+    "doneWhen": "10/16 대표 승인",
+    "steps": [
+      {
+        "text": "세미나: 장소·식음·인쇄·기념품",
+        "done": false
+      },
+      {
+        "text": "전시: 부스 임차·제작·인쇄·판촉물·홍보",
+        "done": false
+      },
+      {
+        "text": "홈페이지 수정 비용",
+        "done": false
+      },
+      {
+        "text": "예비비 10%",
+        "done": false
+      },
+      {
+        "text": "지출 관리 시트",
+        "done": false
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "ST-1",
+    "kind": "업무",
+    "title": "핵심 메시지 (Messaging House)",
+    "area": "메시지·브랜드",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": "2026-10-08",
+    "due": "2026-10-23",
+    "status": "대기",
+    "deliverable": "A4 1장 Messaging House",
+    "doneWhen": "대표 승인 후 초대장·부스 문구 반영",
+    "steps": [
+      {
+        "text": "영업·기술영업 3~5명 15분 인터뷰 (구매·실주 이유)",
+        "done": false
+      },
+      {
+        "text": "대외 수치 정합성 (28년·250+·480+, 인원 155 vs 180+, '국내 IAM 1위' 근거)",
+        "done": false
+      },
+      {
+        "text": "한 문장 포지셔닝 + 메시지 3개 + 증거",
+        "done": false
+      },
+      {
+        "text": "회사 소개 3줄 문안",
+        "done": false
+      },
+      {
+        "text": "대표 승인",
+        "done": false
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "BR-1",
+    "kind": "업무",
+    "title": "브랜드 기본 키트",
+    "area": "메시지·브랜드",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": "2026-10-13",
+    "due": "2026-10-30",
+    "status": "대기",
+    "deliverable": "1p 브랜드 가이드, PPT 템플릿",
+    "deps": [
+      "OP-2"
+    ],
+    "steps": [
+      {
+        "text": "로고 5종 원본·색상·여백 정리",
+        "done": false
+      },
+      {
+        "text": "메인 컬러 2~3개, 서체 지정",
+        "done": false
+      },
+      {
+        "text": "PPT 마스터 템플릿 1종",
+        "done": false
+      },
+      {
+        "text": "사용 금지 예시 1p",
+        "done": false
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "CU-1",
+    "kind": "업무",
+    "title": "ICP 초안과 페르소나 2개",
+    "area": "메시지·브랜드",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": "2026-10-19",
+    "due": "2026-10-30",
+    "status": "대기",
+    "deliverable": "ICP·페르소나 1~2p",
+    "steps": [
+      {
+        "text": "구축리스트로 산업·규모·제품 분포 집계",
+        "done": false
+      },
+      {
+        "text": "우선 세그먼트 3개 가설",
+        "done": false
+      },
+      {
+        "text": "페르소나: 실무자 / 의사결정자",
+        "done": false
+      },
+      {
+        "text": "영업 검토",
+        "done": false
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "CT-1",
+    "kind": "업무",
+    "title": "Content Pool 인벤토리",
+    "area": "SNS",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": "2026-10-13",
+    "due": "2026-10-16",
+    "status": "대기",
+    "deliverable": "docs/content-pool.md",
+    "steps": [
+      {
+        "text": "프로젝트 자료 약 20종을 유형·대상·최신성·공개 가능 여부로 목록화",
+        "done": false
+      },
+      {
+        "text": "세미나·전시·SNS 활용처 매핑",
+        "done": false
+      },
+      {
+        "text": "공유 폴더 구조 정리",
+        "done": false
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "CT-2",
+    "kind": "업무",
+    "title": "Facebook·LinkedIn 정비와 23건 게시 운영",
+    "area": "SNS",
+    "priority": "P2",
+    "owner": "Marketing",
+    "start": "2026-10-13",
+    "due": "2026-12-31",
+    "status": "대기",
+    "deliverable": "정비된 채널 2개, 게시물 23건",
+    "steps": [
+      {
+        "text": "페이지 개설·관리자 권한",
+        "done": false
+      },
+      {
+        "text": "프로필·커버·소개 문구 ST-1 기준 통일",
+        "done": false
+      },
+      {
+        "text": "Canva 템플릿 4종",
+        "done": false
+      },
+      {
+        "text": "10/26~30 11~12월분 일괄 제작",
+        "done": false
+      },
+      {
+        "text": "주 2회 게시 (data/posts.json)",
+        "done": false
+      }
+    ],
+    "note": "게시물 단위 진행은 SNS 캘린더에서 관리"
+  },
+  {
+    "id": "PR-1",
+    "kind": "업무",
+    "title": "Media List와 전시 보도자료",
+    "area": "PR",
+    "priority": "P2",
+    "owner": "Marketing",
+    "start": "2026-11-09",
+    "due": "2026-11-27",
+    "status": "대기",
+    "deliverable": "Media List, 보도자료 1건",
+    "steps": [
+      {
+        "text": "보안·IT 전문지 15~20곳 기자 리스트",
+        "done": false
+      },
+      {
+        "text": "소프트웨이브 참가 보도자료 초안 → 대표 검토",
+        "done": false
+      },
+      {
+        "text": "배포 후 게재 현황 기록",
+        "done": false
+      }
+    ],
+    "note": "Media List만 필수"
+  },
+  {
+    "id": "SE-1",
+    "kind": "업무",
+    "title": "행사용 핵심 영업자료 정비",
+    "area": "영업지원",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": "2026-10-26",
+    "due": "2026-11-13",
+    "status": "대기",
+    "deliverable": "회사소개서 개정판, 원페이저",
+    "deps": [
+      "ST-1",
+      "BR-1"
+    ],
+    "steps": [
+      {
+        "text": "회사소개서 정합성 수정 (인원 수, M365·O365·NSM 명칭, 오탈자 'Signle')",
+        "done": false
+      },
+      {
+        "text": "전시 원페이저 1~2종 (IAM·SSO, 대표 사례)",
+        "done": false
+      },
+      {
+        "text": "공개 가능 사례 1~2건 (동의 확인)",
+        "done": false
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "LD-1",
+    "kind": "업무",
+    "title": "리드 관리 최소 체계",
+    "area": "리드·KPI",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": "2026-10-19",
+    "due": "2026-10-27",
+    "status": "대기",
+    "deliverable": "리드 규칙 1p, 리드 시트",
+    "doneWhen": "10/27 초대장 발송 전 적용",
+    "steps": [
+      {
+        "text": "리드 정의와 단계 (리드 → 영업 인계 → 기회)",
+        "done": false
+      },
+      {
+        "text": "필수 필드 정의",
+        "done": false
+      },
+      {
+        "text": "저장소: SFDC 사용 가능 여부 확인, 안 되면 공유 시트",
+        "done": false
+      },
+      {
+        "text": "인계 규칙 (D+3 배정, D+14 업데이트)",
+        "done": false
+      },
+      {
+        "text": "신청폼·QR폼 개인정보 동의 문구",
+        "done": false
+      },
+      {
+        "text": "폼에 '알게 된 경로' 문항 (SNS 성과 측정)",
+        "done": false
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "KP-1",
+    "kind": "업무",
+    "title": "Q4 KPI 정의와 월간 보고",
+    "area": "리드·KPI",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": "2026-10-19",
+    "due": "2026-12-31",
+    "status": "완료",
+    "deliverable": "KPI 정의표, 월간 보고 3건",
+    "steps": [
+      {
+        "text": "행사 KPI 정의, 목표치 대표 합의",
+        "done": false
+      },
+      {
+        "text": "GA4 설치 여부 확인",
+        "done": false
+      },
+      {
+        "text": "1p 월간 보고 양식",
+        "done": false
+      },
+      {
+        "text": "10월 말 보고",
+        "done": false
+      },
+      {
+        "text": "11월 말 보고",
+        "done": false
+      },
+      {
+        "text": "12월 말 보고",
+        "done": false
+      }
+    ],
+    "note": "",
+    "doneAt": "2026-10-13"
+  },
+  {
+    "id": "EV-3",
+    "kind": "업무",
+    "title": "행사 성과 분석",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": "2026-12-07",
+    "due": "2026-12-11",
+    "status": "대기",
+    "deliverable": "두 행사 통합 결과 보고",
+    "doneWhen": "12/11 대표 보고",
+    "deps": [
+      "EV-1",
+      "EV-2",
+      "KP-1"
+    ],
+    "steps": [
+      {
+        "text": "참석·방문·리드·인계 수, 비용 집계",
+        "done": false
+      },
+      {
+        "text": "리드당 비용",
+        "done": false
+      },
+      {
+        "text": "설문·현장 피드백",
+        "done": false
+      },
+      {
+        "text": "잘된 점·개선점·2027 반복 여부",
+        "done": false
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "BG-2",
+    "kind": "업무",
+    "title": "2027 마케팅 예산안",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": "2026-12-07",
+    "due": "2026-12-18",
+    "status": "대기",
+    "deps": [
+      "EV-3"
+    ],
+    "steps": [
+      {
+        "text": "활동별 예산 (행사·홈페이지·콘텐츠·PR·외주·툴)",
+        "done": false
+      },
+      {
+        "text": "Q4 실집행 단가 반영",
+        "done": false
+      },
+      {
+        "text": "우선순위별 축소안",
+        "done": false
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "ST-2",
+    "kind": "업무",
+    "title": "2027 마케팅 전략·실행계획",
+    "area": "2027 계획",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": "2026-12-07",
+    "due": "2026-12-23",
+    "status": "대기",
+    "deliverable": "2027 마케팅 계획안",
+    "doneWhen": "12/23 대표 보고",
+    "deps": [
+      "EV-3",
+      "BG-2",
+      "CU-1"
+    ],
+    "steps": [
+      {
+        "text": "Q4 행사 성과 반영",
+        "done": false
+      },
+      {
+        "text": "2027 목표·KPI",
+        "done": false
+      },
+      {
+        "text": "분기 로드맵 (이월 업무 12건 배치)",
+        "done": false
+      },
+      {
+        "text": "외주 분야별 조사 반영",
+        "done": false
+      },
+      {
+        "text": "대표 보고",
+        "done": false
+      }
+    ],
+    "note": ""
+  },
+  {
+    "id": "EV-1",
+    "kind": "업무",
+    "title": "11/24 고객 세미나",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": "2026-10-08",
+    "due": "2026-12-01",
+    "status": "대기",
+    "event": "seminar",
+    "deliverable": "운영계획서, 초대장, 참석자 명단, 발표자료, 설문 결과",
+    "doneWhen": "참석자·설문 데이터가 리드 시트에 입력되고 영업에 인계됨",
+    "deps": [
+      "OP-1",
+      "BG-1",
+      "ST-1",
+      "LD-1"
+    ],
+    "posts": [
+      "p06",
+      "p07",
+      "p08",
+      "p09",
+      "p10",
+      "p11",
+      "p12"
+    ],
+    "note": "세부 일정은 하위 마일스톤. 세미나 날짜 확정 시 하위 날짜 일괄 이동",
+    "order": 10
+  },
+  {
+    "id": "EV-2",
+    "kind": "업무",
+    "title": "12/2~4 소프트웨이브 전시",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": "2026-10-08",
+    "due": "2026-12-09",
+    "status": "대기",
+    "event": "softwave",
+    "deliverable": "부스, 원페이저, 리드 목록, 현장 사진",
+    "doneWhen": "전체 리드가 D+5 안에 영업 배정",
+    "deps": [
+      "OP-2",
+      "BG-1",
+      "ST-1",
+      "BR-1",
+      "LD-1"
+    ],
+    "posts": [
+      "p13",
+      "p14",
+      "p15",
+      "p16"
+    ],
+    "note": "",
+    "order": 40
+  },
+  {
+    "id": "EV-1-01",
+    "kind": "마일스톤",
+    "title": "목표·대상·규모·장소·예산 확정, 행사 오너·Sales 리드 지정",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-16",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": ""
+  },
+  {
+    "id": "EV-1-02",
+    "kind": "마일스톤",
+    "title": "초청 리스트 정제 (기존 고객 + ISEC 2025, 동의 범위 확인)",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-16",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": ""
+  },
+  {
+    "id": "EV-1-03",
+    "kind": "마일스톤",
+    "title": "프로그램·연사 확정 (외부 연사, 고객사 연사)",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-23",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": ""
+  },
+  {
+    "id": "EV-1-04",
+    "kind": "마일스톤",
+    "title": "배너·안내물 제작 발주, 기프트 발주",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Sales Support",
+    "start": null,
+    "due": "2026-10-23",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": ""
+  },
+  {
+    "id": "EV-1-05",
+    "kind": "마일스톤",
+    "title": "초대장 발송 (D-28), 참가 문의 폼 오픈",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-27",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": ""
+  },
+  {
+    "id": "EV-1-06",
+    "kind": "마일스톤",
+    "title": "고객 사례 확정, 브로셔·1-pager 인쇄 발주",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-30",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": ""
+  },
+  {
+    "id": "EV-1-07",
+    "kind": "마일스톤",
+    "title": "발표자료·데모 리허설 1차, 등록 중간 점검",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-10",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": ""
+  },
+  {
+    "id": "EV-1-08",
+    "kind": "마일스톤",
+    "title": "발표자료·인쇄물 최종 확정 (전시 제작물과 동시)",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-13",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": ""
+  },
+  {
+    "id": "EV-1-09",
+    "kind": "마일스톤",
+    "title": "D-7 리마인드, 상담 스크립트·QR 설문 폼 완료, Sales 브리핑",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-17",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": ""
+  },
+  {
+    "id": "EV-1-10",
+    "kind": "마일스톤",
+    "title": "물품 점검·포장, 명찰 출력, 운송 예약",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Sales Support",
+    "start": null,
+    "due": "2026-11-20",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": ""
+  },
+  {
+    "id": "EV-1-11",
+    "kind": "마일스톤",
+    "title": "D-1 리마인드, 현장 셋업·리허설, 촬영 담당 브리핑",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-23",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": ""
+  },
+  {
+    "id": "EV-1-12",
+    "kind": "마일스톤",
+    "title": "행사 운영, 데모·1:1 상담, 설문 수집, 현장 사진",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-24",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": ""
+  },
+  {
+    "id": "EV-1-13",
+    "kind": "마일스톤",
+    "title": "설문·명함 DB 입력, 감사 메일, 리드 등급화",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Sales Support",
+    "start": null,
+    "due": "2026-11-25",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": ""
+  },
+  {
+    "id": "EV-1-14",
+    "kind": "마일스톤",
+    "title": "A등급 Follow-up 완료, 영업 인계",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Sales",
+    "start": null,
+    "due": "2026-12-01",
+    "status": "대기",
+    "parent": "EV-1",
+    "event": "seminar",
+    "note": ""
+  },
+  {
+    "id": "EV-2-01",
+    "kind": "마일스톤",
+    "title": "부스 계약 상태·규격·주최 측 제출 마감일 확인",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-16",
+    "status": "대기",
+    "parent": "EV-2",
+    "event": "softwave",
+    "note": ""
+  },
+  {
+    "id": "EV-2-02",
+    "kind": "마일스톤",
+    "title": "부스 디자인 브리프",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-30",
+    "status": "대기",
+    "parent": "EV-2",
+    "event": "softwave",
+    "note": ""
+  },
+  {
+    "id": "EV-2-03",
+    "kind": "마일스톤",
+    "title": "부스 시안 검토",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-06",
+    "status": "대기",
+    "parent": "EV-2",
+    "event": "softwave",
+    "note": ""
+  },
+  {
+    "id": "EV-2-04",
+    "kind": "마일스톤",
+    "title": "부스·인쇄물 최종 확정·발주",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-13",
+    "status": "대기",
+    "parent": "EV-2",
+    "event": "softwave",
+    "note": ""
+  },
+  {
+    "id": "EV-2-05",
+    "kind": "마일스톤",
+    "title": "원페이저·데모 시나리오 (PASS, SaaS Manager, EntraLinker, IM v13.0)",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "기술지원",
+    "start": null,
+    "due": "2026-11-13",
+    "status": "대기",
+    "parent": "EV-2",
+    "event": "softwave",
+    "note": ""
+  },
+  {
+    "id": "EV-2-06",
+    "kind": "마일스톤",
+    "title": "리드 수집: 명함 + QR 신청폼 (사전진단·자료 다운로드)",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-13",
+    "status": "대기",
+    "parent": "EV-2",
+    "event": "softwave",
+    "note": ""
+  },
+  {
+    "id": "EV-2-07",
+    "kind": "마일스톤",
+    "title": "인력 배치표, 사전 고객 초청·상담 예약",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Sales",
+    "start": null,
+    "due": "2026-11-20",
+    "status": "대기",
+    "parent": "EV-2",
+    "event": "softwave",
+    "note": ""
+  },
+  {
+    "id": "EV-2-08",
+    "kind": "마일스톤",
+    "title": "부스 설치",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "External",
+    "start": null,
+    "due": "2026-12-01",
+    "status": "대기",
+    "parent": "EV-2",
+    "event": "softwave",
+    "note": ""
+  },
+  {
+    "id": "EV-2-09",
+    "kind": "마일스톤",
+    "title": "3일 운영, 일일 미팅 수·주요 질문 기록",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-12-04",
+    "status": "대기",
+    "parent": "EV-2",
+    "event": "softwave",
+    "note": ""
+  },
+  {
+    "id": "EV-2-10",
+    "kind": "마일스톤",
+    "title": "리드 정리·영업 인계 (D+5)",
+    "area": "행사",
+    "priority": "P0",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-12-09",
+    "status": "대기",
+    "parent": "EV-2",
+    "event": "softwave",
+    "note": ""
+  },
+  {
+    "id": "D-01",
+    "kind": "확인",
+    "title": "LinkedIn·Facebook 회사 페이지 개설 여부와 관리자 권한 확인",
+    "area": "SNS",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-16",
+    "status": "대기",
+    "note": ""
+  },
+  {
+    "id": "D-02",
+    "kind": "확인",
+    "title": "SNS용 공식 숫자 확정: 28년·250+·480+ (인력 수는 쓰지 않음)",
+    "area": "메시지·브랜드",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-16",
+    "status": "대기",
+    "note": ""
+  },
+  {
+    "id": "D-03",
+    "kind": "확인",
+    "title": "'국내 IAM 1위' 표현 사용 여부와 근거 (없으면 '250개 고객사가 선택한')",
+    "area": "메시지·브랜드",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-16",
+    "status": "대기",
+    "note": ""
+  },
+  {
+    "id": "D-04",
+    "kind": "확인",
+    "title": "UTM 규칙 확정: utm_source=linkedin|facebook, utm_medium=social, utm_campaign=2026q4, utm_content=게시물 ID",
+    "area": "SNS",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-16",
+    "status": "대기",
+    "note": ""
+  },
+  {
+    "id": "D-05",
+    "kind": "확인",
+    "title": "세미나 날짜 확정 (11/24 vs 11/26 vs 11/19 문서마다 다름)",
+    "area": "행사",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-16",
+    "status": "대기",
+    "note": "",
+    "order": 20
+  },
+  {
+    "id": "D-06",
+    "kind": "확인",
+    "title": "Canva 템플릿 4종 제작 (누수 노트 카드뉴스, 숫자 카드, 사례 카드, 이벤트 공지)",
+    "area": "SNS",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-19",
+    "status": "대기",
+    "note": ""
+  },
+  {
+    "id": "D-07",
+    "kind": "확인",
+    "title": "SK하이닉스·KB국민은행·Win-back 고객사명 공개 동의 (영업 통해 일괄 요청)",
+    "area": "영업지원",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-20",
+    "status": "대기",
+    "note": ""
+  },
+  {
+    "id": "D-08",
+    "kind": "확인",
+    "title": "ISEC 2025 설문 개인정보 동의 문구 원문 확인 (eDM 사용 가능 범위)",
+    "area": "리드·KPI",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-23",
+    "status": "대기",
+    "note": ""
+  },
+  {
+    "id": "D-09",
+    "kind": "확인",
+    "title": "세미나 장소·연사, 참가 문의 접수 폼 URL",
+    "area": "행사",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-30",
+    "status": "대기",
+    "note": "",
+    "order": 30
+  },
+  {
+    "id": "D-10",
+    "kind": "확인",
+    "title": "세미나 참가 문의·부스 예약·사전진단 문의 폼에 '알게 된 경로' 항목 추가",
+    "area": "리드·KPI",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-30",
+    "status": "대기",
+    "note": ""
+  },
+  {
+    "id": "D-11",
+    "kind": "확인",
+    "title": "11~12월 게시물 일괄 제작·예약 (사후 게시물은 사진 칸만 비워 둠)",
+    "area": "SNS",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-30",
+    "status": "대기",
+    "note": ""
+  },
+  {
+    "id": "D-12",
+    "kind": "확인",
+    "title": "세미나·전시 현장 촬영 담당자 지정",
+    "area": "행사",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-17",
+    "status": "대기",
+    "note": "",
+    "order": 50
+  },
+  {
+    "id": "D-13",
+    "kind": "확인",
+    "title": "소프트웨이브 부스 번호와 데모 시나리오 (p13 게시물에 필요)",
+    "area": "행사",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-20",
+    "status": "대기",
+    "note": "",
+    "order": 60
+  },
+  {
+    "id": "D-14",
+    "kind": "확인",
+    "title": "소프트프릭 인수 소식을 브랜드 콘텐츠에 넣을지 결정",
+    "area": "메시지·브랜드",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-11-30",
+    "status": "대기",
+    "note": ""
+  },
+  {
+    "id": "T-01",
+    "kind": "업무",
+    "title": "",
+    "area": "리드·KPI",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-20",
+    "status": "완료",
+    "note": "",
+    "doneAt": "2026-10-13"
+  },
+  {
+    "id": "T-02",
+    "kind": "업무",
+    "title": "",
+    "area": "행사",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-20",
+    "status": "대기",
+    "note": ""
+  },
+  {
+    "id": "T-03",
+    "kind": "업무",
+    "title": "홈페이지 긴급 유지보수",
+    "area": "홈페이지",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": null,
+    "status": "대기",
+    "note": ""
+  },
+  {
+    "id": "T-03-01",
+    "kind": "마일스톤",
+    "title": "메인 화면 로고 삭제 (비씨카드)",
+    "area": "홈페이지",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-13",
+    "status": "대기",
+    "parent": "T-03",
+    "note": ""
+  },
+  {
+    "id": "T-03-02",
+    "kind": "마일스톤",
+    "title": "메인 화면 롤링 로고 삭제 & 대체 콘텐츠 준비",
+    "area": "홈페이지",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-13",
+    "status": "대기",
+    "parent": "T-03",
+    "note": ""
+  },
+  {
+    "id": "T-03-03",
+    "kind": "마일스톤",
+    "title": "주요 고객사 페이지, 로고 대체 콘텐츠 준비",
+    "area": "홈페이지",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-13",
+    "status": "대기",
+    "parent": "T-03",
+    "note": ""
+  },
+  {
+    "id": "T-04",
+    "kind": "업무",
+    "title": "",
+    "area": "홈페이지",
+    "priority": "P1",
+    "owner": "Marketing",
+    "start": null,
+    "due": "2026-10-20",
+    "status": "대기",
+    "note": ""
+  }
+]
