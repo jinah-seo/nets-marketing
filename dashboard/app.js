@@ -813,7 +813,7 @@
   function progressEl(t, kids) {
     const steps = t.steps || [];
     if (steps.length) { const d = steps.filter(s => s.done).length; return el('span', {}, [el('span', { cls: 'progress' }, [el('i', { style: 'width:' + (d / steps.length * 100) + '%' })]), d + '/' + steps.length]); }
-    if (kids && kids.length) { const d = kids.filter(isTaskDone).length; return el('span', {}, [el('span', { cls: 'progress' }, [el('i', { style: 'width:' + (d / kids.length * 100) + '%' })]), '마일스톤 ' + d + '/' + kids.length]); }
+    if (kids && kids.length) { const d = kids.filter(isTaskDone).length; return el('span', { title: '하위 ' + kids.length + '개 중 ' + d + '개 완료' }, [el('span', { cls: 'progress' }, [el('i', { style: 'width:' + (d / kids.length * 100) + '%' })]), d + '/' + kids.length]); }
     return el('span', { text: '' });
   }
   function taskRow(t, o) {
@@ -823,6 +823,7 @@
       o.kids ? el('button', { type: 'button', cls: 'tog', 'aria-label': o.open ? '하위 접기' : '하위 펼치기', 'aria-expanded': String(o.open), text: o.open ? '▾' : '▸', onclick: e => { e.stopPropagation(); ui.expanded.has(t.id) ? ui.expanded.delete(t.id) : ui.expanded.add(t.id); refresh(); } }) : o.child ? null : el('span', { cls: 'tog-sp' }),
       cb,
       isEditing('task', t.id) ? inlineTitle('task', t, 'title', o.child ? '하위 항목 이름 입력 후 Enter' : '이름 입력 후 Enter') : nameSpan('task', t, 'title'),
+      t.kind === '확인' ? el('span', { cls: 'tag t-' + tagc('kind', '확인') + ' kind-mini', text: '확인' }) : null, // 종류 열 대신 확인·결정만 표시
       el('span', { cls: 'idt', text: t.id }),
       o.kids ? el('span', { cls: 'cnt', text: o.kidsDone + '/' + o.kids }) : null,
       rowActs(t, o)
@@ -833,8 +834,7 @@
     const tr = el('tr', { cls: 'r' + (o.child ? ' r-child' : '') + (o.kids ? ' r-parent' : '') + (o.blk ? ' blk' : '') + (done ? ' done' : '') + (sel ? ' sel' : ''), style: o.blk ? '--blk:var(--' + o.blk + ')' : null, tabindex: 0, 'data-id': t.id, onclick: () => openPeek('task', t.id), onkeydown: e => { if (e.key === 'Enter' && e.target === e.currentTarget) openPeek('task', t.id); } }, [
       el('td', { cls: 'c-name' + (o.child ? ' child' : '') + (o.last ? ' last' : '') + (o.treeOpen ? ' tree-open' : '') }, [name]),
       el('td', {}, [tagSelect(cfg('taskStatuses'), t.status, 'taskStatus', v => setTaskStatus(t, v), { id: 'tt-s-' + t.id, label: '상태' })]),
-      el('td', {}, [tagSelect(cfg('priorities'), t.priority, 'priority', v => { t.priority = v; commit('tasks', true); }, { id: 'tt-p-' + t.id, label: '우선' })]),
-      el('td', {}, [tagEl(t.kind, 'kind')]),
+      // 우선·종류 열은 2026-10-13 표에서 뺐다 (상세 패널에서 고친다)
       el('td', {}, [tagSelect(cfg('owners'), t.owner, 'owner', v => { t.owner = v; commit('tasks', true); }, { id: 'tt-o-' + t.id, label: '담당' })]),
       el('td', { cls: 'c-range' }, [el('div', { cls: 'range' }, [
         // 시작이 종료보다 늦어지면 다른 쪽도 같은 날로 맞춘다
@@ -1069,7 +1069,7 @@
     }).filter(Boolean);
     const areas = cfg('areas').concat([...new Set(rows.map(r => r.t.area))].filter(a => !cfg('areas').includes(a)));
     const table = el('table', { cls: 'db tasks' });
-    table.appendChild(el('thead', {}, [el('tr', {}, ['이름', '상태', '우선', '종류', '담당', '기간 (시작 ~ 종료)', '진행'].map(h => el('th', { text: h })))]));
+    table.appendChild(el('thead', {}, [el('tr', {}, ['이름', '상태', '담당', '기간 (시작 ~ 종료)', '진행'].map(h => el('th', { text: h })))]));
     const tb = el('tbody');
     let any = false;
     // 필터와 상관없이 모든 영역을 보여 준다: 빈 영역에도 업무를 끌어다 놓을 수 있게
@@ -1093,7 +1093,7 @@
       }
       const parents = list.filter(r => r.all.length).map(r => r.t.id), allOpen = parents.length > 0 && parents.every(id => ui.expanded.has(id));
       const ga = (text, title, run, cls) => el('button', { type: 'button', cls: 'ra' + (cls ? ' ' + cls : ''), text, title, 'aria-label': area + ' ' + title, disabled: !online && !title.includes('하위 모두'), onclick: e => { e.stopPropagation(); run(e.currentTarget); } });
-      const gh = el('tr', { cls: 'r-group' }, [el('td', { colspan: 7 }, [el('div', { cls: 'group-head', role: 'button', tabindex: 0, 'aria-expanded': String(!closed), onclick: toggle, onkeydown: e => { if (e.key === 'Enter' && e.target === e.currentTarget) toggle(); } },
+      const gh = el('tr', { cls: 'r-group' }, [el('td', { colspan: 5 }, [el('div', { cls: 'group-head', role: 'button', tabindex: 0, 'aria-expanded': String(!closed), onclick: toggle, onkeydown: e => { if (e.key === 'Enter' && e.target === e.currentTarget) toggle(); } },
         [el('span', { cls: 'tog', text: closed ? '▸' : '▾' }), label, el('span', { cls: 'cnt', text: String(list.length) }),
           sortControl(area),
           el('span', { cls: 'row-acts g-row-acts' }, [
@@ -1108,7 +1108,7 @@
       let nb = 0;
       list.forEach(({ t, all, kids }, li) => {
         // 큰 항목(상위 업무) 사이 여백
-        if (li) tb.appendChild(el('tr', { cls: 'r-spacer', 'aria-hidden': 'true' }, [el('td', { colspan: 7 })]));
+        if (li) tb.appendChild(el('tr', { cls: 'r-spacer', 'aria-hidden': 'true' }, [el('td', { colspan: 5 })]));
         const open = ui.expanded.has(t.id) || ui.kind === '마일스톤' || !!ui.q;
         const blk = all.length ? BLOCK_COLORS[nb++ % BLOCK_COLORS.length] : null;
         // 정렬 중에는 끌기·↑↓를 끈다 (보이는 순서와 저장된 순서가 달라서)
@@ -1121,17 +1121,17 @@
         shown.forEach((c, i) => tb.appendChild(taskRow(c, { child: true, last: i === shown.length - 1, blk, drag: whole && !kcmp, first: !!kcmp || all[0] === c, lastAll: !!kcmp || all[all.length - 1] === c })));
         // 덩어리 끝: 이 상위 업무에 하위 추가 (다음 상위 업무와 띄우는 역할도)
         const addKid = () => createTask({ kind: '마일스톤', parent: t.id });
-        tb.appendChild(el('tr', { cls: 'r-add r-blk-end', style: '--blk:var(--' + blk + ')' }, [el('td', { colspan: 7, role: 'button', tabindex: 0, onclick: addKid, onkeydown: e => { if (e.key === 'Enter') addKid(); } }, [
+        tb.appendChild(el('tr', { cls: 'r-add r-blk-end', style: '--blk:var(--' + blk + ')' }, [el('td', { colspan: 5, role: 'button', tabindex: 0, onclick: addKid, onkeydown: e => { if (e.key === 'Enter') addKid(); } }, [
           el('span', { text: '＋ 하위 추가' }), el('span', { cls: 'blk-of', text: ' · ' + (t.title || t.id) })])]));
       });
-      const add = el('tr', { cls: 'r-add' }, [el('td', { colspan: 7, role: 'button', tabindex: 0, onclick: () => createTask({ kind: '업무', area }), onkeydown: e => { if (e.key === 'Enter') createTask({ kind: '업무', area }); }, text: list.length ? '＋ 새로 만들기' : '＋ 새로 만들기 · 업무를 여기로 끌어 놓을 수도 있습니다' })]);
+      const add = el('tr', { cls: 'r-add' }, [el('td', { colspan: 5, role: 'button', tabindex: 0, onclick: () => createTask({ kind: '업무', area }), onkeydown: e => { if (e.key === 'Enter') createTask({ kind: '업무', area }); }, text: list.length ? '＋ 새로 만들기' : '＋ 새로 만들기 · 업무를 여기로 끌어 놓을 수도 있습니다' })]);
       groupDropTarget(add, area);
       tb.appendChild(add);
     });
-    if (!any) tb.appendChild(el('tr', {}, [el('td', { colspan: 7, cls: 'empty', text: '조건에 맞는 업무가 없습니다.' })]));
-    if (!filtering) tb.appendChild(el('tr', { cls: 'r-add g-add' }, [el('td', { colspan: 7, role: 'button', tabindex: 0, onclick: addArea, onkeydown: e => { if (e.key === 'Enter') addArea(); }, text: '＋ 새 영역 (대분류)' })]));
+    if (!any) tb.appendChild(el('tr', {}, [el('td', { colspan: 5, cls: 'empty', text: '조건에 맞는 업무가 없습니다.' })]));
+    if (!filtering) tb.appendChild(el('tr', { cls: 'r-add g-add' }, [el('td', { colspan: 5, role: 'button', tabindex: 0, onclick: addArea, onkeydown: e => { if (e.key === 'Enter') addArea(); }, text: '＋ 새 영역 (대분류)' })]));
     table.appendChild(tb); wrap.appendChild(table);
-    resizable(table, 'tasks', [{ id: 'name', flex: true, min: 200 }, { id: 'status', w: 84 }, { id: 'pri', w: 64 }, { id: 'kind', w: 92 }, { id: 'owner', w: 130 }, { id: 'range', w: 232 }, { id: 'prog', w: 250 }]);
+    resizable(table, 'tasks', [{ id: 'name', flex: true, min: 200 }, { id: 'status', w: 84 }, { id: 'owner', w: 130 }, { id: 'range', w: 232 }, { id: 'prog', w: 230 }]);
     return wrap;
   }
   function taskBoard() {

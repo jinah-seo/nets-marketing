@@ -390,6 +390,7 @@ tr.r-child .idt{opacity:.8}
 .col-rz:hover,.col-rz.on{border-right-color:var(--accent)}
 body.col-resizing{cursor:col-resize;user-select:none}
 body.col-resizing *{cursor:col-resize!important}
+.kind-mini{flex:none;height:17px;line-height:17px;font-size:11px;padding:0 5px}
 /* 대항목 하위 정렬 (진행 칸) */
 .prog-wrap{display:flex;align-items:center;gap:8px}
 .b-sort{display:inline-flex;align-items:center;gap:3px;opacity:0;transition:opacity .12s}
