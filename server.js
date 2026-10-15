@@ -12,7 +12,7 @@ const PORT = Number(process.env.PORT) || 5173;
 const ROOT = __dirname;
 const DATA = path.join(ROOT, 'data');
 const BACKUP = path.join(DATA, '.backup');
-const DATASETS = new Set(['config', 'posts', 'tasks', 'metrics', 'budget']);
+const DATASETS = new Set(['config', 'posts', 'tasks', 'metrics', 'budget', 'meetings']);
 const KEEP_BACKUPS = 30;
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',

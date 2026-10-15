@@ -48,6 +48,7 @@ data/
   tasks.json         Q4 업무 18개 + 행사 마일스톤 + 확인·결정 사항
   metrics.json       주간 기록 (팔로워, 행사 경유 수)
   budget.json        연도별 예산(2026 행사·2027 예산안): 항목별 계획·실집행·업체·지급일, 승인액, 예비비 비율
+  meetings.json      회의 일정·회의록(안건·주요 내용·결정 사항·할 일)과 정기 회의 규칙
 docs/                전략·가이드·계획 문서
 drafts/              게시물 초안 (p01.md …)
 reports/             주간·월간 보고
@@ -65,6 +66,7 @@ sources/             회사소개서·제품소개서 등 원천 자료 (직접 
   - 확인·결정: `D-15`부터
   - 게시물: `p24`부터
   - 예산 항목: `B-11`부터
+  - 회의: `M-018`부터 (세 자리), 정기 회의: `S-3`부터
 - 값은 `config.json`에 정의된 것만 쓴다: 게시 상태(`postStatuses`), 업무 상태(`taskStatuses`), 영역(`areas`), 담당(`owners`), 필러(`pillars`).
 - 사용자가 대시보드에서 바꾼 상태·메모·성과 수치를 덮어쓰지 않는다. 파일 전체를 다시 생성하지 말고 필요한 항목만 수정한다.
 - 대시보드가 켜져 있어도 파일을 고쳐도 된다. 화면은 새로고침(또는 창 전환) 시 다시 읽는다. 대시보드는 저장할 때 파일 버전을 확인하므로, 밖에서 고친 파일을 덮어쓰지 않고 다시 불러온 뒤 다시 입력하라고 안내한다.
@@ -94,6 +96,14 @@ sources/             회사소개서·제품소개서 등 원천 자료 (직접 
 ### budget.json 형태
 
 연도별: `{ updated, currency, years: [{ year, label, task, approved, approvedAt, reserveRate, groups[{id,label}], items[] }] }`. 현재 2026(Q4 행사 예산, `task: "BG-1"`)과 2027(마케팅 예산안, `task: "BG-2"`). 항목은 `{ id, group, title, plan, actual, vendor, paidAt, note }` (+ 필요 시 `tasks: ["EV-2"]` 연결 업무). 항목 ID는 연도와 상관없이 전체에서 하나씩 (`B-11`부터). 금액은 원 단위 정수, 모르면 `null` (지어내지 않는다). `group`은 그 연도 `groups`의 id. 예비비 = 계획 합계 × `reserveRate`, 항목별 초과 집행(계획 없는 항목은 실집행 전액)이 예비비에서 빠진다.
+
+### meetings.json 형태
+
+`{ updated, series: [...], meetings: [...] }`
+- 정기 회의 `series`: `{ id, type, title, weekday(0=일~6=토), time, everyWeeks(1 매주·2 격주), from, until, note }`. 지금: 주간회의 매주 화 09:00(S-1), 영업 회의 격주 목 09:00(S-2, 10/15 기준). 규칙을 바꾸면 대시보드가 오늘 이후의 **빈 회의**(예정이고 안건·회의록·할 일 없음)만 고치거나 지우고 새로 만든다.
+- 회의 `meetings`: `{ id, series?, type, title, date, time, place, attendees, status, agenda, notes, decisions, actions[] }`. `type`은 config `meetingTypes`, `status`는 `meetingStatuses`(예정·완료·취소). 날짜마다 한 건씩 실제로 들어 있다.
+- 할 일 `actions`: `{ text, owner, due, done }`. 업무로 등록하면 `task: "T-xx"`가 붙고 `done`은 지우며, 완료 여부는 그 업무 상태를 따른다. 등록한 업무에는 `meeting: "M-001"`이 붙는다.
+- 회의록에서 나온 결정 중 운영 기준을 바꾸는 것은 `docs/decisions.md`에도 한 줄 남긴다 (대시보드는 md를 쓰지 않으므로 Claude Code가 옮긴다).
 
 ## 우선순위 원칙
 

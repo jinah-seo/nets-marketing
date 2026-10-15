@@ -1,18 +1,19 @@
 /* NETS 마케팅 대시보드 v0.7 — 노션형 레이아웃 (업무+캘린더 통합)
- * 데이터: data/config.json · posts.json · tasks.json · metrics.json · budget.json (server.js 가 읽고 씀)
+ * 데이터: data/config.json · posts.json · tasks.json · metrics.json · budget.json · meetings.json (server.js 가 읽고 씀)
  * - 화면에서 바꾼 내용은 해당 JSON 파일 전체를 다시 저장한다.
  * - 저장할 때 파일 버전을 보내, 대시보드 밖(Claude Code 등)에서 고친 파일은 덮어쓰지 않는다.
  * - 페이지는 JS로 그린다. 항목을 누르면 오른쪽 상세 패널(peek)에서 모든 필드를 고치고 지울 수 있다.
  */
 (function () {
   'use strict';
-  const S = { config: null, posts: [], tasks: [], metrics: [], budget: null };
+  const S = { config: null, posts: [], tasks: [], metrics: [], budget: null, meetings: { series: [], meetings: [] } };
   const ui = {
     page: 'week', taskView: 'table', area: '전체', kind: '전체', status: '전체', owner: '전체', q: '',
     expanded: new Set(), collapsed: new Set(), keep: new Set(), pillar: '전체', pstatus: '전체',
     calMonth: null, calProd: true, calPosts: true, calShowTasks: true, calHidden: false, calOpenDays: new Set(), peek: null, fresh: null,
     editing: null, freshPost: null, // editing: 표 칸에서 바로 이름을 입력 중인 항목 { type: 'task'|'post', id }
-    rp: { period: 'thisWeek', group: 'area', area: '전체', from: null, to: null }, rpOpen: new Set(), byear: null, pchannel: '전체 채널'
+    rp: { period: 'thisWeek', group: 'area', area: '전체', from: null, to: null }, rpOpen: new Set(), byear: null, pchannel: '전체 채널',
+    mtype: '전체', mperiod: '다가오는 회의', mq: ''
   };
   let dragTask = null; // 업무 표에서 끌고 있는 업무 ID
   let online = false;
@@ -246,6 +247,8 @@
       names.forEach((n, i) => { S[n] = res[i]; });
       // budget.json은 4단계에서 추가된 선택 파일: 없으면 빈 예산으로 시작
       try { S.budget = normBudget(await fetchData('budget')); } catch (e) { S.budget = normBudget(null); delete versions.budget; }
+      // meetings.json도 선택 파일 (v0.13): 없으면 빈 회의 목록으로 시작
+      try { S.meetings = normMeetings(await fetchData('meetings')); } catch (e) { S.meetings = normMeetings(null); delete versions.meetings; }
       online = true;
       $('banner').hidden = !notice;
       if (notice) $('banner').textContent = notice;
@@ -312,6 +315,7 @@
   const PAGES = [
     { id: 'week', icon: '🏠', label: '이번 주', render: renderHome, badge: () => agenda().filter(i => i.date < TODAY && !i.done).length || null },
     { id: 'tasks', icon: '📋', label: '업무', render: renderTasksPage },
+    { id: 'meetings', icon: '🗓', label: '회의', render: renderMeetingsPage, badge: () => MT().filter(m => needsMinutes(m) && m.date < TODAY).length || null, badgeTitle: '회의록 미작성' },
     { id: 'report', icon: '📊', label: '보고서', render: renderReportPage },
     { id: 'metrics', icon: '📈', label: '지표', render: renderMetricsPage },
     { id: 'budget', icon: '💰', label: '예산', render: renderBudgetPage },
@@ -336,7 +340,7 @@
       const b = S.config && pg.badge ? pg.badge() : null;
       const cur = ui.page === pg.id && !(pg.id === 'tasks' && ui.area !== '전체');
       n.appendChild(el('button', { type: 'button', cls: 'nav-item', 'aria-current': cur ? 'page' : null, onclick: () => go(pg.id) },
-        [el('span', { cls: 'nav-ic', 'aria-hidden': 'true', text: pg.icon }), pg.label, b ? el('span', { cls: 'nav-n', title: '늦어진 일', text: String(b) }) : null]));
+        [el('span', { cls: 'nav-ic', 'aria-hidden': 'true', text: pg.icon }), pg.label, b ? el('span', { cls: 'nav-n', title: pg.badgeTitle || '늦어진 일', text: String(b) }) : null]));
       // 업무 아래에 영역(대분류) 탭: 남은 일 수, 늦은 일은 붉은 배지
       if (pg.id === 'tasks' && S.config) {
         const sub = el('div', { cls: 'nav-sub', role: 'group', 'aria-label': '업무 영역' });
@@ -358,6 +362,8 @@
         [el('b', {}, [e.label, el('span', { text: t })]), el('small', { text: md(e.start) + (e.end !== e.start ? ' ~ ' + md(e.end) : '') })]));
     });
     const next = S.posts.filter(p => p.date >= TODAY && !isPostDone(p) && !isPostDrop(p)).sort((a, b) => a.date.localeCompare(b.date))[0];
+    const nm = MT().filter(m => !isMeetOff(m) && m.date >= TODAY && !(m.date === TODAY && m.status === '완료')).sort(meetSort)[0];
+    se.appendChild(el('button', { type: 'button', cls: 'side-ev', onclick: () => nm ? openPeek('meeting', nm.id) : go('meetings') }, [el('b', {}, ['다음 회의', el('span', { text: nm ? md(nm.date) : '—' })]), el('small', { text: nm ? (nm.time ? nm.time + ' ' : '') + meetName(nm) : '예정 없음' })]));
     se.appendChild(el('button', { type: 'button', cls: 'side-ev', onclick: () => next && openPeek('post', next.id) }, [el('b', {}, ['다음 게시', el('span', { text: next ? md(next.date) : '—' })]), el('small', { text: next ? next.topic.slice(0, 22) + (next.topic.length > 22 ? '…' : '') : '예정 없음' })]));
   }
   function renderPage() {
@@ -438,7 +444,7 @@
     return el('div', { cls: 'kpi' + (tone ? ' ' + tone : '') }, [el('div', { cls: 'label', text: label }), el('div', { cls: 'v', text: value }), el('div', { cls: 's', text: sub })]);
   }
   function renderHome(root, after) {
-    root.appendChild(pageHead('🏠', '이번 주', md(TODAY) + ' 기준 · 업무 마감, SNS 게시·제작 마감, 행사 일정을 한곳에서 봅니다. 항목을 누르면 오른쪽에서 바로 고칠 수 있습니다.'));
+    root.appendChild(pageHead('🏠', '이번 주', md(TODAY) + ' 기준 · 업무 마감, SNS 게시·제작 마감, 회의, 행사 일정을 한곳에서 봅니다. 항목을 누르면 오른쪽에서 바로 고칠 수 있습니다.'));
     const k = el('div', { cls: 'kpis' });
     const top = S.tasks.filter(t => !t.parent && t.kind === '업무' && !isTaskOff(t));
     k.appendChild(kpi('Q4 업무 완료', top.filter(isTaskDone).length + ' / ' + top.length, 'P0 남은 ' + top.filter(t => t.priority === 'P0' && !isTaskDone(t)).length + '건'));
@@ -465,7 +471,10 @@
     after.push(() => drawTimeline(box, lg));
 
     const end = addDays(TODAY, 13);
-    const soon = all.filter(i => i.date >= TODAY && i.date <= end);
+    // 회의·회의 할 일·회의록 정리는 목록에만 넣는다 (KPI '이번 주 할 일'·늦어진 일 배지는 업무·SNS 기준 그대로)
+    const mtg = meetingAgenda(), byDate = (a, b) => a.date.localeCompare(b.date);
+    const soon = all.concat(mtg).filter(i => i.date >= TODAY && i.date <= end).sort(byDate);
+    late.push(...mtg.filter(i => i.date < TODAY && !i.done)); late.sort(byDate);
     const s = el('div', { cls: 'list' }), l = el('div', { cls: 'list' });
     if (!soon.length) s.appendChild(el('div', { cls: 'empty', text: '2주 안에 마감되는 항목이 없습니다.' }));
     soon.forEach(i => s.appendChild(itemRow(i, false)));
@@ -761,8 +770,10 @@
     const gone = new Set([t.id, ...kids.map(k => k.id)]);
     S.tasks = S.tasks.filter(x => !gone.has(x.id));
     S.tasks.forEach(x => { if (x.deps) x.deps = x.deps.filter(d => !gone.has(d)); });
+    // 회의 할 일에서 이 업무로 등록한 연결을 푼다 (할 일은 남아 다시 등록할 수 있다)
+    let mt = false; MT().forEach(m => m.actions.forEach(a => { if (a.task && gone.has(a.task)) { delete a.task; mt = true; } }));
     closePeek(true);
-    commit('tasks');
+    commit(mt ? ['tasks', 'meetings'] : 'tasks');
   }
   function newTaskMenu(anchor) {
     const roots = S.tasks.filter(t => !t.parent && t.kind === '업무' && (t.event || childrenOf(t.id).length));
@@ -1173,7 +1184,7 @@
     const box = $('peek');
     if (!ui.peek || !S.config) { box.hidden = true; return; }
     const { type, id } = ui.peek;
-    const item = type === 'task' ? taskById(id) : type === 'post' ? postById(id) : budgetItemById(id);
+    const item = type === 'task' ? taskById(id) : type === 'post' ? postById(id) : type === 'meeting' ? meetingById(id) : budgetItemById(id);
     if (!item) { closePeek(true); return; }
     const top = el('div', { cls: 'peek-top' }, [el('div', { cls: 'peek-crumb', id: 'pk-crumb' }), el('span', { cls: 'spacer' }),
       el('button', { type: 'button', cls: 'btn ghost icon', 'aria-label': '닫기 (Esc)', title: '닫기 (Esc)', text: '✕', onclick: () => closePeek() })]);
@@ -1181,6 +1192,7 @@
     box.textContent = ''; box.appendChild(top); box.appendChild(body); box.hidden = false;
     if (type === 'task') peekTask(item, body, top.firstChild);
     else if (type === 'post') peekPost(item, body, top.firstChild);
+    else if (type === 'meeting') peekMeeting(item, body, top.firstChild);
     else peekBudget(item, body, top.firstChild);
     if (opts && opts.focusTitle) { const t = $('pk-title'); if (t) t.focus(); box.scrollTop = 0; }
   }
@@ -1234,8 +1246,9 @@
       prop('산출물', textIn(t.deliverable, v => set('deliverable', v), { id: 'pk-deliv', ph: '비어 있음', label: '산출물' })),
       prop('완료 기준', textIn(t.doneWhen, v => set('doneWhen', v), { id: 'pk-donewhen', ph: '비어 있음', label: '완료 기준' })),
       prop('선행 업무', relation(t.deps || [], S.tasks.filter(x => x.id !== t.id && !x.parent).map(x => ({ value: x.id, label: x.id + ' ' + x.title })), v => { if (v.length) t.deps = v; else delete t.deps; commit('tasks', true); }, { id: 'pk-deps', label: '선행 업무', open: id => openPeek('task', id) })),
+      t.meeting ? prop('회의', el('span', { cls: 'rel-chip' }, [el('button', { type: 'button', cls: 'go', text: t.meeting + (meetingById(t.meeting) ? ' ' + md(meetingById(t.meeting).date) + ' ' + meetName(meetingById(t.meeting)) : ' (지워진 회의)'), onclick: () => meetingById(t.meeting) && openPeek('meeting', t.meeting) })])) : null,
       prop('연결 게시물', relation(t.posts || [], [...S.posts].sort((a, b) => a.date.localeCompare(b.date)).map(p => ({ value: p.id, label: p.id + ' ' + mdShort(p.date) + ' ' + (p.topic || '') })), v => { if (v.length) t.posts = v; else delete t.posts; commit('tasks', true); }, { id: 'pk-posts', label: '연결 게시물', open: id => openPeek('post', id) }))
-    ].forEach(pair => pair.forEach(x => props.appendChild(x)));
+    ].filter(Boolean).forEach(pair => pair.forEach(x => props.appendChild(x)));
     body.appendChild(props);
 
     if (!t.parent) {
@@ -1726,6 +1739,298 @@
     S.metrics.sort((a, b) => a.date.localeCompare(b.date));
     commit('metrics', false, 'mt-li-' + d);
   }
+  /* ---------- 회의 (data/meetings.json) ---------- */
+  // 형식: { updated, series: [{ id, type, title, weekday, time, everyWeeks, from, until, note }],
+  //        meetings: [{ id, series?, type, title, date, time, place, attendees, status, agenda, notes, decisions, actions[{ text, owner, due, done, task? }] }] }
+  // 정기 회의(series)는 규칙만 두고, 실제 회의는 날짜마다 한 건씩 meetings에 둔다 (회의록을 회의마다 쓰므로)
+  // 할 일(actions)은 회의 안에 두고, 고른 것만 「업무로」 등록한다 → tasks.json에 meeting: 회의 ID로 연결
+  function normMeetings(m) {
+    m = (m && typeof m === 'object' && !Array.isArray(m)) ? m : {};
+    if (!Array.isArray(m.series)) m.series = [];
+    if (!Array.isArray(m.meetings)) m.meetings = [];
+    m.meetings.forEach(x => { if (!Array.isArray(x.actions)) x.actions = []; });
+    return m;
+  }
+  const MT = () => S.meetings.meetings;
+  const meetingById = id => MT().find(m => m.id === id);
+  const seriesById = id => S.meetings.series.find(s => s.id === id);
+  const isMeetOff = m => m.status === '취소';
+  const hasMinutes = m => !!String(m.notes || '').trim() || !!String(m.decisions || '').trim();
+  // 회의록을 써야 하는 회의: 오늘까지 열렸고(취소 아님) 주요 내용·결정 사항이 비어 있음
+  const needsMinutes = m => !isMeetOff(m) && m.date <= TODAY && !hasMinutes(m);
+  const actTask = a => a.task ? taskById(a.task) : null; // 업무를 지웠으면 null → 다시 등록할 수 있다
+  const actDone = a => { const t = actTask(a); return t ? isTaskDone(t) : !!a.done; };
+  const meetSort = (a, b) => a.date.localeCompare(b.date) || (a.time || '').localeCompare(b.time || '');
+  const meetName = m => m.title || m.type || '제목 없음';
+  const meetWhen = m => md(m.date) + (m.time ? ' ' + m.time : '');
+  const saveMeetings = (peekToo, focusId) => { S.meetings.updated = TODAY; commit('meetings', peekToo, focusId); };
+  const WEEKDAYS = [1, 2, 3, 4, 5, 6, 0].map(d => ({ value: String(d), label: DAYS[d] + '요일' }));
+  const EVERY = [{ value: '1', label: '매주' }, { value: '2', label: '격주' }, { value: '4', label: '4주마다' }];
+  TAGS.meetingStatus = { '예정': 'gray', '완료': 'green', '취소': 'brown' };
+  TAGS.meetingType = { '주간회의': 'blue', '영업회의': 'green', '마케팅 회의': 'purple', '기타': 'gray' };
+  TAGS['x-meet'] = { '회의': 'purple', '회의 할 일': 'pink', '회의록': 'red' };
+  function newMeetingId() {
+    const n = MT().map(m => Number(String(m.id).replace(/^M-/, '')) || 0).reduce((a, b) => Math.max(a, b), 0) + 1;
+    return 'M-' + String(n).padStart(3, '0');
+  }
+  // 시간 입력: 9:30 · 0930 · 930 · 9 · 14시 30분 · 오후 2시
+  function parseTime(s) {
+    s = String(s || '').trim(); if (!s) return '';
+    const pm = /오후/.test(s); s = s.replace(/오전|오후|\s|분/g, '');
+    let h, mi = 0, m;
+    if ((m = s.match(/^(\d{1,2})[:.시](\d{1,2})?$/))) { h = +m[1]; mi = +(m[2] || 0); }
+    else if ((m = s.match(/^(\d{1,2})(\d{2})$/))) { h = +m[1]; mi = +m[2]; }
+    else if ((m = s.match(/^(\d{1,2})$/))) h = +m[1];
+    else return null;
+    if (pm && h < 12) h += 12;
+    return h < 24 && mi < 60 ? pad2(h) + ':' + pad2(mi) : null;
+  }
+  function timeIn(value, onSet, o) {
+    return textIn(value, raw => {
+      const v = parseTime(raw);
+      if (v === null) { setSave('시간을 읽지 못했습니다: 예) 9:30, 1400, 오후 2시'); return refresh(true); }
+      if (v !== (value || '')) onSet(v); else refresh(true);
+    }, Object.assign({ ph: '09:00' }, o));
+  }
+
+  // 정기 회의 날짜: 시작일 이후 첫 그 요일부터 N주마다, 끝 날짜까지
+  function seriesDates(s) {
+    const out = []; if (!s.from || !s.until) return out;
+    const d = P(s.from); while (d.getDay() !== Number(s.weekday)) d.setDate(d.getDate() + 1);
+    const step = 7 * (num(s.everyWeeks) || 1);
+    for (let i = 0; ymd(d) <= s.until && i < 400; i++, d.setDate(d.getDate() + step)) out.push(ymd(d));
+    return out;
+  }
+  const seriesMeeting = (s, date) => ({ id: newMeetingId(), series: s.id, type: s.type, title: s.title, date, time: s.time || '', place: '', attendees: '', status: '예정', agenda: '', notes: '', decisions: '', actions: [] });
+  // 비어 있는 회의 = 예정이고 안건·회의록·할 일이 없는 회의. 정기 규칙을 바꾸면 오늘 이후의 빈 회의만 고치거나 지운다
+  const blankMeeting = m => m.status === '예정' && !hasMinutes(m) && !String(m.agenda || '').trim() && !m.actions.length;
+  // 지난 회의, 내용이 있는 회의, 취소한 회의는 건드리지 않는다
+  function applySeries(s) {
+    const dates = new Set(seriesDates(s).filter(d => d >= TODAY)), have = new Set();
+    S.meetings.meetings = MT().filter(m => {
+      if (m.series !== s.id) return true;
+      if (m.date < TODAY || !blankMeeting(m)) { have.add(m.date); return true; }
+      if (!dates.has(m.date)) return false;
+      m.type = s.type; m.title = s.title; m.time = s.time || '';
+      have.add(m.date); return true;
+    });
+    dates.forEach(d => { if (!have.has(d)) MT().push(seriesMeeting(s, d)); });
+    MT().sort(meetSort);
+  }
+  function addSeries() {
+    if (!online) return;
+    const n = S.meetings.series.map(s => Number(String(s.id).replace(/^S-/, '')) || 0).reduce((a, b) => Math.max(a, b), 0) + 1;
+    const s = { id: 'S-' + n, type: cfg('meetingTypes').includes('마케팅 회의') ? '마케팅 회의' : cfg('meetingTypes')[0], title: '새 정기 회의', weekday: P(TODAY).getDay(), time: '09:00', everyWeeks: 1, from: TODAY, until: (S.config.range && S.config.range.end) || addDays(TODAY, 77), note: '' };
+    S.meetings.series.push(s); applySeries(s);
+    saveMeetings(false, 'ms-title-' + s.id);
+  }
+  function deleteSeries(s) {
+    const mine = MT().filter(m => m.series === s.id), drop = mine.filter(m => m.date >= TODAY && blankMeeting(m));
+    if (!confirm(`정기 회의 「${s.title}」를 지울까요?\n앞으로 열릴 빈 회의 ${drop.length}건을 지웁니다.` + (mine.length - drop.length ? `\n지난 회의·내용이 있는 회의 ${mine.length - drop.length}건은 남기고 정기 연결만 풉니다.` : ''))) return;
+    S.meetings.meetings = MT().filter(m => !drop.includes(m));
+    MT().forEach(m => { if (m.series === s.id) delete m.series; });
+    S.meetings.series.splice(S.meetings.series.indexOf(s), 1);
+    if (ui.peek && ui.peek.type === 'meeting' && !meetingById(ui.peek.id)) closePeek(true);
+    saveMeetings();
+  }
+  function createMeeting(type) {
+    if (!online) return;
+    type = type || cfg('meetingTypes')[0] || '기타';
+    const m = { id: newMeetingId(), type, title: type, date: TODAY, time: '', place: '', attendees: '', status: '예정', agenda: '', notes: '', decisions: '', actions: [] };
+    MT().push(m); MT().sort(meetSort);
+    S.meetings.updated = TODAY; save('meetings');
+    openPeek('meeting', m.id, { focusTitle: true });
+  }
+  function deleteMeeting(m) {
+    const linked = m.actions.map(actTask).filter(Boolean);
+    if (!confirm(`${m.id} · ${meetWhen(m)} ${meetName(m)}\n이 회의를 지울까요?` + (linked.length ? `\n업무로 등록한 ${linked.map(t => t.id).join(', ')}는 남고 회의 연결만 풀립니다.` : '') + (m.series ? '\n\n열리지 않은 정기 회의는 지우는 대신 상태를 「취소」로 두면 기록이 남습니다.' : ''))) return;
+    MT().splice(MT().indexOf(m), 1);
+    linked.forEach(t => { delete t.meeting; });
+    closePeek(true);
+    S.meetings.updated = TODAY;
+    commit(linked.length ? ['meetings', 'tasks'] : 'meetings');
+  }
+  // 회의 할 일 → 업무 (고른 영역 맨 아래). 기존 업무의 order는 바꾸지 않는다
+  function actionToTask(m, a, area) {
+    if (!online) return;
+    const t = { id: newTaskId('업무'), kind: '업무', title: a.text || '회의 후속 업무', area, priority: 'P1', owner: a.owner || 'Marketing', start: null, due: a.due || addDays(TODAY, 7), status: cfg('taskStatuses')[0] || '대기' };
+    const orders = S.tasks.filter(x => isRoot(x) && x.area === area).map(x => num(x.order)).filter(v => v != null);
+    if (orders.length) t.order = Math.max(...orders) + 10;
+    t.meeting = m.id;
+    t.note = md(m.date) + ' ' + meetName(m) + '(' + m.id + ')에서 나온 할 일';
+    S.tasks.push(t);
+    a.task = t.id; delete a.done;
+    S.meetings.updated = TODAY;
+    commit(['tasks', 'meetings'], true);
+  }
+  function actionAreaMenu(anchor, m, a) {
+    openMenu(anchor, [{ head: '어느 영역의 업무로 등록할까요?' }, ...cfg('areas').map(ar => ({ label: ar, run: () => actionToTask(m, a, ar) }))]);
+  }
+  // 이번 주 페이지에 넣을 항목: 회의 · 업무로 등록하지 않은 할 일(마감 있는 것) · 회의록 미작성(지난 회의)
+  function meetingAgenda() {
+    const items = [];
+    MT().forEach(m => {
+      if (isMeetOff(m)) return;
+      const ref = { type: 'meeting', id: m.id };
+      items.push({ date: m.date, title: (m.time ? m.time + ' ' : '') + meetName(m), sub: '회의 · ' + m.type + (m.place ? ' · ' + m.place : ''), kind: '회의', ck: 'x-meet', done: m.date < TODAY, ref });
+      if (needsMinutes(m) && m.date < TODAY) items.push({ date: m.date, title: '회의록 정리: ' + meetName(m), sub: '주요 내용·결정 사항이 비어 있음', kind: '회의록', ck: 'x-meet', done: false, ref });
+      m.actions.forEach(a => {
+        if (actTask(a) || !a.due) return;
+        items.push({ date: a.due, title: a.text || '할 일', sub: '회의 할 일 · ' + mdShort(m.date) + ' ' + meetName(m) + (a.owner ? ' · ' + a.owner : ''), kind: '회의 할 일', ck: 'x-meet', done: !!a.done, ref });
+      });
+    });
+    return items;
+  }
+  function actionRows(m, idp) {
+    return m.actions.map((a, i) => {
+      const t = actTask(a), done = actDone(a), late = !done && (t ? t.due : a.due) && (t ? t.due : a.due) < TODAY;
+      return el('div', { cls: 'act' + (done ? ' done' : '') + (late ? ' late' : '') }, [
+        checkIn(done, v => { if (t) setTaskStatus(t, v ? '완료' : (cfg('taskStatuses')[0] || '대기')); else { a.done = v; saveMeetings(true); } }, { id: idp + '-d-' + i, label: '할 일 ' + (i + 1) + ' 완료' }),
+        textIn(a.text, v => { a.text = v; saveMeetings(true); }, { id: idp + '-t-' + i, ph: '할 일', label: '할 일 ' + (i + 1) }),
+        t ? el('span', { cls: 'rel-chip act-task', title: t.id + ' ' + (t.title || '') + ' · ' + t.status + ' · 마감 ' + md(t.due) }, [el('button', { type: 'button', cls: 'go', text: t.id + ' · ' + t.status + ' · ' + mdShort(t.due), onclick: () => openPeek('task', t.id) })])
+          : el('span', { cls: 'act-meta' }, [
+            plainSelect([{ value: '', label: '담당' }, ...cfg('owners')], a.owner || '', v => { if (v) a.owner = v; else delete a.owner; saveMeetings(true); }, { id: idp + '-o-' + i, label: '할 일 ' + (i + 1) + ' 담당' }),
+            dateIn(a.due, v => { if (v) a.due = v; else delete a.due; saveMeetings(true); }, { typed: true, short: true, id: idp + '-due-' + i, label: '할 일 ' + (i + 1) + ' 마감', ph: '마감' }),
+            el('button', { type: 'button', cls: 'btn sm', text: '업무로 ▾', title: '업무 탭에 등록 (영역 선택). 담당·마감이 함께 넘어갑니다', disabled: !online || !String(a.text || '').trim(), onclick: e => { e.stopPropagation(); actionAreaMenu(e.currentTarget, m, a); } })]),
+        el('button', { type: 'button', cls: 'btn ghost icon x', 'aria-label': '할 일 ' + (i + 1) + ' 삭제', text: '×', disabled: !online, onclick: () => {
+          if (t && !confirm(`업무 ${t.id}는 그대로 남습니다. 회의록에서 이 할 일만 지울까요?`)) return;
+          if (t) delete t.meeting;
+          m.actions.splice(i, 1); S.meetings.updated = TODAY; commit(t ? ['meetings', 'tasks'] : 'meetings', true);
+        } })
+      ]);
+    });
+  }
+
+  function peekMeeting(m, body, crumb) {
+    const s = m.series ? seriesById(m.series) : null;
+    crumb.appendChild(crumbBtn('🗓 회의', () => { closePeek(true); go('meetings'); }));
+    crumb.appendChild(document.createTextNode('/'));
+    crumb.appendChild(el('span', { text: m.id }));
+    body.appendChild(textIn(m.title, v => { m.title = v; saveMeetings(); }, { id: 'pk-title', cls: 'ptitle', multi: true, enterCommits: true, ph: '회의 이름', label: '회의 이름' }));
+    const props = el('div', { cls: 'props' });
+    [
+      prop('상태', tagSelect(cfg('meetingStatuses'), m.status, 'meetingStatus', v => { m.status = v; saveMeetings(true); }, { id: 'pk-mstatus', label: '상태' }),
+        needsMinutes(m) ? el('span', { cls: 'hint warn', text: '회의록 미작성' }) : null),
+      prop('종류', tagSelect(cfg('meetingTypes'), m.type, 'meetingType', v => { m.type = v; saveMeetings(true); }, { id: 'pk-mtype', label: '종류' })),
+      prop('날짜', dateIn(m.date, v => { if (!v) return refresh(true); m.date = v; MT().sort(meetSort); saveMeetings(true); }, { typed: true, id: 'pk-mdate', label: '날짜' })),
+      prop('시간', timeIn(m.time, v => { m.time = v; MT().sort(meetSort); saveMeetings(true); }, { id: 'pk-mtime', label: '시간' })),
+      prop('장소', textIn(m.place, v => { m.place = v; saveMeetings(); }, { id: 'pk-mplace', ph: '비어 있음', label: '장소' })),
+      prop('참석자', textIn(m.attendees, v => { m.attendees = v; saveMeetings(); }, { id: 'pk-matt', ph: '예) 대표, 영업 3명, Megan', label: '참석자' })),
+      s ? prop('정기 회의', ro(s.title + ' · ' + (EVERY.find(e => e.value === String(s.everyWeeks)) || { label: s.everyWeeks + '주마다' }).label + ' ' + DAYS[s.weekday] + ' ' + (s.time || ''), true)) : null
+    ].filter(Boolean).forEach(pair => pair.forEach(x => props.appendChild(x)));
+    body.appendChild(props);
+    const area = (key, label, ph, rows) => el('div', { cls: 'psec' }, [el('h3', { text: label }), textIn(m[key], v => { m[key] = v; saveMeetings(true); }, { id: 'pk-m' + key, multi: true, rows, raw: true, ph, label })]);
+    body.appendChild(area('agenda', '안건', '회의 전에 다룰 내용', 2));
+    body.appendChild(area('notes', '주요 내용', '논의한 내용, 공유 받은 숫자·일정', 6));
+    body.appendChild(area('decisions', '결정 사항', '한 줄에 하나씩', 2));
+    const open = m.actions.filter(a => !actDone(a)).length;
+    body.appendChild(el('div', { cls: 'psec' }, [el('h3', {}, ['할 일', m.actions.length ? el('span', { cls: 'note', text: '남음 ' + open + ' / ' + m.actions.length }) : null]),
+      el('div', { cls: 'acts' }, actionRows(m, 'pk-ma')),
+      el('button', { type: 'button', cls: 'addline', text: '＋ 할 일 추가', disabled: !online, onclick: () => { m.actions.push({ text: '', owner: 'Marketing' }); saveMeetings(true, 'pk-ma-t-' + (m.actions.length - 1)); } }),
+      el('p', { cls: 'note', text: '「업무로 ▾」를 누르면 업무 탭에 등록되고, 완료 여부는 그 업무 상태를 따릅니다. 등록하지 않은 할 일도 마감이 있으면 「이번 주」에 보입니다.' })]));
+    body.appendChild(el('div', { cls: 'peek-foot' }, [el('span', { cls: 'note', text: m.id + (s ? ' · 정기 ' + s.id : '') }),
+      el('button', { type: 'button', cls: 'btn danger', text: '삭제', disabled: !online, onclick: () => deleteMeeting(m) })]));
+  }
+
+  function renderMeetingsPage(root) {
+    root.appendChild(pageHead('🗓', '회의', '회의 일정과 회의록을 관리합니다. 회의를 누르면 오른쪽에서 안건·주요 내용·결정 사항·할 일을 적습니다. 할 일은 골라서 「업무로」 등록하면 업무 탭에 들어갑니다. 정기 회의는 맨 아래에서 요일·시간·주기를 바꿀 수 있습니다.'));
+    const all = [...MT()].sort(meetSort), live = all.filter(m => !isMeetOff(m));
+    const next = live.find(m => m.date >= TODAY && !(m.date === TODAY && m.status === '완료'));
+    const ws = weekStart(TODAY), we = addDays(ws, 6), week = live.filter(m => m.date >= ws && m.date <= we);
+    const need = all.filter(needsMinutes);
+    const acts = all.flatMap(m => m.actions.map((a, i) => ({ m, a, i }))), openActs = acts.filter(x => !actDone(x.a));
+    const k = el('div', { cls: 'kpis' });
+    k.appendChild(kpi('다음 회의', next ? meetWhen(next) : '—', next ? meetName(next) : '예정 없음'));
+    k.appendChild(kpi('이번 주 회의', String(week.length), mdShort(ws) + '~' + mdShort(we) + (week.length ? ' · ' + [...new Set(week.map(m => m.type))].join(', ') : '')));
+    k.appendChild(kpi('회의록 미작성', String(need.length), need.length ? '가장 오래된 것 ' + md(need[0].date) : '모두 작성', need.some(m => m.date < TODAY) ? 'bad' : need.length ? 'warn' : 'ok'));
+    k.appendChild(kpi('남은 할 일', String(openActs.length), acts.filter(x => actTask(x.a)).length + '건 업무로 등록 · 완료 ' + (acts.length - openActs.length) + '건'));
+    root.appendChild(k);
+
+    const q = el('input', { type: 'search', id: 'f-mq', cls: 'search', placeholder: '검색 (이름·참석자·회의록)', 'aria-label': '회의 검색' }); q.value = ui.mq;
+    q.addEventListener('input', () => { ui.mq = q.value; refresh(); });
+    const seg = el('div', { cls: 'seg' }, ['다가오는 회의', '지난 회의', '전체'].map(v => el('button', { type: 'button', 'aria-pressed': String(ui.mperiod === v), text: v, onclick: () => { ui.mperiod = v; refresh(); } })));
+    const nb = el('button', { type: 'button', cls: 'btn primary', text: '새 회의 ▾', disabled: !online });
+    nb.addEventListener('click', () => openMenu(nb, [{ head: '종류 (날짜는 오늘, 상세에서 바꿈)' }, ...cfg('meetingTypes').map(t => ({ label: t, run: () => createMeeting(t) }))]));
+    root.appendChild(el('div', { cls: 'toolbar' }, [el('div', { cls: 'filters' }, [seg, filterPill('종류', cfg('meetingTypes'), 'mtype'), q]), nb]));
+
+    // 회의록을 아직 안 쓴 회의 (오늘까지 열린 것)
+    if (need.length) {
+      const l = el('div', { cls: 'list' });
+      need.forEach(m => l.appendChild(itemRow({ date: m.date, title: meetName(m) + (m.time ? ' · ' + m.time : ''), sub: m.type + (m.attendees ? ' · ' + m.attendees : ''), kind: '회의록', ck: 'x-meet', done: false, ref: { type: 'meeting', id: m.id } }, m.date < TODAY)));
+      root.appendChild(el('section', { cls: 'sec' }, [secHead('회의록 정리할 회의', el('span', { cls: 'note', text: '주요 내용이나 결정 사항을 적으면 목록에서 빠집니다' })), l]));
+    }
+
+    // 회의 목록 (월별)
+    const ql = lc(ui.mq);
+    let rows = all.filter(m => (ui.mtype === '전체' || m.type === ui.mtype)
+      && (!ql || lc([m.id, m.title, m.type, m.attendees, m.place, m.agenda, m.notes, m.decisions, ...m.actions.map(a => a.text)].join(' ')).includes(ql)));
+    if (ui.mperiod === '다가오는 회의') rows = rows.filter(m => m.date >= TODAY);
+    else if (ui.mperiod === '지난 회의') rows = rows.filter(m => m.date < TODAY).reverse();
+    const tb = el('tbody');
+    let month = null;
+    rows.forEach(m => {
+      const mo = m.date.slice(0, 7);
+      if (mo !== month) { month = mo; tb.appendChild(el('tr', { cls: 'r-month' }, [el('td', { colspan: 6, text: (mo.slice(0, 4) !== TODAY.slice(0, 4) ? mo.slice(0, 4) + '년 ' : '') + Number(mo.slice(5)) + '월' })])); }
+      const sel = ui.peek && ui.peek.type === 'meeting' && ui.peek.id === m.id;
+      const nA = m.actions.length, oA = m.actions.filter(a => !actDone(a)).length;
+      const mm = isMeetOff(m) ? '' : hasMinutes(m) ? el('span', { cls: 'mm ok', text: '✓ 작성' }) : needsMinutes(m) ? el('span', { cls: 'mm need', text: '미작성' }) : '';
+      tb.appendChild(el('tr', { cls: 'r' + (m.date < TODAY ? ' past' : '') + (m.date === TODAY ? ' today' : '') + (isMeetOff(m) ? ' done' : '') + (sel ? ' sel' : ''), tabindex: 0, 'data-id': m.id,
+        onclick: () => openPeek('meeting', m.id), onkeydown: e => { if (e.key === 'Enter' && e.target === e.currentTarget) openPeek('meeting', m.id); } }, [
+        el('td', { cls: 'c-when' }, [el('span', { text: md(m.date) }), m.time ? el('span', { cls: 'tm', text: m.time }) : null]),
+        el('td', { cls: 'c-name' }, [el('div', { cls: 'name-cell' }, [el('span', { cls: 'name', text: meetName(m), title: meetName(m) }), m.series ? el('span', { cls: 'rep', title: '정기 회의', text: '↻' }) : null,
+          m.attendees ? el('span', { cls: 'idt', text: m.attendees }) : null])]),
+        el('td', {}, [tagEl(m.type, 'meetingType')]),
+        el('td', {}, [tagSelect(cfg('meetingStatuses'), m.status, 'meetingStatus', v => { m.status = v; saveMeetings(true); }, { id: 'mt-s-' + m.id, label: '상태' })]),
+        el('td', {}, [mm]),
+        el('td', { cls: 'note' + (oA ? '' : ' ok'), text: nA ? (oA ? '남음 ' + oA + ' / ' + nA : '완료 ' + nA) : '' })
+      ]));
+    });
+    if (!rows.length) tb.appendChild(el('tr', {}, [el('td', { colspan: 6, cls: 'empty', text: '조건에 맞는 회의가 없습니다.' })]));
+    tb.appendChild(el('tr', { cls: 'r-add' }, [el('td', { colspan: 6, role: 'button', tabindex: 0, onclick: () => createMeeting(ui.mtype !== '전체' ? ui.mtype : '기타'), onkeydown: e => { if (e.key === 'Enter') createMeeting(ui.mtype !== '전체' ? ui.mtype : '기타'); }, text: '＋ 새 회의 (' + (ui.mtype !== '전체' ? ui.mtype : '기타') + ', 오늘)' })]));
+    root.appendChild(el('section', { cls: 'sec' }, [secHead('회의 일정', el('span', { cls: 'note', text: rows.length + '건' })),
+      el('div', { cls: 'hscroll' }, [el('table', { cls: 'db meetings' }, [el('thead', {}, [el('tr', {}, ['일시', '이름', '종류', '상태', '회의록', '할 일'].map(h => el('th', { text: h })))]), tb])])]));
+
+    // 회의 할 일 모아 보기 (남은 것)
+    const at = el('tbody');
+    openActs.sort((x, y) => ((actTask(x.a) || {}).due || x.a.due || '9').localeCompare((actTask(y.a) || {}).due || y.a.due || '9')).forEach(({ m, a, i }) => {
+      const t = actTask(a), due = t ? t.due : a.due, late = due && due < TODAY;
+      at.appendChild(el('tr', { cls: 'r', tabindex: 0, onclick: () => openPeek('meeting', m.id), onkeydown: e => { if (e.key === 'Enter' && e.target === e.currentTarget) openPeek('meeting', m.id); } }, [
+        el('td', {}, [checkIn(false, v => { if (t) setTaskStatus(t, v ? '완료' : (cfg('taskStatuses')[0] || '대기')); else { a.done = v; saveMeetings(true); } }, { id: 'ma-d-' + m.id + '-' + i, label: (a.text || '할 일') + ' 완료' })]),
+        el('td', { cls: 'c-name' }, [el('span', { cls: 'name' + (a.text ? '' : ' untitled'), text: a.text || '내용 없음' })]),
+        el('td', { cls: 'note', text: mdShort(m.date) + ' ' + meetName(m) }),
+        el('td', { cls: 'note', text: (t ? t.owner : a.owner) || '' }),
+        el('td', { cls: late ? 'late' : '', text: due ? md(due) : '' }),
+        el('td', {}, [t ? el('span', { cls: 'rel-chip' }, [el('button', { type: 'button', cls: 'go', text: t.id + ' · ' + t.status, onclick: e => { e.stopPropagation(); openPeek('task', t.id); } })])
+          : el('button', { type: 'button', cls: 'btn sm', text: '업무로 ▾', disabled: !online || !String(a.text || '').trim(), onclick: e => { e.stopPropagation(); actionAreaMenu(e.currentTarget, m, a); } })])
+      ]));
+    });
+    if (!openActs.length) at.appendChild(el('tr', {}, [el('td', { colspan: 6, cls: 'empty', text: '남은 할 일이 없습니다. 회의를 열어 「＋ 할 일 추가」로 적습니다.' })]));
+    root.appendChild(el('section', { cls: 'sec' }, [secHead('회의 할 일', el('span', { cls: 'note', text: '모든 회의의 남은 할 일 · 업무로 등록한 것은 업무 상태를 따름' })),
+      el('div', { cls: 'hscroll' }, [el('table', { cls: 'db mt-acts' }, [el('thead', {}, [el('tr', {}, ['', '할 일', '회의', '담당', '마감', '업무'].map(h => el('th', { text: h })))]), at])])]));
+
+    // 정기 회의 규칙: 바꾸면 오늘 이후의 빈 회의에 바로 반영
+    const st = el('tbody');
+    S.meetings.series.forEach(s => {
+      const upd = (k, v) => { s[k] = v; applySeries(s); saveMeetings(true); };
+      const cnt = MT().filter(m => m.series === s.id && !isMeetOff(m)).length;
+      st.appendChild(el('tr', { title: s.note || '' }, [
+        el('td', { cls: 'c-name' }, [textIn(s.title, v => { if (v) upd('title', v); else refresh(); }, { id: 'ms-title-' + s.id, cls: 'cell-in', label: '정기 회의 이름' })]),
+        el('td', {}, [tagSelect(cfg('meetingTypes'), s.type, 'meetingType', v => upd('type', v), { id: 'ms-type-' + s.id, label: '종류' })]),
+        el('td', {}, [plainSelect(WEEKDAYS, String(s.weekday), v => upd('weekday', Number(v)), { id: 'ms-wd-' + s.id, label: '요일' })]),
+        el('td', {}, [timeIn(s.time, v => upd('time', v), { id: 'ms-time-' + s.id, cls: 'cell-in', label: '시간' })]),
+        el('td', {}, [plainSelect(EVERY, String(s.everyWeeks), v => upd('everyWeeks', Number(v)), { id: 'ms-ev-' + s.id, label: '주기' })]),
+        el('td', {}, [dateIn(s.from, v => { if (v) upd('from', v); else refresh(); }, { typed: true, short: true, id: 'ms-from-' + s.id, cls: 'cell-in', label: '시작' })]),
+        el('td', {}, [dateIn(s.until, v => { if (v) upd('until', v); else refresh(); }, { typed: true, short: true, id: 'ms-until-' + s.id, cls: 'cell-in', label: '끝' })]),
+        el('td', { cls: 'note', text: cnt + '회' }),
+        el('td', {}, [el('button', { type: 'button', cls: 'btn ghost icon', 'aria-label': s.title + ' 정기 회의 삭제', text: '×', disabled: !online, onclick: () => deleteSeries(s) })])
+      ]));
+    });
+    st.appendChild(el('tr', { cls: 'r-add' }, [el('td', { colspan: 9, role: 'button', tabindex: 0, onclick: addSeries, onkeydown: e => { if (e.key === 'Enter') addSeries(); }, text: '＋ 새 정기 회의' })]));
+    root.appendChild(el('section', { cls: 'sec' }, [secHead('정기 회의'),
+      el('p', { cls: 'note', text: '요일·시간·주기·기간을 바꾸면 오늘 이후의 빈 회의(안건·회의록·할 일이 없는 예정 회의)만 새 규칙으로 바뀝니다. 지난 회의, 내용을 적은 회의, 취소한 회의는 그대로 둡니다. 격주는 시작일이 있는 주부터 셉니다.' }),
+      el('div', { cls: 'hscroll' }, [el('table', { cls: 'db series' }, [el('thead', {}, [el('tr', {}, ['이름', '종류', '요일', '시간', '주기', '시작', '끝', '회의', ''].map(h => el('th', { text: h })))]), st])])]));
+  }
+
   function renderMetricsPage(root, after) {
     root.appendChild(pageHead('📈', '지표', '매주 금요일 팔로워와 행사 경유 수를 기록합니다. 첫 기준값은 10/23. 수치 목표는 W4 이후에 정합니다.'));
     const ch = el('div', { id: 'mchart' });
@@ -2544,19 +2849,24 @@ pre{white-space:pre-wrap;font-family:inherit;font-size:8.8pt;border:.5pt solid #
     { key: 'taskStatuses', label: '업무 상태', ck: 'taskStatus', uses: [['tasks', 'status']] },
     { key: 'priorities', label: '우선순위', ck: 'priority', uses: [['tasks', 'priority']] },
     { key: 'areas', label: '영역', ck: 'area', uses: [['tasks', 'area']] },
-    { key: 'owners', label: '담당', ck: 'owner', uses: [['tasks', 'owner']] }
+    { key: 'owners', label: '담당', ck: 'owner', uses: [['tasks', 'owner']] },
+    { key: 'meetingTypes', label: '회의 종류', ck: 'meetingType', uses: [['meetings', 'type'], ['meetingSeries', 'type']] },
+    { key: 'meetingStatuses', label: '회의 상태', ck: 'meetingStatus', uses: [['meetings', 'status']] }
   ];
+  // 선택지를 쓰는 목록과 그 목록이 저장되는 파일 (회의·정기 회의는 meetings.json 안에 있다)
+  const rowsOf = k => k === 'meetings' ? MT() : k === 'meetingSeries' ? S.meetings.series : S[k];
+  const fileOf = k => k === 'meetingSeries' ? 'meetings' : k;
   // 대시보드 계산에 쓰이는 값은 이름을 바꾸거나 지울 수 없다
-  const LOCKED = { taskStatuses: ['완료', '보류'], postStatuses: ['승인대기', '예약완료', '게시완료', '대체·보류'], priorities: ['P0'] };
-  const usesOf = (L, v) => L.uses.reduce((a, [file, key]) => a + S[file].filter(x => x[key] === v).length, 0);
+  const LOCKED = { taskStatuses: ['완료', '보류'], postStatuses: ['승인대기', '예약완료', '게시완료', '대체·보류'], priorities: ['P0'], meetingStatuses: ['예정', '완료', '취소'] };
+  const usesOf = (L, v) => L.uses.reduce((a, [file, key]) => a + rowsOf(file).filter(x => x[key] === v).length, 0);
   function renameValue(L, i, nv) {
     const arr = S.config[L.key], old = arr[i];
     if (!nv || nv === old) return refresh();
     if (arr.includes(nv)) { alert('이미 있는 값입니다.'); return refresh(); }
     arr[i] = nv;
     const files = new Set(['config']);
-    L.uses.forEach(([file, key]) => S[file].forEach(x => { if (x[key] === old) { x[key] = nv; files.add(file); } }));
-    ['area', 'owner', 'pillar', 'status'].forEach(k => { if (ui[k] === old) ui[k] = nv; });
+    L.uses.forEach(([file, key]) => rowsOf(file).forEach(x => { if (x[key] === old) { x[key] = nv; files.add(fileOf(file)); } }));
+    ['area', 'owner', 'pillar', 'status', 'mtype'].forEach(k => { if (ui[k] === old) ui[k] = nv; });
     commit([...files], true);
   }
   function renderSettingsPage(root) {
@@ -2651,7 +2961,7 @@ pre{white-space:pre-wrap;font-family:inherit;font-size:8.8pt;border:.5pt solid #
   document.addEventListener('mousedown', e => {
     if (menuEl && !menuEl.contains(e.target)) closeMenu();
     if (!ui.peek || $('peek').contains(e.target) || (menuEl && menuEl.contains(e.target))) return;
-    if (e.target.closest && e.target.closest('tr.r, .ci, .bcard, .item, .kid, .side-ev, circle, path')) return;
+    if (e.target.closest && e.target.closest('tr.r, .ci, .bcard, .item, .kid, .side-ev, .menu, circle, path')) return;
     if (e.target.closest && e.target.closest('input, select, textarea, button, label')) return;
     closePeek();
   });

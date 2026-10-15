@@ -615,3 +615,34 @@ label.ex-opt{flex-direction:row;align-items:center;align-self:end}
   .hscroll{overflow:visible!important}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
+/* 회의 (v0.13) */
+.db.meetings td:not(.c-name):not([colspan]),.db.mt-acts td:not(.c-name):not([colspan]){width:1%;white-space:nowrap}
+.db.meetings td.c-name{min-width:300px}
+.db.mt-acts td.c-name{min-width:240px}
+.db.series td.c-name{min-width:180px}
+.db.meetings .c-when{font-variant-numeric:tabular-nums}
+.db.meetings .c-when .tm{color:var(--muted);margin-left:8px;font-size:13px}
+.db .name-cell{display:flex;align-items:center;gap:6px;min-width:0}
+.db .name-cell .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.db .name-cell .idt{overflow:hidden;text-overflow:ellipsis}
+.rep{color:var(--faint);font-size:12.5px;flex:none}
+.db tr.r-month td{font-size:12.5px;font-weight:600;color:var(--muted);background:var(--side);height:28px}
+.db tr.r.past:not(.sel){color:var(--muted)}
+.db tr.r.today td:first-child{box-shadow:inset 3px 0 0 var(--today)}
+.db tr.r.done .name{text-decoration:line-through}
+.mm{font-size:12.5px}
+.mm.ok{color:var(--ok)}
+.mm.need{color:var(--bad);font-weight:600}
+.db td.note.ok{color:var(--ok)}
+.acts{display:flex;flex-direction:column}
+.act{display:flex;align-items:center;gap:6px;padding:1px 0;flex-wrap:wrap}
+.act>.pinput{flex:1 1 180px}
+.act .act-meta{display:inline-flex;align-items:center;gap:4px;flex:none}
+.act .act-meta .pselect{font-size:13px;color:var(--muted);max-width:120px}
+.act .act-meta .date-wrap{width:auto}
+.act .act-meta .date-typed.pinput{min-width:0;width:84px}
+.act.done>.pinput{color:var(--muted);text-decoration:line-through}
+.act.late .act-meta .date-typed,.act.late .act-task .go{color:var(--bad);font-weight:600}
+.act .x{opacity:0}
+.act:hover .x,.act:focus-within .x{opacity:1}
+@media (hover:none){.act .x{opacity:1}}
